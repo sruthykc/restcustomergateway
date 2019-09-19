@@ -7,7 +7,9 @@ import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import org.elasticsearch.search.aggregations.bucket.filter.Filter;
 import org.elasticsearch.search.aggregations.bucket.filter.FilterAggregationBuilder;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,7 +19,12 @@ import java.util.stream.Collectors;
 
 import javax.swing.text.DefaultEditorKit.CutAction;
 
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
@@ -39,6 +46,8 @@ import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.bytatech.elasticsearch.domain.Car;
+import com.bytatech.elasticsearch.domain.User;
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.order.model.Address;
 import com.diviso.graeshoppe.client.order.model.Order;
@@ -62,6 +71,7 @@ import com.diviso.graeshoppe.client.store.domain.UserRating;
 /*import com.diviso.graeshoppe.client.product.domain.Product;
 import com.diviso.graeshoppe.domain.Result;*/
 import com.diviso.graeshoppe.service.QueryService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 /*import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
 import com.github.vanroy.springdata.jest.aggregation.AggregatedPage;
 import com.github.vanroy.springdata.jest.mapper.JestResultsExtractor;*/
@@ -92,6 +102,14 @@ public class QueryServiceImpl implements QueryService {
 	@Autowired
 	ElasticsearchOperations elasticsearchOperations;
 */
+	private RestHighLevelClient restHighLevelClient;
+
+	private ObjectMapper objectMapper;
+
+	public QueryServiceImpl(ObjectMapper objectMapper, RestHighLevelClient restHighLevelClient) {
+		this.objectMapper = objectMapper;
+		this.restHighLevelClient = restHighLevelClient;
+	}
 
 /*	@Override
 	public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable) {
@@ -103,6 +121,46 @@ public class QueryServiceImpl implements QueryService {
 	}
 	
 	*/
+	
+	public List<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable) {
+		
+		SearchRequest searchRequest = new SearchRequest("product");
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(matchQuery("name", searchTerm));
+		searchRequest.source(searchSourceBuilder);
+
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getSearchResult(searchResponse);
+
+	}
+
+	private List<Product> getSearchResult(SearchResponse response) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<Product> productList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			productList.add(objectMapper.convertValue(hit.getSourceAsMap(), Product.class));
+		}
+
+		return productList;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	/*@Override
