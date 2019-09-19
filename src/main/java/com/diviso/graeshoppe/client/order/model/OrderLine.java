@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -20,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-04T12:56:54.526485+05:30[Asia/Kolkata]")
-@Document(indexName = "orderline")
+
 public class OrderLine   {
   @JsonProperty("id")
   private Long id = null;
