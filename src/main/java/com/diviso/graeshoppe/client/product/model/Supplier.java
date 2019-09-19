@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
 import java.util.Date;
 
-import org.springframework.data.elasticsearch.annotations.Document;
+
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-22T12:40:29.255+05:30[Asia/Calcutta]")
-@Document(indexName="supplier")
+
 public class Supplier   {
   @JsonProperty("address")
   private Address address = null;

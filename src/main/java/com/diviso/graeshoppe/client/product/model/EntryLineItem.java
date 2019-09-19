@@ -2,13 +2,12 @@ package com.diviso.graeshoppe.client.product.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.springframework.data.elasticsearch.annotations.Document;
 
 /**
  * A EntryLineItem.
  */
 
-@Document(indexName = "entrylineitem")
+
 public class EntryLineItem implements Serializable {
 
     private static final long serialVersionUID = 1L;

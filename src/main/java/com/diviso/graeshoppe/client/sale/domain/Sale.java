@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -32,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author MayaSanjeev
  * mayabytatech, maya.k.k@lxisoft.com
  */
-@Document(indexName = "sale")
+
 public class Sale implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -18,14 +18,13 @@ package com.diviso.graeshoppe.client.sale.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.springframework.data.elasticsearch.annotations.Document;
 
 /**
  * TODO Provide a detailed description here 
  * @author MayaSanjeev
  * mayabytatech, maya.k.k@lxisoft.com
  */
-@Document(indexName = "ticketline")
+
 public class TicketLine implements Serializable {
 
     private static final long serialVersionUID = 1L;

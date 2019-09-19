@@ -1,6 +1,6 @@
 package com.diviso.graeshoppe.client.product.model;
 
-import org.springframework.data.elasticsearch.annotations.Document;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -11,7 +11,6 @@ import java.util.Objects;
  * A StockEntry.
  */
 
-@Document(indexName = "stockentry")
 public class StockEntry implements Serializable {
 
     private static final long serialVersionUID = 1L;

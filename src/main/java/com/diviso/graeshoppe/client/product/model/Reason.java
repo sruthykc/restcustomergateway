@@ -1,6 +1,6 @@
 package com.diviso.graeshoppe.client.product.model;
 
-import org.springframework.data.elasticsearch.annotations.Document;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ import java.util.Objects;
  * A Reason.
  */
 
-@Document(indexName = "reason")
+
 public class Reason implements Serializable {
 
     private static final long serialVersionUID = 1L;
