@@ -1,6 +1,6 @@
 package com.diviso.graeshoppe.web.rest;
 
-import java.time.Instant;
+/*import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,9 +90,6 @@ public class QueryResource {
 	@Autowired
 	private StockCurrentResourceApi stockCurrentResourceApi;
 
-	/*
-	 * @Autowired private StockDiaryResourceApi stockDiaryResourceApi;
-	 */
 	@Autowired
 	private UserRatingResourceApi userRatingResourceApi;
 
@@ -343,14 +340,7 @@ public class QueryResource {
 		return queryService.findRatingByStoreId(name);
 	}
 
-	/*
-	 * @GetMapping("/orderMaster/{orderId}") public OrderMaster
-	 * findOrderMasterByOrderId(@PathVariable String orderId) {
-	 * 
-	 * return queryService.findOrderMasterByOrderId(orderId);
-	 * 
-	 * }
-	 */
+	
 
 	@GetMapping("/storeByRating")
 	public Page<Store> findStoreByRating() {
@@ -425,31 +415,7 @@ public class QueryResource {
 	}
 	
 
-	/*
-	@GetMapping("/deliveryCount/{storeId}")
-	public List<Entry> getDeliveryCountBystoreId(@PathVariable String storeId, Pageable pageable){
-		
-		return queryService.findAllDeliveryCountByStoreId(storeId, pageable);
-	}*/
-
 	
-	/*
-	 * @GetMapping("/findByNearestLocation/{latLon}/{kiloMeter}") public Page<Store>
-	 * searchByNearestLocation(@PathVariable String latLon, @PathVariable Double
-	 * kiloMeter,Pageable pageable) {
-	 * 
-	 * String[] latLons = latLon.split(",");
-	 * 
-	 * double lat = Double.parseDouble(latLons[0]);
-	 * 
-	 * double lon = Double.parseDouble(latLons[1]);
-	 * 
-	 * log.info("........lat........................  "
-	 * +lat+"................lon.........   "+lon);
-	 * 
-	 * return queryService.findByLocationNear(new Point(lat, lon), new
-	 * Distance(kiloMeter, Metrics.KILOMETERS),pageable); }
-	 */
 
 	@GetMapping("/auxilaries-productId/{productId}")
 	public Page<AuxilaryLineItem> findAuxilariesByProductId(@PathVariable Long productId){
@@ -503,17 +469,7 @@ public class QueryResource {
 	public Page<Order> findOrderByDatebetweenAndStoreId(@PathVariable Instant from,@PathVariable Instant to,@PathVariable String storeId){
 		return queryService.findOrderByDatebetweenAndStoreId(from,to,storeId);
 	}
-	/*
-	@GetMapping("/order-btw/{from}/{to}")
-	public Page<Order> findOrderByDatebetween(@PathVariable Instant from,@PathVariable Instant to){
-		return queryService.findOrderByDatebetween(from,to);
-	}*/
-	/*@GetMapping("/not-aux-product/{iDPcode}")
-    public Page<Product> findNotAuxilaryProducts(@PathVariable String iDPcode,
-			Pageable pageable){
-		return queryService.findNotAuxilaryProducts(iDPcode,pageable);
-    }
-*/
+	
 	
 	@GetMapping("/combos-productId/{productId}")
 	public Page<ComboLineItem> findComboByProductId(@PathVariable Long productId){
@@ -525,4 +481,4 @@ public class QueryResource {
 		return queryService.findDiscountByProductId(productId);
 	}
 	
-}
+}*/

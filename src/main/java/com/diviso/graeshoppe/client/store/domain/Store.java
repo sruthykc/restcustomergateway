@@ -6,8 +6,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.GeoPointField;
+
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -18,7 +17,7 @@ import java.util.Objects;
 /**
  * A Store.
  */
-@Document(indexName = "store")
+
 public class Store implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -36,7 +35,6 @@ public class Store implements Serializable {
 
 	private Double totalRating;
 
-	@GeoPointField
 	private String location;
 
 	private String locationName;

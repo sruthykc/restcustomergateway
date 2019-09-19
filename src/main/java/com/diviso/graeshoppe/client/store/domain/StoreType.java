@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
-import org.springframework.data.elasticsearch.annotations.Document;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -13,7 +13,7 @@ import java.util.Objects;
  * A StoreType.
  */
 
-@Document(indexName = "storetype")
+
 public class StoreType implements Serializable {
 
     private static final long serialVersionUID = 1L;

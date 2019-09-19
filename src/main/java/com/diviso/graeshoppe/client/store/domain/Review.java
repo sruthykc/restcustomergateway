@@ -8,7 +8,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
-import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
@@ -19,7 +18,7 @@ import java.util.Objects;
  * A Review.
  */
 
-@Document(indexName = "review")
+
 public class Review implements Serializable {
 
     private static final long serialVersionUID = 1L;
