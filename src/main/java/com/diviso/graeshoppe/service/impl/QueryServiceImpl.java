@@ -71,10 +71,6 @@ import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.domain.Result;*/
 import com.diviso.graeshoppe.service.QueryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-/*import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
-import com.github.vanroy.springdata.jest.aggregation.AggregatedPage;
-import com.github.vanroy.springdata.jest.mapper.JestResultsExtractor;*/
-import com.google.gson.JsonObject;
 
 /*import io.searchbox.client.JestClient;
 import io.searchbox.core.SearchResult;
