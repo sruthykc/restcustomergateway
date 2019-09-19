@@ -3,7 +3,7 @@ package com.diviso.graeshoppe.service;
 import com.diviso.graeshoppe.CustomergatewayApp;
 import com.diviso.graeshoppe.config.Constants;
 import com.diviso.graeshoppe.domain.User;
-import com.diviso.graeshoppe.repository.search.UserSearchRepository;
+//import com.diviso.graeshoppe.repository.search.UserSearchRepository;
 import com.diviso.graeshoppe.repository.UserRepository;
 import com.diviso.graeshoppe.service.dto.UserDTO;
 import com.diviso.graeshoppe.security.AuthoritiesConstants;
@@ -61,9 +61,9 @@ public class UserServiceIntTest {
      *
      * @see com.diviso.graeshoppe.repository.search.UserSearchRepositoryMockConfiguration
      */
-    @Autowired
+   /* @Autowired
     private UserSearchRepository mockUserSearchRepository;
-
+*/
     @Autowired
     private AuditingHandler auditingHandler;
 
