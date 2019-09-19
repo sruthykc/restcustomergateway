@@ -2,7 +2,7 @@ package com.diviso.graeshoppe.web.rest;
 
 import com.diviso.graeshoppe.config.Constants;
 import com.diviso.graeshoppe.domain.User;
-import com.diviso.graeshoppe.repository.search.UserSearchRepository;
+//import com.diviso.graeshoppe.repository.search.UserSearchRepository;
 import com.diviso.graeshoppe.security.AuthoritiesConstants;
 import com.diviso.graeshoppe.service.UserService;
 import com.diviso.graeshoppe.service.dto.UserDTO;
@@ -57,12 +57,12 @@ public class UserResource {
 
     private final UserService userService;
 
-    private final UserSearchRepository userSearchRepository;
+  //  private final UserSearchRepository userSearchRepository;
 
-    public UserResource(UserService userService, UserSearchRepository userSearchRepository) {
+    public UserResource(UserService userService /*,UserSearchRepository userSearchRepository*/) {
 
         this.userService = userService;
-        this.userSearchRepository = userSearchRepository;
+      //  this.userSearchRepository = userSearchRepository;
     }
 
     /**
@@ -108,10 +108,10 @@ public class UserResource {
      * @param query the query to search
      * @return the result of the search
      */
-    @GetMapping("/_search/users/{query}")
+   /* @GetMapping("/_search/users/{query}")
     public List<User> search(@PathVariable String query) {
         return StreamSupport
             .stream(userSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
-    }
+    }*/
 }
