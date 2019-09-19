@@ -69,7 +69,7 @@ public class PaymentCommandResource {
 	public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
 		return razorpayCommandResourceApi.createOrderUsingPOST(orderRequest);
 	}
-
+/*
 	@PostMapping("/processPayment/{status}/{taskId}")
 	public ResponseEntity<CommandResource> processPayment(@RequestBody PaymentDTO paymentDTO, @PathVariable String status,
 			@PathVariable String taskId) {
@@ -106,7 +106,7 @@ public class PaymentCommandResource {
 		return processPaymentRequest(processPaymentRequest);
 		
 	}
-
+*/
 	public ResponseEntity<CommandResource> processPaymentRequest(
 			@RequestBody ProcessPaymentRequest processPaymentRequest) {
 

@@ -131,10 +131,10 @@ public class OrderCommandResource {
 		return offerResourceApi.createOfferUsingPOST(offerDTO);
 	}
 
-	@GetMapping("/orders/addresses/{customerId}")
+/*	@GetMapping("/orders/addresses/{customerId}")
 	public Page<Address> getAllSavedAddress(@PathVariable String customerId, Pageable pageable) {
 		return queryService.findByCustomerId(customerId, pageable);
-	}
+	}*/
 
 	@PostMapping("/orders/addresses")
 	public ResponseEntity<AddressDTO> createAddress(@RequestBody AddressDTO addressDTO) {
