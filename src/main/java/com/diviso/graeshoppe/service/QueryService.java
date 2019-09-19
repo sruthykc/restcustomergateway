@@ -30,12 +30,12 @@ import com.diviso.graeshoppe.client.store.domain.UserRating;
 //import io.searchbox.core.search.aggregation.TermsAggregation.Entry;
 
 public interface QueryService {
-
+	public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable);
 	/*public Page<Product> findProductByCategoryId(Long categoryId, String userId, Pageable pageable);
 
 	public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable);
 
-	public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable);
+	
 
 	public Page<StockCurrent> findStockCurrentByProductId(Long productId, Pageable pageable);
 

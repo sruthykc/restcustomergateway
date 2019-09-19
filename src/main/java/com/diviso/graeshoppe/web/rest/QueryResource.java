@@ -1,6 +1,6 @@
 package com.diviso.graeshoppe.web.rest;
 
-/*import java.time.Instant;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,7 +64,7 @@ import com.diviso.graeshoppe.client.store.model.StoreTypeDTO;
 import com.diviso.graeshoppe.service.QueryService;
 import com.diviso.graeshoppe.service.dto.PdfDTO;
 
-import io.searchbox.core.search.aggregation.TermsAggregation.Entry;
+//import io.searchbox.core.search.aggregation.TermsAggregation.Entry;
 import io.swagger.annotations.ApiParam;
 
 @RestController
@@ -110,8 +110,12 @@ public class QueryResource {
 
 	@Autowired
 	private OrderQueryResourceApi orderQueryResourceApi;
+	@GetMapping("/findProductBySearchTerm/{searchTerm}")
+	public Page<Product> findAllProductBySearchTerm(@PathVariable String searchTerm, Pageable pageable) {
+		return queryService.findAllProductBySearchTerm(searchTerm, pageable);
+	}
 	
-	@GetMapping("/findProductByCategoryIdAndUserId/{categoryId}/{userId}")
+	/*@GetMapping("/findProductByCategoryIdAndUserId/{categoryId}/{userId}")
 	public Page<Product> findProductByCategoryIdAndUserId(@PathVariable Long categoryId, @PathVariable String userId,
 			Pageable pageable) {
 		return queryService.findProductByCategoryId(categoryId, userId, pageable);
@@ -132,10 +136,7 @@ public class QueryResource {
 		return queryService.findStockCurrentByProductName(name,storeId, pageable);
 	}
 
-	@GetMapping("/findProductBySearchTerm/{searchTerm}")
-	public Page<Product> findAllProductBySearchTerm(@PathVariable String searchTerm, Pageable pageable) {
-		return queryService.findAllProductBySearchTerm(searchTerm, pageable);
-	}
+	
 
 	@GetMapping("/findAllCustomers")
 	public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable) {
@@ -480,5 +481,5 @@ public class QueryResource {
 	public Discount findDiscountByProductId(@PathVariable Long productId){
 		return queryService.findDiscountByProductId(productId);
 	}
-	
-}*/
+	*/
+}
