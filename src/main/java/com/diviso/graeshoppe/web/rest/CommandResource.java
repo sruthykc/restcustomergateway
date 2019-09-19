@@ -89,9 +89,9 @@ public class CommandResource {
 	@Autowired
 	QueryService queryService;
 
-	@Autowired
+	/*@Autowired
 	QueryResource queryResource;
-	
+	*/
 	private final Logger log = LoggerFactory.getLogger(CommandResource.class);
 
 	@PostMapping("/customers/register-customer")
@@ -312,7 +312,7 @@ public class CommandResource {
 		return this.reviewResourceApi.deleteReviewUsingDELETE(id);
 	}
 
-	@PostMapping("/rating-review")
+/*	@PostMapping("/rating-review")
 	public  ResponseEntity<Page<RatingReview>> createRatingAndReview(@RequestBody RatingReview ratingReview,Pageable pageable) {
 		
 		
@@ -381,6 +381,6 @@ public class CommandResource {
 
 		}
 		 return queryResource.findRatingReviewByStoreidAndCustomerName(store.getRegNo(), pageable);
-	}
+	}*/
 
 }
