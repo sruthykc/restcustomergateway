@@ -139,7 +139,7 @@ public class QueryServiceImpl implements QueryService {
 	}
 */
 	private SearchRequest generateSearchRequest(String indexName,Integer totalElements, Integer pageNumber, SearchSourceBuilder sourceBuilder) {
-	    SearchRequest searchRequest = new SearchRequest("indexName");
+	    SearchRequest searchRequest = new SearchRequest(indexName);
 	  /*  int  offset = 0;
 	    if(pageNumber==0) {
 	    	offset=totalElements;
