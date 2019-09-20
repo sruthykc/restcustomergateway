@@ -116,7 +116,7 @@ public class QueryServiceImpl implements QueryService {
 	}
 	
 	*/
-	
+/*	
 	public List<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable) {
 		System.out.println("getPageNumber#################################"+pageable.getPageNumber());
 		System.out.println("getPageSize******************************"+pageable.getPageSize());
@@ -137,7 +137,7 @@ public class QueryServiceImpl implements QueryService {
 		return getSearchResult(searchResponse);
 
 	}
-
+*/
 	private SearchRequest generateSearchRequest(String indexName,Integer totalElements, Integer pageNumber, SearchSourceBuilder sourceBuilder) {
 	    SearchRequest searchRequest = new SearchRequest("indexName");
 	  /*  int  offset = 0;

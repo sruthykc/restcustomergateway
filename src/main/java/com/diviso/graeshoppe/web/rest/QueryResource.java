@@ -110,10 +110,10 @@ public class QueryResource {
 
 	@Autowired
 	private OrderQueryResourceApi orderQueryResourceApi;
-	@GetMapping("/findProductBySearchTerm/{searchTerm}")
+	/*@GetMapping("/findProductBySearchTerm/{searchTerm}")
 	public List<Product> findAllProductBySearchTerm(@PathVariable String searchTerm, Pageable pageable) {
 		return queryService.findAllProductBySearchTerm(searchTerm, pageable);
-	}
+	}*/
 	@GetMapping("/findProduct")
 	public  Page<Product> findAllProduct( Pageable pageable) {
 		return queryService.findAllProduct(pageable);
