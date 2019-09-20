@@ -118,6 +118,8 @@ public class QueryServiceImpl implements QueryService {
 	*/
 	
 	public List<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable) {
+		System.out.println("getPageNumber#################################"+pageable.getPageNumber());
+		System.out.println("getPageSize******************************"+pageable.getPageSize());
 		
 		SearchRequest searchRequest = new SearchRequest("product");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -135,8 +137,8 @@ public class QueryServiceImpl implements QueryService {
 
 	}
 
-	private SearchRequest generateSearchRequest(Integer totalElements, Integer pageNumber, SearchSourceBuilder sourceBuilder) {
-	    SearchRequest searchRequest = new SearchRequest("operation-index").types("operation");
+	private SearchRequest generateSearchRequest(String indexName,Integer totalElements, Integer pageNumber, SearchSourceBuilder sourceBuilder) {
+	    SearchRequest searchRequest = new SearchRequest("indexName");
 	  /*  int  offset = 0;
 	    if(pageNumber==0) {
 	    	offset=totalElements;
@@ -184,8 +186,9 @@ public class QueryServiceImpl implements QueryService {
 		return productList;
 	}
 	
-	private  <T> Page<T>  setPage(Page page,  T type) {
-		Page<T> page1=new PageImpl<T>(new ArrayList<>());
+	private  <T> Page<T>  setPage(List<T> contentList,Pageable page, Long size) {
+		
+		Page<T> page1=new PageImpl<T>(contentList,page,size);
 		return page1;
 	}
 	
