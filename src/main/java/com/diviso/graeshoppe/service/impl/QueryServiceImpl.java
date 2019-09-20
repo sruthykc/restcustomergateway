@@ -148,6 +148,7 @@ public class QueryServiceImpl implements QueryService {
 	    	 offset = totalElements+(pageNumber *totalElements);
 	    }*/
 	    int  offset =  pageNumber==0 ? totalElements:totalElements+(pageNumber *totalElements);
+	    System.out.println("offffffffffffffset"+offset);
 	    sourceBuilder.from(offset);
 	    sourceBuilder.size(totalElements);
 	 //   sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
@@ -172,11 +173,11 @@ public class QueryServiceImpl implements QueryService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return getSearchResult(searchResponse);
+		return getSearchResult(searchResponse,pageable);
 
 	}
 	
-	private Page<Product> getSearchResult(SearchResponse response) {
+	private Page<Product> getSearchResult(SearchResponse response,Pageable page) {
 	System.out.println("totalhitqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"+response.getHits().getTotalHits());
 		
 		SearchHit[] searchHit = response.getHits().getHits();
@@ -187,17 +188,17 @@ public class QueryServiceImpl implements QueryService {
 			productList.add(objectMapper.convertValue(hit.getSourceAsMap(), Product.class));
 		}
 
-		return new PageImpl(productList);/* setPage( productList,pageable,response.getHits().getTotalHits());*/
+		return new PageImpl(productList,page,response.getHits().getTotalHits());/* setPage( productList,pageable,response.getHits().getTotalHits());*/
 				
 		
 	}
 	
-	/*private  <T> Page<T>  setPage(List<T> contentList,Pageable page, Long size) {
+/*	private   Page<Product>  setPage(List<Product> contentList,Pageable page, Long size) {
 		
-		Page<T> page1=new PageImpl<T>(contentList,page,size);
+		Page<Product> page1=new PageImpl<T>(contentList,page,size);
 		return page1;
-	}
-	*/
+	
+	}*/
 	
 	
 	
