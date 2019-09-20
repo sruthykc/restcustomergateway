@@ -135,8 +135,27 @@ public class QueryServiceImpl implements QueryService {
 
 	}
 
+	private SearchRequest generateSearchRequest(Integer totalElements, Integer pageNumber, SearchSourceBuilder sourceBuilder) {
+	    SearchRequest searchRequest = new SearchRequest("operation-index").types("operation");
+	  /*  int  offset = 0;
+	    if(pageNumber==0) {
+	    	offset=totalElements;
+	    }
+	    else {
+	    	 offset = totalElements+(pageNumber *totalElements);
+	    }*/
+	    int  offset =  pageNumber==0 ? totalElements:totalElements+(pageNumber *totalElements);
+	    sourceBuilder.from(offset);
+	    sourceBuilder.size(totalElements);
+	 //   sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+	    searchRequest.source(sourceBuilder);
+	    return searchRequest;
+	}
+	
+	
 	private List<Product> getSearchResult(SearchResponse response) {
-
+	System.out.println("totalhitqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"+response.getHits().getTotalHits());
+		
 		SearchHit[] searchHit = response.getHits().getHits();
 
 		List<Product> productList = new ArrayList<>();
@@ -148,7 +167,10 @@ public class QueryServiceImpl implements QueryService {
 		return productList;
 	}
 	
-	
+	private  <T> Page<T>  setPage(Page page,  T type) {
+		Page<T> page1=new PageImpl<T>(new ArrayList<>());
+		return page1;
+	}
 	
 	
 	
