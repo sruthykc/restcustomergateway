@@ -187,7 +187,8 @@ public class QueryServiceImpl implements QueryService {
 			productList.add(objectMapper.convertValue(hit.getSourceAsMap(), Product.class));
 		}
 
-		return setPage( productList,pageable,response.getHits().getTotalHits());
+		return new PageImpl(productList);/* setPage( productList,pageable,response.getHits().getTotalHits());*/
+				
 		
 	}
 	
