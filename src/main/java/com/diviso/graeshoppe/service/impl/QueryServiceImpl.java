@@ -126,7 +126,7 @@ public class QueryServiceImpl implements QueryService {
 		searchSourceBuilder.query(matchQuery("name", searchTerm));
 		
 		//searchRequest.source(searchSourceBuilder);
-		//generateSearchRequest("product",10,);
+		generateSearchRequest("product",pageable.getPageSize(),pageable.getPageNumber(),searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
@@ -155,27 +155,28 @@ public class QueryServiceImpl implements QueryService {
 	    return searchRequest;
 	}
 
-	public List<Product> findAllProduct(Pageable pageable) {
+	public Page<Product> findAllProduct(Pageable pageable) {
 		System.out.println("getPageNumber#################################"+pageable.getPageNumber());
 		System.out.println("getPageSize******************************"+pageable.getPageSize());
 		
-		SearchRequest searchRequest = new SearchRequest("product");
+		//SearchRequest searchRequest = new SearchRequest("product");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(matchAllQuery());
-		searchRequest.source(searchSourceBuilder);
+		//searchRequest.source(searchSourceBuilder);
 
 		SearchResponse searchResponse = null;
+		SearchRequest searchRequest =	generateSearchRequest("product",pageable.getPageSize(),pageable.getPageNumber(),searchSourceBuilder);
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return getSearchResult(searchResponse);
+		return getSearchResult(searchResponse,pageable);
 
 	}
 	
-	private List<Product> getSearchResult(SearchResponse response) {
+	private Page<Product> getSearchResult(SearchResponse response,Pageable pageable) {
 	System.out.println("totalhitqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"+response.getHits().getTotalHits());
 		
 		SearchHit[] searchHit = response.getHits().getHits();
@@ -186,7 +187,8 @@ public class QueryServiceImpl implements QueryService {
 			productList.add(objectMapper.convertValue(hit.getSourceAsMap(), Product.class));
 		}
 
-		return productList;
+		return setPage( productList,pageable,response.getHits().getTotalHits());
+		
 	}
 	
 	private  <T> Page<T>  setPage(List<T> contentList,Pageable page, Long size) {
