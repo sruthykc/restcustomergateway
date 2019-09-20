@@ -121,11 +121,12 @@ public class QueryServiceImpl implements QueryService {
 		System.out.println("getPageNumber#################################"+pageable.getPageNumber());
 		System.out.println("getPageSize******************************"+pageable.getPageSize());
 		
-		SearchRequest searchRequest = new SearchRequest("product");
+		//SearchRequest searchRequest = new SearchRequest("product");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(matchQuery("name", searchTerm));
-		searchRequest.source(searchSourceBuilder);
-
+		
+		//searchRequest.source(searchSourceBuilder);
+		//generateSearchRequest("product",10,);
 		SearchResponse searchResponse = null;
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
@@ -155,6 +156,8 @@ public class QueryServiceImpl implements QueryService {
 	}
 
 	public List<Product> findAllProduct(Pageable pageable) {
+		System.out.println("getPageNumber#################################"+pageable.getPageNumber());
+		System.out.println("getPageSize******************************"+pageable.getPageSize());
 		
 		SearchRequest searchRequest = new SearchRequest("product");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
