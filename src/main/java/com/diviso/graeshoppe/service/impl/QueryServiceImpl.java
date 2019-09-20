@@ -121,7 +121,7 @@ public class QueryServiceImpl implements QueryService {
 		System.out.println("getPageNumber#################################"+pageable.getPageNumber());
 		System.out.println("getPageSize******************************"+pageable.getPageSize());
 		
-		//SearchRequest searchRequest = new SearchRequest("product");
+		SearchRequest searchRequest = new SearchRequest("product");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(matchQuery("name", searchTerm));
 		
