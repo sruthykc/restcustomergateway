@@ -151,7 +151,24 @@ public class QueryServiceImpl implements QueryService {
 	    searchRequest.source(sourceBuilder);
 	    return searchRequest;
 	}
-	
+
+	public List<Product> findAllProduct(Pageable pageable) {
+		
+		SearchRequest searchRequest = new SearchRequest("product");
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(matchAllQuery());
+		searchRequest.source(searchSourceBuilder);
+
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getSearchResult(searchResponse);
+
+	}
 	
 	private List<Product> getSearchResult(SearchResponse response) {
 	System.out.println("totalhitqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"+response.getHits().getTotalHits());

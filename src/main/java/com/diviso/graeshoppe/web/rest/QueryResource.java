@@ -114,6 +114,10 @@ public class QueryResource {
 	public List<Product> findAllProductBySearchTerm(@PathVariable String searchTerm, Pageable pageable) {
 		return queryService.findAllProductBySearchTerm(searchTerm, pageable);
 	}
+	@GetMapping("/findProduct")
+	public List<Product> findAllProduct( Pageable pageable) {
+		return queryService.findAllProduct(pageable);
+	}
 	
 	/*@GetMapping("/findProductByCategoryIdAndUserId/{categoryId}/{userId}")
 	public Page<Product> findProductByCategoryIdAndUserId(@PathVariable Long categoryId, @PathVariable String userId,
