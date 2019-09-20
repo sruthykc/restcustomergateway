@@ -172,11 +172,11 @@ public class QueryServiceImpl implements QueryService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return getSearchResult(searchResponse,pageable);
+		return getSearchResult(searchResponse);
 
 	}
 	
-	private Page<Product> getSearchResult(SearchResponse response,Pageable pageable) {
+	private Page<Product> getSearchResult(SearchResponse response) {
 	System.out.println("totalhitqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"+response.getHits().getTotalHits());
 		
 		SearchHit[] searchHit = response.getHits().getHits();
@@ -192,12 +192,12 @@ public class QueryServiceImpl implements QueryService {
 		
 	}
 	
-	private  <T> Page<T>  setPage(List<T> contentList,Pageable page, Long size) {
+	/*private  <T> Page<T>  setPage(List<T> contentList,Pageable page, Long size) {
 		
 		Page<T> page1=new PageImpl<T>(contentList,page,size);
 		return page1;
 	}
-	
+	*/
 	
 	
 	
