@@ -133,12 +133,19 @@ public class QueryServiceImpl implements QueryService {
 	    if(pageNumber==0) {
 	    	offset=0;
 	    	totalElements=totalElement;
+	    	
+	    	  System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in 00000000Page"+offset);
+	    	  System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in 00000000Page"+totalElements);
 	    }
 	    else {
+	    
 	    	offset=totalElements;
+	    
 	    	totalElements=totalElement+(pageNumber *totalElement);
+	  	  System.out.println("****************************offset in else Page"+offset);
+    	  System.out.println("************************totalelements in else Page"+totalElements);
+    
 	    }
-	    System.out.println("offffffffffffffset"+offset);
 	    sourceBuilder.from(offset);
 	    sourceBuilder.size(totalElements);
 	
@@ -150,7 +157,7 @@ public class QueryServiceImpl implements QueryService {
 		SearchRequest searchRequest = new SearchRequest("product");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		
-		String[] includeFields = new String[] {"product.*"};
+		String[] includeFields = new String[] {"iDPcode"};
 	    String[] excludeFields = new String[] {"category.*"};
 	    searchSourceBuilder.fetchSource(includeFields, excludeFields);
 	  //searchSourceBuilder.fetchSource(true);*/
