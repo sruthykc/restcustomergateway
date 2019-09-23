@@ -81,22 +81,6 @@ import io.searchbox.core.search.aggregation.TermsAggregation.Entry;*/
 @Service
 public class QueryServiceImpl implements QueryService {
 
-	// @Autowired
-	// private StoreSearchRepository storeSearchrepository;
-
-	/*private final JestClient jestClient;
-	private final JestElasticsearchTemplate elasticsearchTemplate;
-
-	private final Logger log = LoggerFactory.getLogger(QueryServiceImpl.class);
-
-	public QueryServiceImpl(JestClient jestClient) {
-		this.jestClient = jestClient;
-		this.elasticsearchTemplate = new JestElasticsearchTemplate(this.jestClient);
-	}
-
-	@Autowired
-	ElasticsearchOperations elasticsearchOperations;
-*/
 	private RestHighLevelClient restHighLevelClient;
 
 	private ObjectMapper objectMapper;
@@ -140,45 +124,37 @@ public class QueryServiceImpl implements QueryService {
 */
 	private SearchRequest generateSearchRequest(String indexName,Integer totalElements, Integer pageNumber, SearchSourceBuilder sourceBuilder) {
 	    SearchRequest searchRequest = new SearchRequest(indexName);
-	  /*  int  offset = 0;
-	    if(pageNumber==0) {
-	    	offset=totalElements;
-	    }
-	    else {
-	    	 offset = totalElements+(pageNumber *totalElements);
-	    }*/
+	 
 	    int  offset =  pageNumber==0 ? totalElements:totalElements+(pageNumber *totalElements);
 	    System.out.println("offffffffffffffset"+offset);
 	    sourceBuilder.from(offset);
 	    sourceBuilder.size(totalElements);
-	 //   sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+	
 	    searchRequest.source(sourceBuilder);
 	    return searchRequest;
 	}
 
 	public Page<Product> findAllProduct(Pageable pageable) {
-		System.out.println("getPageNumber#################################"+pageable.getPageNumber());
-		System.out.println("getPageSize******************************"+pageable.getPageSize());
-		
-		//SearchRequest searchRequest = new SearchRequest("product");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		
+		String[] includeFields = new String[] {"product"};
+	    String[] excludeFields = new String[] {"category"};
+	    searchSourceBuilder.fetchSource(includeFields, excludeFields);
+	    searchSourceBuilder.fetchSource();
 		searchSourceBuilder.query(matchAllQuery());
-		//searchRequest.source(searchSourceBuilder);
-
 		SearchResponse searchResponse = null;
 		SearchRequest searchRequest =	generateSearchRequest("product",pageable.getPageSize(),pageable.getPageNumber(),searchSourceBuilder);
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
-		return getSearchResult(searchResponse,pageable);
-
+	return getSearchResult(searchResponse,pageable);
 	}
 	
 	private Page<Product> getSearchResult(SearchResponse response,Pageable page) {
-	System.out.println("totalhitqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"+response.getHits().getTotalHits());
+
 		
 		SearchHit[] searchHit = response.getHits().getHits();
 
