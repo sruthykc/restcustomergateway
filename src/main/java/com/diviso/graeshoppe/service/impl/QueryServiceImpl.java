@@ -122,10 +122,22 @@ public class QueryServiceImpl implements QueryService {
 
 	}
 */
-	private SearchRequest generateSearchRequest(String indexName,Integer totalElements, Integer pageNumber, SearchSourceBuilder sourceBuilder) {
+	private SearchRequest generateSearchRequest(String indexName,Integer totalElement, Integer pageNumber, SearchSourceBuilder sourceBuilder) {
 	    SearchRequest searchRequest = new SearchRequest(indexName);
 	 
-	    int  offset =  pageNumber==0 ? totalElements:totalElements+(pageNumber *totalElements);
+	   // int  offset =  pageNumber==0 ? totalElements:totalElements+(pageNumber *totalElements);
+	   
+	    int  offset = 0;
+	    int totalElements=0;
+	    
+	    if(pageNumber==0) {
+	    	offset=0;
+	    	totalElements=totalElement;
+	    }
+	    else {
+	    	offset=totalElements;
+	    	totalElements=totalElement+(pageNumber *totalElement);
+	    }
 	    System.out.println("offffffffffffffset"+offset);
 	    sourceBuilder.from(offset);
 	    sourceBuilder.size(totalElements);
