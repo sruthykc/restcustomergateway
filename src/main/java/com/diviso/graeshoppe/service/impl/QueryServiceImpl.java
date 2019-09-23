@@ -153,8 +153,8 @@ public class QueryServiceImpl implements QueryService {
 	    return searchRequest;
 	}
 
-	public List<Product> findAllProduct(Pageable pageable) {
-		SearchRequest searchRequest = new SearchRequest("product");
+	public Page<Product> findAllProduct(Pageable pageable) {
+		//SearchRequest searchRequest = new SearchRequest("product");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		
 		String[] includeFields = new String[] {"iDPcode"};
@@ -162,11 +162,11 @@ public class QueryServiceImpl implements QueryService {
 	    searchSourceBuilder.fetchSource(includeFields, excludeFields);
 	  //searchSourceBuilder.fetchSource(true);*/
 		searchSourceBuilder.query(matchAllQuery());
-		searchSourceBuilder.from(0);
-		searchSourceBuilder.size(20);
-		searchRequest.source(searchSourceBuilder);
+		//searchSourceBuilder.from(0);
+		//searchSourceBuilder.size(20);
+		//searchRequest.source(searchSourceBuilder);
 		SearchResponse searchResponse = null;
-		//SearchRequest searchRequest =	generateSearchRequest("product",pageable.getPageSize(),pageable.getPageNumber(),searchSourceBuilder);
+		SearchRequest searchRequest =	generateSearchRequest("product",pageable.getPageSize(),pageable.getPageNumber(),searchSourceBuilder);
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) {
@@ -176,7 +176,7 @@ public class QueryServiceImpl implements QueryService {
 	return getSearchResult(searchResponse,pageable);
 	}
 	
-	private List<Product> getSearchResult(SearchResponse response,Pageable page) {
+	private Page<Product> getSearchResult(SearchResponse response,Pageable page) {
 
 		
 		SearchHit[] searchHit = response.getHits().getHits();
@@ -187,10 +187,10 @@ public class QueryServiceImpl implements QueryService {
 			productList.add(objectMapper.convertValue(hit.getSourceAsMap(), Product.class));
 		}
 
-		return productList;
+//		return productList;
 		
 		
-		//return new PageImpl(productList,page,response.getHits().getTotalHits());/* setPage( productList,pageable,response.getHits().getTotalHits());*/
+		return new PageImpl(productList,page,response.getHits().getTotalHits());/* setPage( productList,pageable,response.getHits().getTotalHits());*/
 				
 		
 	}
