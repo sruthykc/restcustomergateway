@@ -152,7 +152,7 @@ public class QueryServiceImpl implements QueryService {
 		String[] includeFields = new String[] {"product"};
 	    String[] excludeFields = new String[] {"category"};
 	    searchSourceBuilder.fetchSource(includeFields, excludeFields);
-	    searchSourceBuilder.fetchSource();
+	    searchSourceBuilder.fetchSource(true);
 		searchSourceBuilder.query(matchAllQuery());
 		SearchResponse searchResponse = null;
 		SearchRequest searchRequest =	generateSearchRequest("product",pageable.getPageSize(),pageable.getPageNumber(),searchSourceBuilder);
