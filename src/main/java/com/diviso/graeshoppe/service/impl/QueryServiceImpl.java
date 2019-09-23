@@ -150,7 +150,7 @@ public class QueryServiceImpl implements QueryService {
 		SearchRequest searchRequest = new SearchRequest("product");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		
-		String[] includeFields = new String[] {"iDPcode"};
+		String[] includeFields = new String[] {"product.*"};
 	    String[] excludeFields = new String[] {"category.*"};
 	    searchSourceBuilder.fetchSource(includeFields, excludeFields);
 	  //searchSourceBuilder.fetchSource(true);*/
