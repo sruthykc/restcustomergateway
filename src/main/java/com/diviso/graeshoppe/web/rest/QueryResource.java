@@ -115,7 +115,7 @@ public class QueryResource {
 		return queryService.findAllProductBySearchTerm(searchTerm, pageable);
 	}*/
 	@GetMapping("/findProduct")
-	public  Page<Product> findAllProduct( Pageable pageable) {
+	public  Page<Class<Product>> findAllProduct( Pageable pageable) {
 		return queryService.findAllProduct(pageable);
 	}
 	
