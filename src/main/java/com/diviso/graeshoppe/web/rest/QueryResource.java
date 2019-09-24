@@ -110,14 +110,14 @@ public class QueryResource {
 
 	@Autowired
 	private OrderQueryResourceApi orderQueryResourceApi;
-	/*@GetMapping("/findProductBySearchTerm/{searchTerm}")
-	public List<Product> findAllProductBySearchTerm(@PathVariable String searchTerm, Pageable pageable) {
+	@GetMapping("/findProductBySearchTerm/{searchTerm}")
+	public Page<Product> findAllProductBySearchTerm(@PathVariable String searchTerm, Pageable pageable) {
 		return queryService.findAllProductBySearchTerm(searchTerm, pageable);
-	}*/
-	@GetMapping("/findProduct")
-	public  Page<Product> findAllProduct( Pageable pageable) {
-		return queryService.findAllProduct(pageable);
 	}
+	/*@GetMapping("/findProduct")
+	public  Page<Product> findAllProduct(searchTerm, Pageable pageable) {
+		return queryService.findAllProductBySearchTerm(searchTerm,  pageable);
+	}*/
 	
 	/*@GetMapping("/findProductByCategoryIdAndUserId/{categoryId}/{userId}")
 	public Page<Product> findProductByCategoryIdAndUserId(@PathVariable Long categoryId, @PathVariable String userId,
