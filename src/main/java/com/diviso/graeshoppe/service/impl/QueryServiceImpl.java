@@ -95,7 +95,7 @@ public class QueryServiceImpl implements QueryService {
 
 	System.out.println("findAllProductBySearchTerm>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		String[] includeFields = new String[] { "iDPcode"};
+		String[] includeFields = new String[] { "iDPcode","image"};
 		String[] excludeFields = new String[] { "category.*","brand.*" };
 		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 
