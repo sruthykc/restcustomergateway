@@ -93,10 +93,10 @@ public class QueryServiceImpl implements QueryService {
 
 	public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable) {
 
+	System.out.println("findAllProductBySearchTerm>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		String[] includeFields = new String[] { "iDPcode","buyPrice", "image","imageContentType","isActive" ,
-				"isAuxilaryItem","isServiceItem",};
-		String[] excludeFields = new String[] { "category.*" };
+		String[] includeFields = new String[] { };
+		String[] excludeFields = new String[] { "category.*","brand.*" };
 		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 
 		searchSourceBuilder.query(matchQuery("name", searchTerm));
@@ -144,13 +144,12 @@ public class QueryServiceImpl implements QueryService {
 		searchRequest.source(sourceBuilder);
 		return searchRequest;
 	}
-
+/*
 	public Page<Product> findAllProduct(Pageable pageable) {
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-		String[] includeFields = new String[] { "iDPcode","buyPrice", "image","imageContentType","isActive" ,
-				"isAuxilaryItem","isServiceItem",};
+		String[] includeFields = new String[] { "iDPcode"};
 		String[] excludeFields = new String[] { "category.*" };
 		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 
@@ -166,7 +165,7 @@ public class QueryServiceImpl implements QueryService {
 			e.printStackTrace();
 		}
 		return getSearchResult(searchResponse, pageable);
-	}
+	}*/
 
 	private Page<Product> getSearchResult(SearchResponse response, Pageable page) {
 
