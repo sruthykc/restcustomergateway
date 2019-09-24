@@ -90,41 +90,32 @@ public class QueryServiceImpl implements QueryService {
 		this.restHighLevelClient = restHighLevelClient;
 	}
 
-	/*
-	 * @Override public Page<Product> findAllProductBySearchTerm(String searchTerm,
-	 * Pageable pageable) { SearchQuery searchQuery = new NativeSearchQueryBuilder()
-	 * .withQuery(matchQuery("name", searchTerm).prefixLength(2)).build();
-	 * 
-	 * return elasticsearchOperations.queryForPage(searchQuery, Product.class);
-	 * 
-	 * }
-	 * 
-	 */
-	/*
-	 * public List<Product> findAllProductBySearchTerm(String searchTerm, Pageable
-	 * pageable) {
-	 * System.out.println("getPageNumber#################################"+pageable.
-	 * getPageNumber());
-	 * System.out.println("getPageSize******************************"+pageable.
-	 * getPageSize());
-	 * 
-	 * SearchRequest searchRequest = new SearchRequest("product");
-	 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-	 * searchSourceBuilder.query(matchQuery("name", searchTerm));
-	 * 
-	 * //searchRequest.source(searchSourceBuilder);
-	 * generateSearchRequest("product",pageable.getPageSize(),pageable.getPageNumber
-	 * (),searchSourceBuilder); SearchResponse searchResponse = null; try {
-	 * searchResponse = restHighLevelClient.search(searchRequest,
-	 * RequestOptions.DEFAULT); } catch (IOException e) { // TODO Auto-generated
-	 * catch block e.printStackTrace(); } return getSearchResult(searchResponse);
-	 * 
-	 * }
-	 */
+
+	public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable) {
+
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		String[] includeFields = new String[] { "iDPcode","buyPrice", "image","imageContentType","isActive" ,
+				"isAuxilaryItem","isServiceItem",};
+		String[] excludeFields = new String[] { "category.*" };
+		searchSourceBuilder.fetchSource(includeFields, excludeFields);
+
+		searchSourceBuilder.query(matchQuery("name", searchTerm));
+
+		SearchRequest searchRequest = generateSearchRequest("product", pageable.getPageSize(), pageable.getPageNumber(),
+				searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getSearchResult(searchResponse,pageable);
+
+	}
+
 	private SearchRequest generateSearchRequest(String indexName, Integer totalElement, Integer pageNumber,
 			SearchSourceBuilder sourceBuilder) {
 		SearchRequest searchRequest = new SearchRequest(indexName);
-
 
 		int offset = 0;
 		int totalElements = 0;
@@ -133,8 +124,10 @@ public class QueryServiceImpl implements QueryService {
 			offset = 0;
 			totalElements = totalElement;
 
-			//System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in 00000000Page" + offset);
-			//System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in 00000000Page" + totalElements);
+			// System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in
+			// 00000000Page" + offset);
+			// System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in
+			// 00000000Page" + totalElements);
 		} else {
 
 			offset = totalElements;
@@ -152,11 +145,12 @@ public class QueryServiceImpl implements QueryService {
 		return searchRequest;
 	}
 
-	public Page<Class<Product>> findAllProduct(Pageable pageable) {
+	public Page<Product> findAllProduct(Pageable pageable) {
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-		String[] includeFields = new String[] { "iDPcode" };
+		String[] includeFields = new String[] { "iDPcode","buyPrice", "image","imageContentType","isActive" ,
+				"isAuxilaryItem","isServiceItem",};
 		String[] excludeFields = new String[] { "category.*" };
 		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 
@@ -171,43 +165,58 @@ public class QueryServiceImpl implements QueryService {
 
 			e.printStackTrace();
 		}
-		return getSearchResult(searchResponse, pageable,Product.class);
+		return getSearchResult(searchResponse, pageable);
 	}
 
-	
-	private <T> Page<T> getSearchResult(SearchResponse response, Pageable page,T type) {
+	private Page<Product> getSearchResult(SearchResponse response, Pageable page) {
 
 		SearchHit[] searchHit = response.getHits().getHits();
 
-		List<T> productList = new ArrayList<>();
-
-	 Class<T> className=(Class<T>) type.getClass();
+		List<Product> productList = new ArrayList<>();
 
 		for (SearchHit hit : searchHit) {
-			productList.add(objectMapper.convertValue(hit.getSourceAsMap(), className));
-		}
-
-		return new PageImpl<T>(productList, page, response.getHits().getTotalHits());
-
-	}
-
-	/*private Page<T> getResult(SearchResponse response, Pageable page,GraeshoppeGeneric T) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<T> productList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			productList.add(objectMapper.convertValue(hit.getSourceAsMap(), T.class));
+			productList.add(objectMapper.convertValue(hit.getSourceAsMap(), Product.class));
 		}
 
 		return new PageImpl(productList, page, response.getHits().getTotalHits());
 
-	}*/
-	
-	
-	
-	
+	}
+	// for refference sample
+	/*
+	 * private <T> Page<T> getSearchResult(SearchResponse response, Pageable page,T
+	 * type) {
+	 * 
+	 * SearchHit[] searchHit = response.getHits().getHits();
+	 * 
+	 * List<T> productList = new ArrayList<>();
+	 * 
+	 * Class<T> className=(Class<T>) type.getClass();
+	 * 
+	 * for (SearchHit hit : searchHit) {
+	 * productList.add(objectMapper.convertValue(hit.getSourceAsMap(), className));
+	 * }
+	 * 
+	 * return new PageImpl<T>(productList, page, response.getHits().getTotalHits());
+	 * 
+	 * }
+	 */
+
+	/*
+	 * private Page<T> getResult(SearchResponse response, Pageable
+	 * page,GraeshoppeGeneric T) {
+	 * 
+	 * SearchHit[] searchHit = response.getHits().getHits();
+	 * 
+	 * List<T> productList = new ArrayList<>();
+	 * 
+	 * for (SearchHit hit : searchHit) {
+	 * productList.add(objectMapper.convertValue(hit.getSourceAsMap(), T.class)); }
+	 * 
+	 * return new PageImpl(productList, page, response.getHits().getTotalHits());
+	 * 
+	 * }
+	 */
+
 	/*
 	 * @Override public Page<Product> findProductByCategoryId(Long categoryId,
 	 * String userId, Pageable pageable) {
