@@ -7,6 +7,8 @@ import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import org.elasticsearch.search.aggregations.bucket.filter.Filter;
 import org.elasticsearch.search.aggregations.bucket.filter.FilterAggregationBuilder;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
@@ -23,9 +25,13 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.core.CountRequest;
+import org.elasticsearch.client.core.CountResponse;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
@@ -71,7 +77,7 @@ import com.diviso.graeshoppe.domain.GraeshoppeGeneric;
 import com.diviso.graeshoppe.domain.Result;*/
 import com.diviso.graeshoppe.service.QueryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.diviso.graeshoppe.domain.*;
 /*import io.searchbox.client.JestClient;
 import io.searchbox.core.SearchResult;
 import io.searchbox.core.search.aggregation.MetricAggregation;
@@ -90,13 +96,12 @@ public class QueryServiceImpl implements QueryService {
 		this.restHighLevelClient = restHighLevelClient;
 	}
 
-
 	public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable) {
 
-	System.out.println("findAllProductBySearchTerm>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		// System.out.println("findAllProductBySearchTerm>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		String[] includeFields = new String[] { "iDPcode","image"};
-		String[] excludeFields = new String[] { "category.*","brand.*" };
+		String[] includeFields = new String[] { "iDPcode", "image" };
+		String[] excludeFields = new String[] { "category.*", "brand.*" };
 		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 
 		searchSourceBuilder.query(matchQuery("name", searchTerm));
@@ -109,7 +114,7 @@ public class QueryServiceImpl implements QueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getSearchResult(searchResponse,pageable);
+		return getProductSearchResult(searchResponse, pageable);
 
 	}
 
@@ -144,30 +149,27 @@ public class QueryServiceImpl implements QueryService {
 		searchRequest.source(sourceBuilder);
 		return searchRequest;
 	}
-/*
-	public Page<Product> findAllProduct(Pageable pageable) {
+	/*
+	 * public Page<Product> findAllProduct(Pageable pageable) {
+	 * 
+	 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+	 * 
+	 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+	 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+	 * excludeFields);
+	 * 
+	 * searchSourceBuilder.query(matchAllQuery());
+	 * 
+	 * SearchResponse searchResponse = null; SearchRequest searchRequest =
+	 * generateSearchRequest("product", pageable.getPageSize(),
+	 * pageable.getPageNumber(), searchSourceBuilder); try { searchResponse =
+	 * restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT); } catch
+	 * (IOException e) {
+	 * 
+	 * e.printStackTrace(); } return getSearchResult(searchResponse, pageable); }
+	 */
 
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-		String[] includeFields = new String[] { "iDPcode"};
-		String[] excludeFields = new String[] { "category.*" };
-		searchSourceBuilder.fetchSource(includeFields, excludeFields);
-
-		searchSourceBuilder.query(matchAllQuery());
-
-		SearchResponse searchResponse = null;
-		SearchRequest searchRequest = generateSearchRequest("product", pageable.getPageSize(), pageable.getPageNumber(),
-				searchSourceBuilder);
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-		return getSearchResult(searchResponse, pageable);
-	}*/
-
-	private Page<Product> getSearchResult(SearchResponse response, Pageable page) {
+	private Page<Product> getProductSearchResult(SearchResponse response, Pageable page) {
 
 		SearchHit[] searchHit = response.getHits().getHits();
 
@@ -180,6 +182,49 @@ public class QueryServiceImpl implements QueryService {
 		return new PageImpl(productList, page, response.getHits().getTotalHits());
 
 	}
+	
+	private Page<Customer> getCustomerSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<Customer> customerList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			customerList.add(objectMapper.convertValue(hit.getSourceAsMap(), Customer.class));
+		}
+
+		return new PageImpl(customerList, page, response.getHits().getTotalHits());
+
+	}
+	
+	private Page<Type> getTypeSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<Type> typeList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			typeList.add(objectMapper.convertValue(hit.getSourceAsMap(), Type.class));
+		}
+
+		return new PageImpl(typeList, page, response.getHits().getTotalHits());
+
+	}
+	private Page<DeliveryInfo> getDeliveryInfoSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<DeliveryInfo> deliveryInfoList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			deliveryInfoList.add(objectMapper.convertValue(hit.getSourceAsMap(), DeliveryInfo.class));
+		}
+
+		return new PageImpl(deliveryInfoList, page, response.getHits().getTotalHits());
+
+	}
+	
+	
 	// for refference sample
 	/*
 	 * private <T> Page<T> getSearchResult(SearchResponse response, Pageable page,T
@@ -200,22 +245,30 @@ public class QueryServiceImpl implements QueryService {
 	 * }
 	 */
 
-	/*
-	 * private Page<T> getResult(SearchResponse response, Pageable
-	 * page,GraeshoppeGeneric T) {
-	 * 
-	 * SearchHit[] searchHit = response.getHits().getHits();
-	 * 
-	 * List<T> productList = new ArrayList<>();
-	 * 
-	 * for (SearchHit hit : searchHit) {
-	 * productList.add(objectMapper.convertValue(hit.getSourceAsMap(), T.class)); }
-	 * 
-	 * return new PageImpl(productList, page, response.getHits().getTotalHits());
-	 * 
-	 * }
-	 */
+	@Override
+	public Page<Product> findProductByCategoryId(Long categoryId, String userId, Pageable pageable) {
 
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		String[] includeFields = new String[] { "iDPcode", "image" };
+		String[] excludeFields = new String[] { "category.*", "brand.*" };
+		searchSourceBuilder.fetchSource(includeFields, excludeFields);
+
+		searchSourceBuilder.query(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("category.id", categoryId))
+				.must(QueryBuilders.matchQuery("iDPcode", userId)));
+
+		SearchRequest searchRequest = generateSearchRequest("product", pageable.getPageSize(), pageable.getPageNumber(),
+				searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getProductSearchResult(searchResponse, pageable);
+
+	}
+
+	// completed
 	/*
 	 * @Override public Page<Product> findProductByCategoryId(Long categoryId,
 	 * String userId, Pageable pageable) {
@@ -226,6 +279,8 @@ public class QueryServiceImpl implements QueryService {
 	 * userId))) .build(); return elasticsearchOperations.queryForPage(searchQuery,
 	 * Product.class); }
 	 */
+
+	// completed
 	/*
 	 * @Override public Customer findCustomerByReference(String reference) {
 	 * 
@@ -233,7 +288,41 @@ public class QueryServiceImpl implements QueryService {
 	 * reference).toString()); return
 	 * elasticsearchOperations.queryForObject(searchQuery, Customer.class); }
 	 */
+	@Override 
+	public Customer findCustomerByReference(String reference) {
+		// System.out.println("findAllProductBySearchTerm>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		
 
+		searchSourceBuilder.query(termQuery("reference", reference));
+
+		SearchRequest searchRequest = new SearchRequest("customer");
+		 searchRequest .source(searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+		List<Customer> customerList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			customerList.add(objectMapper.convertValue(hit.getSourceAsMap(), Customer.class));
+		}
+	return 	customerList.get(0);
+		
+	}
+		 
+		
+	
+	
+	
+	
+	
+	
+	// completed
 	/*
 	 * @Override public Page<StockCurrent> findStockCurrentByProductId(Long
 	 * productId, Pageable pageable) { SearchQuery searchQuery = new
@@ -241,6 +330,43 @@ public class QueryServiceImpl implements QueryService {
 	 * productId)).build(); return elasticsearchOperations.queryForPage(searchQuery,
 	 * StockCurrent.class); }
 	 */
+
+	@Override
+	public Page<StockCurrent> findStockCurrentByProductId(Long productId, Pageable pageable) {
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		/*
+		 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+		 * excludeFields);
+		 */
+		searchSourceBuilder.query(termQuery("product.id", productId));
+
+		SearchRequest searchRequest = generateSearchRequest("stockcurrent", pageable.getPageSize(),
+				pageable.getPageNumber(), searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getStockCurrentSearchResult(searchResponse, pageable);
+
+	}
+
+	private Page<StockCurrent> getStockCurrentSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<StockCurrent> stockCurrentList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			stockCurrentList.add(objectMapper.convertValue(hit.getSourceAsMap(), StockCurrent.class));
+		}
+
+		return new PageImpl(stockCurrentList, page, response.getHits().getTotalHits());
+
+	}
+	//  completed // using filters in elasticsearch
 	/*
 	 * @Override public Page<StockCurrent> findStockCurrentByProductName(String
 	 * name, String storeId, Pageable pageable) { SearchQuery searchQuery = new
@@ -254,7 +380,38 @@ public class QueryServiceImpl implements QueryService {
 	 * stockcurrent.getProduct().isIsAuxilaryItem() == false)
 	 * .collect(Collectors.toList())); }
 	 */
+	@Override
+	public Page<StockCurrent> findStockCurrentByProductName(String name, String storeId, Pageable pageable) {
+		QueryBuilder query = QueryBuilders.boolQuery()
+				   .must(QueryBuilders.matchQuery("product.name", name))
+				   .must(QueryBuilders.matchQuery("product.iDPcode",storeId))
+				   .filter(QueryBuilders.termQuery("product.isAuxilaryItem", "false"));
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		/*
+		 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+		 * excludeFields);
+		 */
+		searchSourceBuilder.query(query);
 
+		SearchRequest searchRequest = generateSearchRequest("stockcurrent", pageable.getPageSize(),
+				pageable.getPageNumber(), searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getStockCurrentSearchResult(searchResponse, pageable);
+				   
+				   
+			}
+	
+	
+	
+	
+	
+// completed
 	/*
 	 * @Override public Page<Review> findAllReviews(Pageable pageable) { SearchQuery
 	 * searchQuery = new
@@ -263,6 +420,82 @@ public class QueryServiceImpl implements QueryService {
 	 * Review.class); }
 	 */
 
+	@Override
+	public Page<Review> findAllReviews(Pageable pageable) {
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		/*
+		 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+		 * excludeFields);
+		 */
+		searchSourceBuilder.query(matchAllQuery());
+
+		SearchRequest searchRequest = generateSearchRequest("review", pageable.getPageSize(), pageable.getPageNumber(),
+				searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getReviewSearchResult(searchResponse, pageable);
+
+	}
+
+	private Page<Review> getReviewSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<Review> reviewList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			reviewList.add(objectMapper.convertValue(hit.getSourceAsMap(), Review.class));
+		}
+
+		return new PageImpl(reviewList, page, response.getHits().getTotalHits());
+
+	}
+
+	private Page<UserRating> getUserRatingSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<UserRating> userRatingList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			userRatingList.add(objectMapper.convertValue(hit.getSourceAsMap(), UserRating.class));
+		}
+
+		return new PageImpl(userRatingList, page, response.getHits().getTotalHits());
+
+	}
+	private Page<Store> getStoreSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<Store> storeList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			storeList.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
+		}
+
+		return new PageImpl(storeList, page, response.getHits().getTotalHits());
+
+	}
+	private Page<Category> getCategorySearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<Category> categoryList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			categoryList.add(objectMapper.convertValue(hit.getSourceAsMap(), Category.class));
+		}
+
+		return new PageImpl(categoryList, page, response.getHits().getTotalHits());
+
+	}
+	//completed
 	/*
 	 * @Override public Page<UserRating> findAllUserRatings(Pageable pageable) {
 	 * SearchQuery searchQuery = new
@@ -271,6 +504,30 @@ public class QueryServiceImpl implements QueryService {
 	 * UserRating.class); }
 	 */
 
+	@Override
+	public Page<UserRating> findAllUserRatings(Pageable pageable) {
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+		/*
+		 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+		 * excludeFields);
+		 */
+		searchSourceBuilder.query(matchAllQuery());
+
+		SearchRequest searchRequest = generateSearchRequest("userrating", pageable.getPageSize(),
+				pageable.getPageNumber(), searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getUserRatingSearchResult(searchResponse, pageable);
+
+	}
+
+	//  completed
 	/*
 	 * @Override public Page<Store> findAllStores(Pageable pageable) {
 	 * 
@@ -285,7 +542,47 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * return storePage; }
 	 */
+	 @Override public Page<Store> findAllStores(Pageable pageable){
+			SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
+			/*
+			 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+			 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+			 * excludeFields);
+			 */
+			searchSourceBuilder.query(matchAllQuery());
+
+			SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(),
+					pageable.getPageNumber(), searchSourceBuilder);
+			SearchResponse searchResponse = null;
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			}
+			Page<Store> storePage =getStoreSearchResult(searchResponse, pageable);	
+			
+			storePage.forEach(store -> { List<UserRating> userRating =
+					  findUserRatingByRegNo(store.getRegNo(),pageable).getContent();
+					  store.setUserRatings(new HashSet<UserRating>(userRating)); });
+			
+			return storePage; 
+			
+			
+	 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// completed
 	/*
 	 * @Override public Page<Product> findAllProductsByStoreId(String storeId) {
 	 * SearchQuery searchQuery = new
@@ -293,11 +590,56 @@ public class QueryServiceImpl implements QueryService {
 	 * return elasticsearchOperations.queryForPage(searchQuery, Product.class); }
 	 */
 
+	@Override
+	public Page<Product> findAllProductsByStoreId(String storeId, Pageable pageable) {
+
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+		/*
+		 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+		 * excludeFields);
+		 */
+		searchSourceBuilder.query(termQuery("iDPcode", storeId));
+
+		SearchRequest searchRequest = generateSearchRequest("product", pageable.getPageSize(), pageable.getPageNumber(),
+				searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getProductSearchResult(searchResponse, pageable);
+	}
+
 	/*
 	 * @Override public List<Product> findAllProducts() { SearchQuery searchQuery =
 	 * new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build(); return
 	 * elasticsearchOperations.queryForList(searchQuery, Product.class); }
 	 */
+	/*
+	 * public Page<Product> findAllProducts(Pageable pageable) {
+	 * 
+	 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+	 * 
+	 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+	 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+	 * excludeFields);
+	 * 
+	 * searchSourceBuilder.query(matchAllQuery());
+	 * 
+	 * SearchResponse searchResponse = null; SearchRequest searchRequest =
+	 * generateSearchRequest("product", pageable.getPageSize(),
+	 * pageable.getPageNumber(), searchSourceBuilder); try { searchResponse =
+	 * restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT); } catch
+	 * (IOException e) {
+	 * 
+	 * e.printStackTrace(); } return getSearchResult(searchResponse, pageable); }
+	 */
+
+	//  completed
+
 	/*
 	 * @Override public Store findStoreByRegNo(String regNo) { StringQuery
 	 * stringQuery = new StringQuery(termQuery("regNo", regNo).toString()); return
@@ -305,7 +647,33 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
+	 @Override
+	 public Store findStoreByRegNo(String regNo) {
+			SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+			
 
+			searchSourceBuilder.query(termQuery("regNo", regNo));
+
+			SearchRequest searchRequest = new SearchRequest("store");
+			 searchRequest .source(searchSourceBuilder);
+			SearchResponse searchResponse = null;
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			}
+			SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+			List<Store> storeList = new ArrayList<>();
+
+			for (SearchHit hit : searchHit) {
+				storeList.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
+			}
+		return 	storeList.get(0);
+			
+		 
+	 }
+	// completed
 	/*
 	 * @Override public Long findReviewCountByStoreId(String storeId) { SearchQuery
 	 * searchQuery = new
@@ -315,6 +683,25 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
+	@Override
+	public Long findReviewCountByStoreId(String storeId) {
+		CountRequest countRequest = new CountRequest("review");
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+		searchSourceBuilder.query(termQuery("store.regNo", storeId));
+
+		countRequest.source(searchSourceBuilder);
+		CountResponse countResponse = null;
+		try {
+			countResponse = restHighLevelClient.count(countRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+
+		return countResponse.getCount();
+	}
+
+	// completed //add pageable as arguement
 	/*
 	 * @Override public Page<Review> findReviewByStoreId(String storeId) {
 	 * SearchQuery searchQuery = new
@@ -324,6 +711,24 @@ public class QueryServiceImpl implements QueryService {
 	 * return elasticsearchOperations.queryForPage(searchQuery, Review.class); }
 	 */
 
+	@Override
+	public Page<Review> findReviewByStoreId(String storeId, Pageable pageable) {
+
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+		searchSourceBuilder.query(termQuery("store.regNo", storeId));
+
+		SearchRequest searchRequest = generateSearchRequest("review", pageable.getPageSize(), pageable.getPageNumber(),
+				searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getReviewSearchResult(searchResponse, pageable);
+	}
+	// completed// add Pageable 
 	/*
 	 * @Override public Page<StockCurrent> findStockCurrentByStoreId(String iDPcode)
 	 * { SearchQuery searchQuery = new
@@ -342,7 +747,41 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * return new PageImpl(notAuxStockCurrentProducts); }
 	 */
+	
+	@Override
+	public Page<StockCurrent> findStockCurrentByStoreId(String iDPcode,Pageable pageable)
+	 {
+		
+		QueryBuilder query = QueryBuilders.boolQuery()
+				   
+				   .must(QueryBuilders.matchQuery("iDPcode",iDPcode))
+				   .filter(QueryBuilders.termQuery("product.isAuxilaryItem", "false"));
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		/*
+		 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+		 * excludeFields);
+		 */
+		searchSourceBuilder.query(query);
 
+		SearchRequest searchRequest = generateSearchRequest("stockcurrent", pageable.getPageSize(),
+				pageable.getPageNumber(), searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getStockCurrentSearchResult(searchResponse, pageable);
+				   
+
+		
+	 }	
+	
+	
+	
+	
+//completed
 	/*
 	 * @Override public Page<UserRating> findUserRatingByRegNo(String regNo) {
 	 * SearchQuery searchQuery = new
@@ -351,6 +790,30 @@ public class QueryServiceImpl implements QueryService {
 	 * UserRating.class); }
 	 */
 
+	@Override
+	public Page<UserRating> findUserRatingByRegNo(String regNo, Pageable pageable) {
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+		/*
+		 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+		 * excludeFields);
+		 */
+		searchSourceBuilder.query(termQuery("store.regNo", regNo));
+
+		SearchRequest searchRequest = generateSearchRequest("userrating", pageable.getPageSize(),
+				pageable.getPageNumber(), searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getUserRatingSearchResult(searchResponse, pageable);
+
+	}
+
+	//completed // instead of List<Entry> to List<ResultBucket>
 	/*
 	 * @Override public List<Entry> findCategoryAndCount(Pageable pageable) {
 	 * 
@@ -373,6 +836,52 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
+	
+
+	@Override
+	public List<ResultBucket> findCategoryAndCount(Pageable pageable) {
+		List<ResultBucket> resultBucketList = new ArrayList<>();
+		SearchRequest searchRequest = new SearchRequest("product");
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(matchAllQuery());
+		searchSourceBuilder.aggregation(AggregationBuilders.terms("totalcategories").field("category.name.keyword"));
+
+		searchRequest.source(searchSourceBuilder);
+		SearchResponse searchResponse=null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("elasticsearch response: {} totalhitssshits" + searchResponse.getHits().getTotalHits());
+		System.out.println("elasticsearch response: {} hits .toostring" + searchResponse.toString());
+		// searchResponse.getHits().
+		Aggregations aggregations = searchResponse.getAggregations();
+		Terms categoryAggregation = searchResponse.getAggregations().get("totalcategories");
+		for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
+			ResultBucket result= new ResultBucket();
+			result.setKey(bucket.getKey().toString());
+			result.setDocCount(bucket.getDocCount());
+			result.setKeyAsString(bucket.getKeyAsString());
+			resultBucketList.add(result);
+			System.out.println("KEY:" + bucket.getKey() + "!!keyAsString:" + bucket.getKeyAsString() + "!!count:"
+					+ bucket.getDocCount());
+			
+			
+			
+
+		}
+
+		return resultBucketList;
+	}
+
+	
+	
+	
+
+	**********************************************************************************************
+	//not completed// need clarifications
 	/*
 	 * @Override public List<Entry> findCategoryAndCountByStoreId(String
 	 * storeId,Pageable pageable) {
@@ -427,6 +936,70 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * return storeBasedEntry; }
 	 */
+	
+	 @Override
+	 public List<ResultBucket> findCategoryAndCountByStoreId(String storeId,Pageable pageable) {
+		List<ResultBucket> resultBucketList = new ArrayList<>();
+		SearchRequest searchRequest = new SearchRequest("product");
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(matchAllQuery());
+		TermsAggregationBuilder aggregation = AggregationBuilders.terms("totalcategories")
+                .field("category.name.keyword");
+        aggregation.subAggregation(AggregationBuilders.terms("store")
+                .field("iDPcode.keyword"));
+		searchSourceBuilder.aggregation(aggregation);
+
+		searchRequest.source(searchSourceBuilder);
+		SearchResponse searchResponse=null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("elasticsearch response: {} totalhitssshits" + searchResponse.getHits().getTotalHits());
+		System.out.println("elasticsearch response: {} hits .toostring" + searchResponse.toString());
+		// searchResponse.getHits().
+		Aggregations aggregations = searchResponse.getAggregations();
+		Terms categoryAggregation = searchResponse.getAggregations().get("totalcategories");
+		for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
+			ResultBucket result= new ResultBucket();
+			result.setKey(bucket.getKey().toString());
+			result.setDocCount(bucket.getDocCount());
+			result.setKeyAsString(bucket.getKeyAsString());
+			resultBucketList.add(result);
+			System.out.println("KEY:" + bucket.getKey() + "!!keyAsString:" + bucket.getKeyAsString() + "!!count:"
+					+ bucket.getDocCount());
+			
+			
+			
+
+		}
+
+		return resultBucketList;
+		
+	}
+			
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	**************************************************************************************************
+	//completed // instead of List<Entry> to List<ResultBucket>
 	/*
 	 * public List<Entry> findStoreTypeAndCount(Pageable pageable) {
 	 * 
@@ -447,8 +1020,49 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * return categoryAggregation.getBuckets(); }
 	 */
+	
+	  public List<ResultBucket> findStoreTypeAndCount(Pageable pageable) {
+		  List<ResultBucket> resultBucketList = new ArrayList<>();
+			SearchRequest searchRequest = new SearchRequest("storetype");
+			SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+			searchSourceBuilder.query(matchAllQuery());
+			searchSourceBuilder.aggregation(AggregationBuilders.terms("totalstoretype").field("name.keyword"));
 
-	/*
+			searchRequest.source(searchSourceBuilder);
+			SearchResponse searchResponse=null;
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("elasticsearch response: {} totalhitssshits" + searchResponse.getHits().getTotalHits());
+			System.out.println("elasticsearch response: {} hits .toostring" + searchResponse.toString());
+			// searchResponse.getHits().
+			Aggregations aggregations = searchResponse.getAggregations();
+			Terms categoryAggregation = searchResponse.getAggregations().get("totalstoretype");
+			for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
+				ResultBucket result= new ResultBucket();
+				result.setKey(bucket.getKey().toString());
+				result.setDocCount(bucket.getDocCount());
+				result.setKeyAsString(bucket.getKeyAsString());
+				resultBucketList.add(result);
+				System.out.println("KEY:" + bucket.getKey() + "!!keyAsString:" + bucket.getKeyAsString() + "!!count:"
+						+ bucket.getDocCount());
+				
+				
+				
+
+			}
+
+			return resultBucketList;
+	  
+	  
+	   }
+	 ***************************************************************************************************
+	
+	 //completed
+	 /*
 	 * @Override public UserRating findRatingByStoreIdAndCustomerName(String
 	 * storeId, String name) {
 	 * System.out.println("....................... impl ................" + storeId
@@ -458,7 +1072,37 @@ public class QueryServiceImpl implements QueryService {
 	 * UserRating rating = elasticsearchOperations.queryForObject(stringQuery,
 	 * UserRating.class); return rating; }
 	 */
+	 @Override public UserRating findRatingByStoreIdAndCustomerName(String storeId, String name) {
 
+		 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+			
+
+			searchSourceBuilder.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("store.regNo", storeId)) .must(QueryBuilders.termQuery("userName", name)));
+
+			SearchRequest searchRequest = new SearchRequest("userrating");
+			 searchRequest .source(searchSourceBuilder);
+			SearchResponse searchResponse = null;
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			}
+			SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+			List<UserRating> userRatingList = new ArrayList<>();
+
+			for (SearchHit hit : searchHit) {
+				userRatingList.add(objectMapper.convertValue(hit.getSourceAsMap(), UserRating.class));
+			}
+		return 	userRatingList.get(0);
+
+	 }
+
+	 
+	 
+	 
+	 //completed
+	 
 	/*
 	 * @Override public UserRating findRatingByStoreId(String storeId) {
 	 * System.out.println("....................... impl ................" +
@@ -468,6 +1112,31 @@ public class QueryServiceImpl implements QueryService {
 	 * elasticsearchOperations.queryForObject(stringQuery, UserRating.class); return
 	 * rating; }
 	 */
+	 @Override public UserRating findRatingByStoreId(String storeId) {
+		 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+			
+
+			searchSourceBuilder.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("store.regNo", storeId)));
+
+			SearchRequest searchRequest = new SearchRequest("userrating");
+			 searchRequest .source(searchSourceBuilder);
+			SearchResponse searchResponse = null;
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			}
+			SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+			List<UserRating> userRatingList = new ArrayList<>();
+
+			for (SearchHit hit : searchHit) {
+				userRatingList.add(objectMapper.convertValue(hit.getSourceAsMap(), UserRating.class));
+			}
+		return 	userRatingList.get(0);
+		 
+	 }
+	 //completed
 	/*
 	 * @Override public UserRating findRatingByName(String name) {
 	 * System.out.println("....................... impl ................" + name);
@@ -478,6 +1147,36 @@ public class QueryServiceImpl implements QueryService {
 	 * rating; }
 	 */
 
+	 @Override
+	 public UserRating findRatingByName(String name) {
+		 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+			
+
+			searchSourceBuilder.query(QueryBuilders.termQuery("userName", name));
+
+			SearchRequest searchRequest = new SearchRequest("userrating");
+			 searchRequest .source(searchSourceBuilder);
+			SearchResponse searchResponse = null;
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			
+			SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+			List<UserRating> userRatingList = new ArrayList<>();
+
+			for (SearchHit hit : searchHit) {
+				userRatingList.add(objectMapper.convertValue(hit.getSourceAsMap(), UserRating.class));
+			}
+		return 	userRatingList.get(0);
+		 
+	 }
+	 }
+	 
+	 
+	 
+	 //completed
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -494,13 +1193,41 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * return elasticsearchOperations.queryForObject(stringQuery, Review.class); }
 	 */
+	 
+	 @Override 
+	 public Review findReviewByStoreIdAndCustomerName(String storeId, String name) {
+		 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+			
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.diviso.graeshoppe.service.QueryService#findAllProductByName(java.
-	 * lang. String)
-	 */
+			searchSourceBuilder.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("store.regNo",
+					 storeId)) .must(QueryBuilders.termQuery("userName", name)));
+
+			SearchRequest searchRequest = new SearchRequest("review");
+			 searchRequest .source(searchSourceBuilder);
+			SearchResponse searchResponse = null;
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			}
+			SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+			List<Review> reviewList = new ArrayList<>();
+
+			for (SearchHit hit : searchHit) {
+				reviewList.add(objectMapper.convertValue(hit.getSourceAsMap(), Review.class));
+			}
+		return 	reviewList.get(0);
+	 
+	 }		 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	//completed // is equivallent to findAllProductBySearchTerm
 	/*
 	 * @Override public Page<Product> findAllProductByName(String name) {
 	 * 
@@ -510,7 +1237,7 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
-
+//complete // add pageable
 	/*
 	 * @Override public Page<StockCurrent>
 	 * findAllStockCurrentByProductNameStoreId(String productName, String storeId) {
@@ -522,13 +1249,32 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
+@Override
+public Page<StockCurrent> findAllStockCurrentByProductNameStoreId(String productName, String storeId,Pageable pageable) {
 
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.diviso.graeshoppe.service.QueryService#findRatingCount(org.
-	 * springframework.data.domain.Pageable)
+	 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+	 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+	 * excludeFields);
 	 */
+	searchSourceBuilder.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("iDPcode", storeId))
+			 .must(QueryBuilders.termQuery("product.name", productName)));
+
+	SearchRequest searchRequest = generateSearchRequest("stockcurrent", pageable.getPageSize(),
+			pageable.getPageNumber(), searchSourceBuilder);
+	SearchResponse searchResponse = null;
+	try {
+		searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+	} catch (IOException e) { // TODO Auto-generated
+		e.printStackTrace();
+	}
+	return getStockCurrentSearchResult(searchResponse, pageable);
+
+	
+
+ }
+	 //completed
 	/*
 	 * @Override public List<Entry> findRatingCount(Pageable pageable) { SearchQuery
 	 * searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery())
@@ -543,6 +1289,58 @@ public class QueryServiceImpl implements QueryService {
 	 * TermsAggregation.class); return categoryAggregation.getBuckets(); }
 	 */
 
+	 
+	 @Override public  List<ResultBucket> findRatingCount(Pageable pageable) {
+	 List<ResultBucket> resultBucketList = new ArrayList<>();
+		SearchRequest searchRequest = new SearchRequest("storetype");
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(matchAllQuery());
+		searchSourceBuilder.aggregation(AggregationBuilders.terms("ratings").field("rating"));
+
+		searchRequest.source(searchSourceBuilder);
+		SearchResponse searchResponse=null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("elasticsearch response: {} totalhitssshits" + searchResponse.getHits().getTotalHits());
+		System.out.println("elasticsearch response: {} hits .toostring" + searchResponse.toString());
+		// searchResponse.getHits().
+		Aggregations aggregations = searchResponse.getAggregations();
+		Terms categoryAggregation = searchResponse.getAggregations().get("ratings");
+		for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
+			ResultBucket result= new ResultBucket();
+			result.setKey(bucket.getKey().toString());
+			result.setDocCount(bucket.getDocCount());
+			result.setKeyAsString(bucket.getKeyAsString());
+			resultBucketList.add(result);
+			System.out.println("KEY:" + bucket.getKey() + "!!keyAsString:" + bucket.getKeyAsString() + "!!count:"
+					+ bucket.getDocCount());
+			
+			
+			
+
+		}
+
+		return resultBucketList;
+
+
+	 
+	 
+	 
+	 
+	 }
+	 
+	 
+	 
+	 
+	 ************************************************************************************************
+	 
+	 
+	 
+	........................................................................................... 
 	/*
 	 * @Override public Page<Address> findByCustomerId(String customerId, Pageable
 	 * pageable) { log.info("Customer Id is " + customerId); SearchQuery searchQuery
@@ -552,7 +1350,8 @@ public class QueryServiceImpl implements QueryService {
 	 * .build(); return elasticsearchOperations.queryForPage(searchQuery,
 	 * Address.class); }
 	 */
-
+	......................................................................................
+//completed
 	/*
 	 * @Override public Order findById(Long id) {
 	 * 
@@ -561,7 +1360,33 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
+	 @Override 
+	 public Order findById(Long id) {
+		 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+			
 
+			searchSourceBuilder.query(termQuery("id", id));
+
+			SearchRequest searchRequest = new SearchRequest("order");
+			 searchRequest .source(searchSourceBuilder);
+			SearchResponse searchResponse = null;
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			}
+			SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+			List<Order> orderList = new ArrayList<>();
+
+			for (SearchHit hit : searchHit) {
+				orderList.add(objectMapper.convertValue(hit.getSourceAsMap(), Order.class));
+			}
+		return 	orderList.get(0);
+		     
+		 
+		  }
+		 //completed
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -576,7 +1401,32 @@ public class QueryServiceImpl implements QueryService {
 	 * deliveryType)).build(); return
 	 * elasticsearchOperations.queryForPage(searchQuery, Store.class); }
 	 */
+	 @Override public Page<Store> findStoreByDeliveryType(String deliveryType,Pageable pageable) {
+		 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
+			/*
+			 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+			 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+			 * excludeFields);
+			 */
+			searchSourceBuilder.query(termQuery("deliveryInfos.type.name.keyword", deliveryType));
+
+			SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(),
+					pageable.getPageNumber(), searchSourceBuilder);
+			SearchResponse searchResponse = null;
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			}
+			Page<Store> storePage =getStoreSearchResult(searchResponse, pageable);
+			return storePage;
+	 }
+	 
+	 
+	 
+	 
+	 //complete
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -597,6 +1447,49 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * return new PageImpl(new ArrayList<Store>(storeSet)); }
 	 */
+	 @Override public Page<Store> findStoreByType(String name, Pageable pageable)
+	  {
+	  
+	  Set<Store> storeSet = new HashSet<>();
+		 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+			/*
+			 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+			 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+			 * excludeFields);
+			 */
+			searchSourceBuilder.query(termQuery("name", name));
+
+			SearchRequest searchRequest =new SearchRequest("storetype");
+			SearchResponse searchResponse = null;
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			}
+
+			SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+			List<StoreType> storeTypeList = new ArrayList<>();
+
+			for (SearchHit hit : searchHit) {
+				storeTypeList.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class));
+			}
+
+			Page<Store> storePage =getStoreSearchResult(searchResponse, pageable);	
+	  
+	   for(StoreType storeType : storeTypeList) { 
+		   storeSet.add(storeType.getStore()); }
+	  
+	 
+	 return new PageImpl(new ArrayList<Store>(storeSet),pageable,searchResponse.getHits().getTotalHits()); }
+	 
+	 
+	 
+	 
+	 
+	 
+	 //completed
 	/*
 	 * to find category by storeId
 	 */
@@ -612,8 +1505,36 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
+	 @Override 
+	 public Page<Category> findCategoryByIDPcode(String iDPcode, Pageable pageable) {
+		 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-	/*
+			/*
+			 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
+			 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
+			 * excludeFields);
+			 */
+			searchSourceBuilder.query(termQuery("iDPcode", iDPcode));
+
+			SearchRequest searchRequest =
+					generateSearchRequest("storetype", pageable.getPageSize(), pageable.getPageNumber(),
+							searchSourceBuilder);
+			SearchResponse searchResponse = null;
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			}
+			
+			
+			return getCategorySearchResult(searchResponse, pageable);
+			
+	 }
+	 
+	 
+	 
+//complete	
+/*
 	 * to find Product by storeId and categoryName
 	 */
 	/*
@@ -635,6 +1556,34 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
+@Override 
+public Page<Product> findProductByStoreIdAndCategoryName(String userId, String categoryName, Pageable pageable) {
+		 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+			String[] includeFields = new String[] { "iDPcode", "image" };
+			String[] excludeFields = new String[] { "category.*" };
+			searchSourceBuilder.fetchSource(includeFields, excludeFields);
+
+			searchSourceBuilder.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery(
+					  "iDPcode.keyword", userId))
+					  .must(QueryBuilders.termQuery("category.name.keyword", categoryName)));
+
+			SearchRequest searchRequest = generateSearchRequest("product", pageable.getPageSize(), pageable.getPageNumber(),
+					searchSourceBuilder);
+			SearchResponse searchResponse = null;
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			}
+			return getProductSearchResult(searchResponse, pageable);
+
+		 
+	 }
+		 
+**************************************************************************************************************
+
+
+
 
 	/*
 	 * to find Store by typeName
@@ -716,13 +1665,46 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
-
-	/*
+******************************************************************************************************
+//complete	
+/*
 	 * @Override public List<OrderLine> findOrderLinesByOrderId(Long orderId) {
 	 * StringQuery searchQuery = new StringQuery(termQuery("order.id",
 	 * orderId).toString()); return
 	 * elasticsearchOperations.queryForList(searchQuery, OrderLine.class); }
 	 */
+@Override
+public List<OrderLine> findOrderLinesByOrderId(Long orderId) {
+	 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		/*String[] includeFields = new String[] { "iDPcode", "image" };
+		String[] excludeFields = new String[] { "category.*" };
+		searchSourceBuilder.fetchSource(includeFields, excludeFields);
+*/
+		searchSourceBuilder.query(termQuery("order.id",orderId));
+
+		SearchRequest searchRequest =   new SearchRequest("orderline");
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+
+		SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+		List<OrderLine> orderLineList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			orderLineList.add(objectMapper.convertValue(hit.getSourceAsMap(), OrderLine.class));
+		}
+
+		
+		
+		
+		return orderLineList;
+	
+}
+//completed
 	/*
 	 * @Override public Page<Customer> findAllCustomersWithoutSearch(Pageable
 	 * pageable) { SearchQuery searchQuery = new
@@ -730,7 +1712,28 @@ public class QueryServiceImpl implements QueryService {
 	 * .build(); return elasticsearchOperations.queryForPage(searchQuery,
 	 * Customer.class); }
 	 */
+@Override 
+public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable) { 
 
+	 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		/*String[] includeFields = new String[] { "iDPcode", "image" };
+		String[] excludeFields = new String[] { "category.*" };
+		searchSourceBuilder.fetchSource(includeFields, excludeFields);
+*/
+		searchSourceBuilder.query(matchAllQuery());
+
+		SearchRequest searchRequest = generateSearchRequest("customer", pageable.getPageSize(), pageable.getPageNumber(),
+				searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getCustomerSearchResult(searchResponse, pageable);
+
+}
+//complete
 	/*
 	 * @Override public Page<Store> findStoreBySearchTerm(String searchTerm,
 	 * Pageable pageable) {
@@ -742,6 +1745,27 @@ public class QueryServiceImpl implements QueryService {
 	 * return elasticsearchOperations.queryForPage(searchQuery, Store.class); }
 	 */
 
+@Override public Page<Store> findStoreBySearchTerm(String searchTerm, Pageable pageable) {
+SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+/*String[] includeFields = new String[] { "iDPcode", "image" };
+String[] excludeFields = new String[] { "category.*" };
+searchSourceBuilder.fetchSource(includeFields, excludeFields);
+*/
+searchSourceBuilder.query(matchQuery("name", searchTerm).prefixLength(3));
+
+SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
+		searchSourceBuilder);
+SearchResponse searchResponse = null;
+try {
+	searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+} catch (IOException e) { // TODO Auto-generated
+	e.printStackTrace();
+}
+return getStoreSearchResult(searchResponse, pageable);
+}
+
+
+//complete
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -754,7 +1778,33 @@ public class QueryServiceImpl implements QueryService {
 	 * orderId).toString()); return
 	 * elasticsearchOperations.queryForObject(stringQuery, Order.class); }
 	 */
+@Override public Order findOrderByOrderId(String orderId) {
+SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+/*String[] includeFields = new String[] { "iDPcode", "image" };
+String[] excludeFields = new String[] { "category.*" };
+searchSourceBuilder.fetchSource(includeFields, excludeFields);
+*/
+searchSourceBuilder.query(termQuery("orderId.keyword", orderId));
 
+SearchRequest searchRequest =   new SearchRequest("order");
+searchRequest.source(searchSourceBuilder);
+SearchResponse searchResponse = null;
+try {
+	searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+} catch (IOException e) { // TODO Auto-generated
+	e.printStackTrace();
+}
+
+SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+List<Order> orderList = new ArrayList<>();
+
+for (SearchHit hit : searchHit) {
+	orderList.add(objectMapper.convertValue(hit.getSourceAsMap(), Order.class));
+}
+return orderList.get(0);
+}
+***********************************************************************************************
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -783,7 +1833,9 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
-	/*
+***********************************************************************************************************
+	//complete
+/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
@@ -800,7 +1852,34 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
+@Override public DeliveryInfo findDeliveryInfoById(Long id) {
+SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+/*String[] includeFields = new String[] { "iDPcode", "image" };
+String[] excludeFields = new String[] { "category.*" };
+searchSourceBuilder.fetchSource(includeFields, excludeFields);
+*/
+searchSourceBuilder.query(termQuery("id", id));
 
+SearchRequest searchRequest =   new SearchRequest("deliveryinfo");
+searchRequest.source(searchSourceBuilder);
+SearchResponse searchResponse = null;
+try {
+	searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+} catch (IOException e) { // TODO Auto-generated
+	e.printStackTrace();
+}
+
+SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+List<DeliveryInfo> deliveryInfoList = new ArrayList<>();
+
+for (SearchHit hit : searchHit) {
+	deliveryInfoList.add(objectMapper.convertValue(hit.getSourceAsMap(), DeliveryInfo.class));
+}
+return deliveryInfoList.get(0);
+
+}
+//complete
 	/*
 	 * @Override public Product findProductById(Long id) {
 	 * log.info("..............id  impl ............." + id);
@@ -811,6 +1890,37 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
+@Override public Product findProductById(Long id) {
+	SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+	/*String[] includeFields = new String[] { "iDPcode", "image" };
+	String[] excludeFields = new String[] { "category.*" };
+	searchSourceBuilder.fetchSource(includeFields, excludeFields);
+	*/
+	searchSourceBuilder.query(termQuery("id", id));
+
+	SearchRequest searchRequest =   new SearchRequest("product");
+	searchRequest.source(searchSourceBuilder);
+	SearchResponse searchResponse = null;
+	try {
+		searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+	} catch (IOException e) { // TODO Auto-generated
+		e.printStackTrace();
+	}
+
+	SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+	List<Product> productList = new ArrayList<>();
+
+	for (SearchHit hit : searchHit) {
+		productList.add(objectMapper.convertValue(hit.getSourceAsMap(), Product.class));
+	}
+	return productList.get(0);
+	
+}
+
+
+*****************************************************************************************
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -847,7 +1957,7 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
-
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -865,6 +1975,27 @@ public class QueryServiceImpl implements QueryService {
 	 * }
 	 */
 
+ @Override public Page<DeliveryInfo> findDeliveryInfoByStoreId(String storeId,Pageable pageable)
+{
+	SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+	/*String[] includeFields = new String[] { "iDPcode", "image" };
+	String[] excludeFields = new String[] { "category.*" };
+	searchSourceBuilder.fetchSource(includeFields, excludeFields);
+	*/
+	searchSourceBuilder.query(termQuery("store.regNo", storeId));
+
+	SearchRequest searchRequest = generateSearchRequest("deliveryinfo", pageable.getPageSize(), pageable.getPageNumber(),
+			searchSourceBuilder);
+	SearchResponse searchResponse = null;
+	try {
+		searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+	} catch (IOException e) { // TODO Auto-generated
+		e.printStackTrace();
+	}
+	return getDeliveryInfoSearchResult(searchResponse, pageable);
+
+}
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 	/*
 	 * public Page<Store> headerSearch(String searchTerm, Pageable pageable) {
 	 * Set<Store> storeSet = new HashSet<Store>(); Set<HeaderSearch> values = new
@@ -923,7 +2054,7 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * return elasticsearchOperations.queryForPage(searchQuery, Store.class); }
 	 */
-
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 	/*
 	 * @Override public Page<Store> findAndSortStoreByMinAount(Pageable pageable) {
 	 * SearchQuery searchQuery = new
@@ -934,6 +2065,7 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 	/*
 	 * (non-Javadoc)
 	 * 
