@@ -2137,8 +2137,8 @@ return deliveryInfoList.get(0);
 	 System.out.println("hellllllllllllllllllllllo");
 	 
 	 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		String[] includeFields = new String[] { "storetype.*" };
-		String[] excludeFields = new String[] { "storesettings.*" };
+		String[] includeFields = new String[] { "id","name" };
+		String[] excludeFields = new String[] { "store.*" };
 		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 		
 		searchSourceBuilder.query(termQuery("store.regNo", storeId));
