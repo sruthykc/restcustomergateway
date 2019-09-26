@@ -2134,7 +2134,7 @@ return deliveryInfoList.get(0);
  @Override public Page<StoreType> findStoreTypeByStoreId(String storeId,
 		  Pageable pageable) {
 	 
-	 
+	 System.out.println("hellllllllllllllllllllllo");
 	 
 	 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		String[] includeFields = new String[] { "storetype.*" };

@@ -388,11 +388,11 @@ public class QueryResource {
 		return queryService.findStoreByType(storeType, pageable);
 	}
 
-/*	@GetMapping("/store-type/{storeId}")
+	@GetMapping("/store-type/{storeId}")
 	public Page<StoreType> findStoreTypeByStoreId(@PathVariable String storeId, Pageable pageable) {
 		return queryService.findStoreTypeByStoreId(storeId, pageable);
 	}
-*/
+
 //worked
 	@GetMapping("/stores/banners")
 	public ResponseEntity<List<BannerDTO>> findStoreBanners(@RequestParam(required = false) Integer page,
