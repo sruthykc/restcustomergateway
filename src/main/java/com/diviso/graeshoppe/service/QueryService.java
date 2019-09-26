@@ -94,8 +94,12 @@ public interface QueryService {
 	public Order findOrderByOrderId(String orderId);
 
 	public DeliveryInfo findDeliveryInfoById(Long id);
-	 public Product findProductById(Long id);
-	 public Page<DeliveryInfo> findDeliveryInfoByStoreId(String storeId,Pageable pageable);
+
+	public Product findProductById(Long id);
+
+	public Page<DeliveryInfo> findDeliveryInfoByStoreId(String storeId, Pageable pageable);
+
+	public Page<StoreType> findStoreTypeByStoreId(String storeId, Pageable pageable);
 
 	/*
 	 * 
@@ -149,11 +153,11 @@ public interface QueryService {
 	 * 
 	 * public Page<StockCurrent> findAndSortProductByPrice(Double from, Double to);
 	 * 
-	
+	 * 
 	 * 
 	 * //public OrderMaster findOrderMasterByOrderId(String orderId);
 	 * 
-	 
+	 * 
 	 * 
 	 * public Page<Store> headerSearch(String searchTerm, Pageable pageable);
 	 * 
@@ -175,9 +179,7 @@ public interface QueryService {
 		 * @return
 		 */
 	/*
-	 * public Page<StoreType> findStoreTypeByStoreId(String storeId, Pageable
-	 * pageable);
-	 * 
+	 *
 	 *//**
 		 * @param name
 		 * @return

@@ -563,10 +563,11 @@ public class QueryServiceImpl implements QueryService {
 			SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 			/*
-			 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
-			 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
-			 * excludeFields);
-			 */
+			  String[] includeFields = new String[] { ""}; 
+			  String[] excludeFields =
+			  new String[] { "storeaddress.*","reviews.*" }; searchSourceBuilder.fetchSource(includeFields,
+			  excludeFields);*/
+			 
 			searchSourceBuilder.query(matchAllQuery());
 
 			SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(),
@@ -1955,6 +1956,36 @@ return deliveryInfoList.get(0);
 	 * 
 	 * return elasticsearchOperations.queryForPage(searchQuery, Store.class); }
 	 */
+/*@Override public Page<Store> findStoreByRating(Pageable pageable) {
+	  
+	SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+	String[] includeFields = new String[] { "iDPcode", "image" };
+	String[] excludeFields = new String[] { "category.*" };
+	searchSourceBuilder.fetchSource(includeFields, excludeFields);
+	
+	searchSourceBuilder.query(rangeQuery("totalRating").gte(1).lte(5));
+	  sourceBuilder.sort(new FieldSortBuilder("_id").order(SortOrder.ASC)); 
+
+	SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
+			searchSourceBuilder);
+	SearchResponse searchResponse = null;
+	try {
+		searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+	} catch (IOException e) { // TODO Auto-generated
+		e.printStackTrace();
+	}
+	return getStoreSearchResult(searchResponse, pageable);
+	}
+	 
+	
+	
+	SearchQuery searchQuery = new
+	  NativeSearchQueryBuilder().withQuery(rangeQuery("totalRating").gte(1).lte(5))
+	  .withSort(SortBuilders.fieldSort("totalRating").order(SortOrder.DESC)).build(
+	  );
+	  
+	  return elasticsearchOperations.queryForPage(searchQuery, Store.class); }
+	*/
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -2100,6 +2131,33 @@ return deliveryInfoList.get(0);
 	 * 
 	 * return elasticsearchOperations.queryForPage(searchQuery, StoreType.class); }
 	 */
+ @Override public Page<StoreType> findStoreTypeByStoreId(String storeId,
+		  Pageable pageable) {
+	 
+	 
+	 
+	 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		/*String[] includeFields = new String[] { "iDPcode", "image" };
+		String[] excludeFields = new String[] { "category.*" };
+		searchSourceBuilder.fetchSource(includeFields, excludeFields);
+		*/
+		searchSourceBuilder.query(termQuery("store.regNo", storeId));
+
+		SearchRequest searchRequest = generateSearchRequest("storetype", pageable.getPageSize(), pageable.getPageNumber(),
+				searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getStoreTypeSearchResult(searchResponse, pageable);
+
+	 
+ }
+ 
+ 
+ 
 	/*
 	 * (non-Javadoc)
 	 * 

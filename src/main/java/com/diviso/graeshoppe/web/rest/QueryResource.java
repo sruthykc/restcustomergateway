@@ -193,7 +193,7 @@ public class QueryResource {
 	public ResponseEntity<Page<UserRating>> findUserRatingByRegNo(@PathVariable String regNo,Pageable pageable) {
 		return ResponseEntity.ok().body(queryService.findUserRatingByRegNo(regNo,pageable));
 	}
-
+//worked
 	@GetMapping("/stores")
 	public ResponseEntity<Page<Store>> findAllStores(Pageable pageable) {
 		return ResponseEntity.ok().body(queryService.findAllStores(pageable));
@@ -393,6 +393,7 @@ public class QueryResource {
 		return queryService.findStoreTypeByStoreId(storeId, pageable);
 	}
 */
+//worked
 	@GetMapping("/stores/banners")
 	public ResponseEntity<List<BannerDTO>> findStoreBanners(@RequestParam(required = false) Integer page,
 			@RequestParam(required = false) Integer size,
