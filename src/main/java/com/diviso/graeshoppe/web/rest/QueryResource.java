@@ -157,7 +157,7 @@ public class QueryResource {
 	public ResponseEntity<ContactDTO> findContactById(@PathVariable Long id) {
 		return this.contactResourceApi.getContactUsingGET(id);
 	}
-
+//worked
 	@GetMapping("/findAllCategories/{iDPcode}")
 	public ResponseEntity<Page<Category>> findAllCategories(@PathVariable String iDPcode, Pageable pageable) {
 		return ResponseEntity.ok().body(queryService.findCategoryByIDPcode(iDPcode, pageable));
@@ -224,15 +224,15 @@ public class QueryResource {
 	public List<ResultBucket> findCategoryAndCount(Pageable pageable) {
 		return queryService.findCategoryAndCount(pageable);
 	}
-
-	/*@GetMapping("/findCategoryAndCountBystoreId/{storeId}")
+//priority1
+	@GetMapping("/findCategoryAndCountBystoreId/{storeId}")
 	public List<ResultBucket> findCategoryAndCountBystoreId(@PathVariable String storeId,Pageable pageable) {
 		
 		return queryService.findCategoryAndCountByStoreId(storeId,pageable);
 	}
 
 	
-	public Page<Product> findProductsByCategoryName(@PathVariable String name,Pageable pageable) {
+	/*public Page<Product> findProductsByCategoryName(@PathVariable String name,Pageable pageable) {
 		return queryService.findProductsByCategoryName(name, pageable);
 	}
 

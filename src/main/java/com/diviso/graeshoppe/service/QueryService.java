@@ -100,6 +100,8 @@ public interface QueryService {
 	public Page<DeliveryInfo> findDeliveryInfoByStoreId(String storeId, Pageable pageable);
 
 	public Page<StoreType> findStoreTypeByStoreId(String storeId, Pageable pageable);
+	
+	 public List<ResultBucket> findCategoryAndCountByStoreId(String storeId, Pageable pageable);
 
 	/*
 	 * 
@@ -237,8 +239,7 @@ public interface QueryService {
 		 * @return
 		 */
 	/*
-	 * public List<Entry> findCategoryAndCountByStoreId(String storeId, Pageable
-	 * pageable);
+	 
 	 * 
 	 *//**
 		 * @param statusName
