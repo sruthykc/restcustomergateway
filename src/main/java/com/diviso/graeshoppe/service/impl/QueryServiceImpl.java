@@ -210,6 +210,23 @@ public class QueryServiceImpl implements QueryService {
 		return new PageImpl(typeList, page, response.getHits().getTotalHits());
 
 	}
+	
+	private Page<StoreType> getStoreTypeSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<StoreType> storeTypeList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			storeTypeList.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class));
+		}
+
+		return new PageImpl(storeTypeList, page, response.getHits().getTotalHits());
+
+	}
+	
+	
+	
 	private Page<DeliveryInfo> getDeliveryInfoSearchResult(SearchResponse response, Pageable page) {
 
 		SearchHit[] searchHit = response.getHits().getHits();
@@ -880,7 +897,7 @@ public class QueryServiceImpl implements QueryService {
 	
 	
 
-	**********************************************************************************************
+//	**********************************************************************************************
 	//not completed// need clarifications
 	/*
 	 * @Override public List<Entry> findCategoryAndCountByStoreId(String
@@ -937,7 +954,7 @@ public class QueryServiceImpl implements QueryService {
 	 * return storeBasedEntry; }
 	 */
 	
-	 @Override
+	/* @Override
 	 public List<ResultBucket> findCategoryAndCountByStoreId(String storeId,Pageable pageable) {
 		List<ResultBucket> resultBucketList = new ArrayList<>();
 		SearchRequest searchRequest = new SearchRequest("product");
@@ -978,7 +995,7 @@ public class QueryServiceImpl implements QueryService {
 
 		return resultBucketList;
 		
-	}
+	}*/
 			
 	
 	
@@ -998,7 +1015,7 @@ public class QueryServiceImpl implements QueryService {
 	
 	
 	
-	**************************************************************************************************
+	//**************************************************************************************************
 	//completed // instead of List<Entry> to List<ResultBucket>
 	/*
 	 * public List<Entry> findStoreTypeAndCount(Pageable pageable) {
@@ -1059,7 +1076,7 @@ public class QueryServiceImpl implements QueryService {
 	  
 	  
 	   }
-	 ***************************************************************************************************
+	// ***************************************************************************************************
 	
 	 //completed
 	 /*
@@ -1161,7 +1178,7 @@ public class QueryServiceImpl implements QueryService {
 				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 			} catch (IOException e) { // TODO Auto-generated
 				e.printStackTrace();
-			
+			}
 			SearchHit[] searchHit = searchResponse.getHits().getHits();
 
 			List<UserRating> userRatingList = new ArrayList<>();
@@ -1169,9 +1186,10 @@ public class QueryServiceImpl implements QueryService {
 			for (SearchHit hit : searchHit) {
 				userRatingList.add(objectMapper.convertValue(hit.getSourceAsMap(), UserRating.class));
 			}
-		return 	userRatingList.get(0);
+		
 		 
-	 }
+	 
+			 return 	userRatingList.get(0);
 	 }
 	 
 	 
@@ -1336,11 +1354,11 @@ public Page<StockCurrent> findAllStockCurrentByProductNameStoreId(String product
 	 
 	 
 	 
-	 ************************************************************************************************
+	 //************************************************************************************************
 	 
 	 
 	 
-	........................................................................................... 
+	//........................................................................................... 
 	/*
 	 * @Override public Page<Address> findByCustomerId(String customerId, Pageable
 	 * pageable) { log.info("Customer Id is " + customerId); SearchQuery searchQuery
@@ -1350,7 +1368,7 @@ public Page<StockCurrent> findAllStockCurrentByProductNameStoreId(String product
 	 * .build(); return elasticsearchOperations.queryForPage(searchQuery,
 	 * Address.class); }
 	 */
-	......................................................................................
+	//......................................................................................
 //completed
 	/*
 	 * @Override public Order findById(Long id) {
@@ -1580,7 +1598,7 @@ public Page<Product> findProductByStoreIdAndCategoryName(String userId, String c
 		 
 	 }
 		 
-**************************************************************************************************************
+//**************************************************************************************************************
 
 
 
@@ -1665,7 +1683,7 @@ public Page<Product> findProductByStoreIdAndCategoryName(String userId, String c
 	 * 
 	 * }
 	 */
-******************************************************************************************************
+//******************************************************************************************************
 //complete	
 /*
 	 * @Override public List<OrderLine> findOrderLinesByOrderId(Long orderId) {
@@ -1804,7 +1822,7 @@ for (SearchHit hit : searchHit) {
 }
 return orderList.get(0);
 }
-***********************************************************************************************
+//***********************************************************************************************
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1833,7 +1851,7 @@ return orderList.get(0);
 	 * 
 	 * }
 	 */
-***********************************************************************************************************
+//***********************************************************************************************************
 	//complete
 /*
 	 * (non-Javadoc)
@@ -1919,7 +1937,7 @@ return deliveryInfoList.get(0);
 }
 
 
-*****************************************************************************************
+//*****************************************************************************************
 
 	/*
 	 * (non-Javadoc)
@@ -1957,7 +1975,7 @@ return deliveryInfoList.get(0);
 	 * 
 	 * }
 	 */
-&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1995,7 +2013,7 @@ return deliveryInfoList.get(0);
 	return getDeliveryInfoSearchResult(searchResponse, pageable);
 
 }
-&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 	/*
 	 * public Page<Store> headerSearch(String searchTerm, Pageable pageable) {
 	 * Set<Store> storeSet = new HashSet<Store>(); Set<HeaderSearch> values = new
@@ -2054,7 +2072,7 @@ return deliveryInfoList.get(0);
 	 * 
 	 * return elasticsearchOperations.queryForPage(searchQuery, Store.class); }
 	 */
-&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 	/*
 	 * @Override public Page<Store> findAndSortStoreByMinAount(Pageable pageable) {
 	 * SearchQuery searchQuery = new
@@ -2065,7 +2083,7 @@ return deliveryInfoList.get(0);
 	 * 
 	 * }
 	 */
-&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 	/*
 	 * (non-Javadoc)
 	 * 
