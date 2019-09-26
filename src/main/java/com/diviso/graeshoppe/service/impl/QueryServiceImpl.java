@@ -507,6 +507,8 @@ public class QueryServiceImpl implements QueryService {
 
 		for (SearchHit hit : searchHit) {
 			categoryList.add(objectMapper.convertValue(hit.getSourceAsMap(), Category.class));
+			System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"+categoryList.get(0));
+			System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"+categoryList.size());
 		}
 
 		return new PageImpl(categoryList, page, response.getHits().getTotalHits());
@@ -1533,6 +1535,7 @@ public Page<StockCurrent> findAllStockCurrentByProductNameStoreId(String product
 			 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
 			 * excludeFields);
 			 */
+		 System.out.println("helllllllllllllllllllllllllo");
 			searchSourceBuilder.query(termQuery("iDPcode", iDPcode));
 
 			SearchRequest searchRequest =
@@ -2134,7 +2137,6 @@ return deliveryInfoList.get(0);
  @Override public Page<StoreType> findStoreTypeByStoreId(String storeId,
 		  Pageable pageable) {
 	 
-	 System.out.println("hellllllllllllllllllllllo");
 	 
 	 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		String[] includeFields = new String[] { "id","name" };

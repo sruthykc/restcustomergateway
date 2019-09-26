@@ -387,7 +387,7 @@ public class QueryResource {
 
 		return queryService.findStoreByType(storeType, pageable);
 	}
-
+//worked
 	@GetMapping("/store-type/{storeId}")
 	public Page<StoreType> findStoreTypeByStoreId(@PathVariable String storeId, Pageable pageable) {
 		return queryService.findStoreTypeByStoreId(storeId, pageable);
