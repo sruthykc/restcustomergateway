@@ -1539,7 +1539,7 @@ public Page<StockCurrent> findAllStockCurrentByProductNameStoreId(String product
 			searchSourceBuilder.query(termQuery("iDPcode", iDPcode));
 
 			SearchRequest searchRequest =
-					generateSearchRequest("storetype", pageable.getPageSize(), pageable.getPageNumber(),
+					generateSearchRequest("category", pageable.getPageSize(), pageable.getPageNumber(),
 							searchSourceBuilder);
 			SearchResponse searchResponse = null;
 			try {
