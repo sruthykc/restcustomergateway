@@ -2137,10 +2137,10 @@ return deliveryInfoList.get(0);
 	 
 	 
 	 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		/*String[] includeFields = new String[] { "iDPcode", "image" };
-		String[] excludeFields = new String[] { "category.*" };
+		String[] includeFields = new String[] { "storetype.*" };
+		String[] excludeFields = new String[] { "storesettings.*" };
 		searchSourceBuilder.fetchSource(includeFields, excludeFields);
-		*/
+		
 		searchSourceBuilder.query(termQuery("store.regNo", storeId));
 
 		SearchRequest searchRequest = generateSearchRequest("storetype", pageable.getPageSize(), pageable.getPageNumber(),
