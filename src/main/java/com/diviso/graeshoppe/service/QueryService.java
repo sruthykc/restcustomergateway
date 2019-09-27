@@ -27,7 +27,7 @@ import com.diviso.graeshoppe.client.store.domain.StoreSettings;
 import com.diviso.graeshoppe.client.store.domain.StoreType;
 import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
-import com.diviso.graeshoppe.domain.ResultBucket;
+import com.diviso.graeshoppe.domain.*;
 
 //import io.searchbox.core.search.aggregation.TermsAggregation.Entry;
 
@@ -105,7 +105,7 @@ public interface QueryService {
 	 public List<ResultBucket> findCategoryAndCountByStoreId(String storeId, Pageable pageable);
 	 public Page<Store> headerSearch(String searchTerm, Pageable pageable)throws IOException;
 
-	  Page<Store> findByLocationNear(/*Double lat,Double lon, Double distance,*/ Pageable
+	  Page<Cart> findByLocationNear(/*Double lat,Double lon, Double distance,*/ Pageable
 	 pageable);
 	/*
 	 * 

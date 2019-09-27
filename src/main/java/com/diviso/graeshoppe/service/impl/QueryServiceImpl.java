@@ -120,27 +120,6 @@ public class QueryServiceImpl implements QueryService {
 
 	}
 	
-	public Page<Store> findAll(String searchTerm, Pageable pageable) {
-
-		// System.out.println("findAllProductBySearchTerm>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		String[] includeFields = new String[] { "regNo", "name" };
-		String[] excludeFields = new String[] { "storesetting.*" };
-		searchSourceBuilder.fetchSource(includeFields, excludeFields);
-
-		searchSourceBuilder.query(matchQuery("name", searchTerm));
-
-		SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
-				searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-		}
-		return getStoreSearchResult(searchResponse, pageable);
-
-	}
 	
 	
 	
@@ -256,6 +235,24 @@ public class QueryServiceImpl implements QueryService {
 		return new PageImpl(storeTypeList, page, response.getHits().getTotalHits());
 
 	}
+	
+	private Page<Cart> getCartSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<Cart> cartList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			cartList.add(objectMapper.convertValue(hit.getSourceAsMap(), Cart.class));
+		}
+
+		return new PageImpl(cartList, page, response.getHits().getTotalHits());
+
+	}
+
+	
+	
+	
 
 	private Page<DeliveryInfo> getDeliveryInfoSearchResult(SearchResponse response, Pageable page) {
 
@@ -2140,7 +2137,7 @@ return	 findStoresByRegNoList(values,pageable);
 	
 	
 	
-	  @Override public Page<Store> findByLocationNear(/*Double lat,Double lon, Double distance
+	  @Override public Page<Cart> findByLocationNear(/*Double lat,Double lon, Double distance
 	  ,*/ Pageable pageable) { 
 		  SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		
@@ -2156,7 +2153,7 @@ return	 findStoresByRegNoList(values,pageable);
 			} catch (IOException e) { // TODO Auto-generated
 				e.printStackTrace();
 			}
-			return getStoreSearchResult(searchResponse, pageable);  
+			return getCartSearchResult(searchResponse, pageable);  
 		
 	/*  storeSearchRepository.findByLocationNear(point,distance,pageable);*/ }
 	 

@@ -62,7 +62,7 @@ import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.client.store.model.BannerDTO;
 import com.diviso.graeshoppe.client.store.model.StoreTypeDTO;
-import com.diviso.graeshoppe.domain.ResultBucket;
+import com.diviso.graeshoppe.domain.*;
 import com.diviso.graeshoppe.service.QueryService;
 import com.diviso.graeshoppe.service.dto.PdfDTO;
 
@@ -292,7 +292,7 @@ public class QueryResource {
 		return queryService.findStoreBySearchTerm(searchTerm, pageable);
 	}
 	@GetMapping("/near")
-	public Page<Store> findStoreBySear( Pageable pageable) {
+	public Page<Cart> findStoreBySear( Pageable pageable) {
 		return queryService.findByLocationNear( pageable);
 	}
 	@GetMapping("/review-count")
