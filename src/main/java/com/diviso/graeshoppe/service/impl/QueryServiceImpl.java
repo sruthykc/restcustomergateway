@@ -2082,7 +2082,7 @@ return	 findStoresByRegNoList(values,pageable);
 	
 	private SearchRequest generateSearchRequest1( Integer totalElement, Integer pageNumber,
 			SearchSourceBuilder sourceBuilder) {
-		SearchRequest searchRequest = new SearchRequest("category");
+		SearchRequest searchRequest = new SearchRequest("store","product","category");
 
 		int offset = 0;
 		int totalElements = 0;
