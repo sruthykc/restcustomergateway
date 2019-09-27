@@ -2008,7 +2008,7 @@ public class QueryServiceImpl implements QueryService {
 		Set<HeaderSearch> values = new HashSet<HeaderSearch>();
 		
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(matchQuery("name", searchTerm));
+		searchSourceBuilder.query(matchQuery("name", "Spice India"));
 		
 		 System.out.println("************indexnamee*****************" );
 
