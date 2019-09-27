@@ -2055,8 +2055,11 @@ public class QueryServiceImpl implements QueryService {
 		}
 		
 		SearchHit[] searchHit = searchResponse.getHits().getHits();
-		 System.out.println("ddddddddddddddddddddddddddddddddddddddd**********"+	 searchHit.length);
+		// System.out.println("ddddddddddddddddddddddddddddddddddddddd**********"+	 searchHit.length);
 		 for (SearchHit hit : searchHit) {
+			 String h=hit.getSourceAsString();
+			 System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"+h);
+			 System.out.println("************else index*****************" + hit.getIndex());
 			 HeaderSearch result = new HeaderSearch();
 			 Map<String, Object> sourceAsMap = hit.getSourceAsMap();
 			/*	 if (	hit.getIndex().equals("store")) {
