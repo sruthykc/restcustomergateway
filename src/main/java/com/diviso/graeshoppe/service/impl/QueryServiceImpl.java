@@ -2039,9 +2039,9 @@ public class QueryServiceImpl implements QueryService {
 		Set<Store> storeSet = new HashSet<Store>(); 
 		Set<HeaderSearch> values = new HashSet<HeaderSearch>();
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		String[] includeFields = new String[] { "regNo", "name" };
-		String[] excludeFields = new String[] { "storesetting.*" };
-		searchSourceBuilder.fetchSource(includeFields, excludeFields);
+		/*String[] includeFields = new String[] { "regNo", "name" };
+		String[] excludeFields = new String[] { "storesetting.*" };*/
+	//	searchSourceBuilder.fetchSource(includeFields, excludeFields);
 
 		searchSourceBuilder.query(matchQuery("name", searchTerm));
 
