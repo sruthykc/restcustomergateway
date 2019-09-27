@@ -2012,7 +2012,7 @@ public class QueryServiceImpl implements QueryService {
 		
 		 System.out.println("************indexnamee*****************" );
 
-		SearchRequest searchRequest = new SearchRequest("store","product","category");
+		SearchRequest searchRequest = new SearchRequest("store");
 		searchRequest.source(searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -2023,13 +2023,18 @@ public class QueryServiceImpl implements QueryService {
 
 		SearchHit[] searchHit = searchResponse.getHits().getHits();
 		 System.out.println("ddddddddddddddddddddddddddddddddddddddd**********"+	 searchHit.length);
+		 List<Store> productList = new ArrayList<>();
 
-		for (SearchHit hit : searchHit) {
+			for (SearchHit hit : searchHit) {
+				productList.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
+			}
+			System.out.println(	"EEEEEEEEEEEEEEEEEEEEEEEEEEEE"+productList.get(0));
+	/*	for (SearchHit hit : searchHit) {
 
 			//HeaderSearch result = new HeaderSearch();
 			 System.out.println("************indexnamee*****************" +hit.getIndex());
 			 System.out.println("************indexnamee*****************" +hit.field("regNo").toString());
-		}
+		}*/
 
 			/*if (	hit.getIndex().equals("store")) {
 				  result.setStoreNo(hit.field("regNo").toString());//hit.source.get("regNo").getAsString());
