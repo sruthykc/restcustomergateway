@@ -103,7 +103,7 @@ public interface QueryService {
 	public Page<StoreType> findStoreTypeByStoreId(String storeId, Pageable pageable);
 	
 	 public List<ResultBucket> findCategoryAndCountByStoreId(String storeId, Pageable pageable);
-	 public Page<Store> headerSearch(String searchTerm, Pageable pageable)throws IOException;
+	 public /*Page<Store> */ void headerSearch(String searchTerm, Pageable pageable)throws IOException;
 
 	/*
 	 * 

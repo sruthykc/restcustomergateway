@@ -2034,7 +2034,7 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
-	public Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException {
+	public /*Page<Store>*/ void headerSearch(String searchTerm, Pageable pageable) throws IOException {
 		
 		Set<Store> storeSet = new HashSet<Store>(); 
 		Set<HeaderSearch> values = new HashSet<HeaderSearch>();
@@ -2059,23 +2059,26 @@ public class QueryServiceImpl implements QueryService {
 		 for (SearchHit hit : searchHit) {
 			 HeaderSearch result = new HeaderSearch();
 			 Map<String, Object> sourceAsMap = hit.getSourceAsMap();
-			 if (	hit.getIndex().equals("store")) {
+			/*	 if (	hit.getIndex().equals("store")) {
 				  result.setStoreNo((String) sourceAsMap.get("regNo"));
 				  System.out.println("************Store*****************" + result.getStoreNo()); }
 			else { System.out.println("************else index*****************" + hit.getIndex());
-			
+			*/
 			System.out.println("************else IDP*****************" +(String) sourceAsMap.get("iDPcode")); 
 			
 				  result.setStoreNo((String) sourceAsMap.get("iDPcode")); 
+				  
+				  
+				  System.out.println("************Category Store*****************" + result.getStoreNo()); 
 				  }
 				  
-				  values.add(result);
+				  //values.add(result);
 				  }
 		 
 		 
 		 
-	return	 findStoresByRegNoList(values,pageable);
-			}
+//	return	 findStoresByRegNoList(values,pageable);
+			
 		 
 		 
 		 
@@ -2085,7 +2088,7 @@ public class QueryServiceImpl implements QueryService {
 	
 	private SearchRequest generateSearchRequest1( Integer totalElement, Integer pageNumber,
 			SearchSourceBuilder sourceBuilder) {
-		SearchRequest searchRequest = new SearchRequest("store","product","category");
+		SearchRequest searchRequest = new SearchRequest("category");
 
 		int offset = 0;
 		int totalElements = 0;
