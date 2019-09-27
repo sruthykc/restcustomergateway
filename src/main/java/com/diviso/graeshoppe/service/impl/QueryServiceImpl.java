@@ -2145,7 +2145,7 @@ return	 findStoresByRegNoList(values,pageable);
 			          .point(10.767, 76.486)
 			          .distance(5, DistanceUnit.KILOMETERS));
 
-			SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
+			SearchRequest searchRequest = generateSearchRequest("cart", pageable.getPageSize(), pageable.getPageNumber(),
 					searchSourceBuilder);
 			SearchResponse searchResponse = null;
 			try {
