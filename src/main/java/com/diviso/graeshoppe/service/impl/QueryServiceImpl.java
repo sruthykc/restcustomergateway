@@ -2081,7 +2081,7 @@ public class QueryServiceImpl implements QueryService {
 	
 		
 		//return  findStoresByRegNoList( values, pageable ); 
-		return null;
+	//	return null;
 	
 				  
 	
