@@ -348,8 +348,8 @@ public class QueryResource {
 	}
 
 	@GetMapping("/header/{searchTerm}")
-	public /*Page<Store>*/  void header(@PathVariable("searchTerm") String searchTerm, Pageable pageable)throws IOException {
-		 queryService.headerSearch(searchTerm, pageable);
+	public Page<Store> header(@PathVariable("searchTerm") String searchTerm, Pageable pageable)throws IOException {
+		return queryService.headerSearch(searchTerm, pageable);
 	}
 
 /*	@GetMapping("/storeByRating")

@@ -2034,15 +2034,12 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
-	public /*Page<Store>*/ void headerSearch(String searchTerm, Pageable pageable) throws IOException {
+	public Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException {
 		
 		Set<Store> storeSet = new HashSet<Store>(); 
 		Set<HeaderSearch> values = new HashSet<HeaderSearch>();
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		/*String[] includeFields = new String[] { "regNo", "name" };
-		String[] excludeFields = new String[] { "storesetting.*" };*/
-	//	searchSourceBuilder.fetchSource(includeFields, excludeFields);
-
+		
 		searchSourceBuilder.query(matchQuery("name", searchTerm));
 
 		SearchRequest searchRequest = generateSearchRequest1( pageable.getPageSize(), pageable.getPageNumber(),
@@ -2055,34 +2052,28 @@ public class QueryServiceImpl implements QueryService {
 		}
 		
 		SearchHit[] searchHit = searchResponse.getHits().getHits();
-		// System.out.println("ddddddddddddddddddddddddddddddddddddddd**********"+	 searchHit.length);
+
 		 for (SearchHit hit : searchHit) {
 			 String h=hit.getSourceAsString();
-			 System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"+h);
-			 System.out.println("************else index*****************" + hit.getIndex());
 			 HeaderSearch result = new HeaderSearch();
 			 Map<String, Object> sourceAsMap = hit.getSourceAsMap();
-			/*	 if (	hit.getIndex().equals("store")) {
+			 
+				 if (	hit.getIndex().equals("store")) {
 				  result.setStoreNo((String) sourceAsMap.get("regNo"));
-				  System.out.println("************Store*****************" + result.getStoreNo()); }
-			else { System.out.println("************else index*****************" + hit.getIndex());
-			*/
-			System.out.println("************else IDP*****************" +(String) sourceAsMap.get("iDPcode")); 
+			 }
+			else { 
 			
-				  result.setStoreNo((String) sourceAsMap.get("iDPcode")); 
+			  result.setStoreNo((String) sourceAsMap.get("iDPcode")); 
+				 }
 				  
-				  
-				  System.out.println("************Category Store*****************" + result.getStoreNo()); 
-				  }
-				  
-				  //values.add(result);
+				  values.add(result);
 				  }
 		 
 		 
 		 
-//	return	 findStoresByRegNoList(values,pageable);
+return	 findStoresByRegNoList(values,pageable);
 			
-		 
+	}		 
 		 
 		 
 	
