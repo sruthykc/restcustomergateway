@@ -2022,7 +2022,7 @@ public class QueryServiceImpl implements QueryService {
 		}
 
 		SearchHit[] searchHit = searchResponse.getHits().getHits();
-
+		 System.out.println("ddddddddddddddddddddddddddddddddddddddd**********"+	 searchHit.length);
 
 		for (SearchHit hit : searchHit) {
 
