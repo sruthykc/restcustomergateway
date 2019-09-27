@@ -2060,6 +2060,7 @@ public class QueryServiceImpl implements QueryService {
 				 System.out.println("************getttttttindexnamee*****************" +hit.getIndex());
 				 System.out.println("************regNo*****************" +hit.field("regNo").toString());
 			}
+		 return null;
 	/*	Set<HeaderSearch> values = new HashSet<HeaderSearch>();
 		
 		
