@@ -2009,8 +2009,10 @@ public class QueryServiceImpl implements QueryService {
 		
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(matchQuery("name", searchTerm));
+		
+		 System.out.println("************indexnamee*****************" );
 
-		SearchRequest searchRequest = new SearchRequest("_all");
+		SearchRequest searchRequest = new SearchRequest("store","product","category");
 		searchRequest.source(searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
