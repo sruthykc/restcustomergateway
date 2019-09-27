@@ -2036,7 +2036,8 @@ public class QueryServiceImpl implements QueryService {
 	 */
 	public Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException {
 		
-	
+		Set<Store> storeSet = new HashSet<Store>(); 
+		Set<HeaderSearch> values = new HashSet<HeaderSearch>();
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		String[] includeFields = new String[] { "regNo", "name" };
 		String[] excludeFields = new String[] { "storesetting.*" };
@@ -2056,58 +2057,28 @@ public class QueryServiceImpl implements QueryService {
 		SearchHit[] searchHit = searchResponse.getHits().getHits();
 		 System.out.println("ddddddddddddddddddddddddddddddddddddddd**********"+	 searchHit.length);
 		 for (SearchHit hit : searchHit) {
-			  Map<String, Object> sourceAsMap = hit.getSourceAsMap();
-              String d = (String) sourceAsMap.get("regNo");
-				//HeaderSearch result = new HeaderSearch();
-				 System.out.println("************getttttttindexnamee*****************" +hit.getIndex());
-				 System.out.println("************regNo*****************" +d);
-		
-				 
-				 
-			}
-		 
-		 
-		 
-		 return null;
-	/*	Set<HeaderSearch> values = new HashSet<HeaderSearch>();
-		
-		
-	
-
-		SearchHit[] searchHit = searchResponse.getHits().getHits();
-		 System.out.println("ddddddddddddddddddddddddddddddddddddddd**********"+	 searchHit.length);
-		 List<Store> productList = new ArrayList<>();
-
-			for (SearchHit hit : searchHit) {
-				productList.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
-			}
-			System.out.println(	"EEEEEEEEEEEEEEEEEEEEEEEEEEEE"+productList.get(0));*/
-	/*	for (SearchHit hit : searchHit) {
-
-			//HeaderSearch result = new HeaderSearch();
-			 System.out.println("************indexnamee*****************" +hit.getIndex());
-			 System.out.println("************indexnamee*****************" +hit.field("regNo").toString());
-		}*/
-
-			/*if (	hit.getIndex().equals("store")) {
-				  result.setStoreNo(hit.field("regNo").toString());//hit.source.get("regNo").getAsString());
+			 HeaderSearch result = new HeaderSearch();
+			 Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+			 if (	hit.getIndex().equals("store")) {
+				  result.setStoreNo((String) sourceAsMap.get("regNo"));
 				  System.out.println("************Store*****************" + result.getStoreNo()); }
 			else {
-				  result.setStoreNo(hit.field("regNo").toString()); }
+				  result.setStoreNo((String) sourceAsMap.get("iDPcode")); 
+				  }
 				  
 				  values.add(result);
 				  }
-	*/
-	
-	
-		
-		//return  findStoresByRegNoList( values, pageable ); 
-	//	return null;
-	
-				  
+		 
+		 
+		 
+	return	 findStoresByRegNoList(values,pageable);
+			}
+		 
+		 
+		 
 	
 					
-	}
+	
 	
 	private SearchRequest generateSearchRequest1( Integer totalElement, Integer pageNumber,
 			SearchSourceBuilder sourceBuilder) {
