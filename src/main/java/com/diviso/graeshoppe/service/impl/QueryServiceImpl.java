@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -2055,11 +2056,18 @@ public class QueryServiceImpl implements QueryService {
 		SearchHit[] searchHit = searchResponse.getHits().getHits();
 		 System.out.println("ddddddddddddddddddddddddddddddddddddddd**********"+	 searchHit.length);
 		 for (SearchHit hit : searchHit) {
-
+			  Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+              String d = (String) sourceAsMap.get("regNo");
 				//HeaderSearch result = new HeaderSearch();
 				 System.out.println("************getttttttindexnamee*****************" +hit.getIndex());
-				 System.out.println("************regNo*****************" +hit.field("regNo").toString());
+				 System.out.println("************regNo*****************" +d);
+		
+				 
+				 
 			}
+		 
+		 
+		 
 		 return null;
 	/*	Set<HeaderSearch> values = new HashSet<HeaderSearch>();
 		
