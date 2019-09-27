@@ -291,7 +291,10 @@ public class QueryResource {
 	public Page<Store> findStoreBySearchTerm(@PathVariable String searchTerm, Pageable pageable) {
 		return queryService.findStoreBySearchTerm(searchTerm, pageable);
 	}
-
+	@GetMapping("/near")
+	public Page<Store> findStoreBySear( Pageable pageable) {
+		return queryService.findByLocationNear( pageable);
+	}
 	@GetMapping("/review-count")
 	public Long findReviewCountByStoreId(String storeId) {
 		Long l=queryService.findReviewCountByStoreId(storeId);
@@ -346,7 +349,7 @@ public class QueryResource {
 	public UserRating findRatingByCustomerName(@PathVariable String name) {
 		return queryService.findRatingByStoreId(name);
 	}
-
+//complete
 	@GetMapping("/header/{searchTerm}")
 	public Page<Store> header(@PathVariable("searchTerm") String searchTerm, Pageable pageable)throws IOException {
 		return queryService.headerSearch(searchTerm, pageable);

@@ -105,6 +105,8 @@ public interface QueryService {
 	 public List<ResultBucket> findCategoryAndCountByStoreId(String storeId, Pageable pageable);
 	 public Page<Store> headerSearch(String searchTerm, Pageable pageable)throws IOException;
 
+	  Page<Store> findByLocationNear(/*Double lat,Double lon, Double distance,*/ Pageable
+	 pageable);
 	/*
 	 * 
 	 * 
@@ -166,8 +168,6 @@ public interface QueryService {
 	 * 
 	 * 
 	 * 
-	 * Page<Store> findByLocationNear(Point point, Distance distance, Pageable
-	 * pageable);
 	 * 
 	 * public Page<Store> findStoreByLocationName(String locationName);
 	 * 

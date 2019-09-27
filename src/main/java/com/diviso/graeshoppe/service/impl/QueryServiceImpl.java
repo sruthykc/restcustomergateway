@@ -28,6 +28,7 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.core.CountRequest;
 import org.elasticsearch.client.core.CountResponse;
+import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -2091,19 +2092,13 @@ return	 findStoresByRegNoList(values,pageable);
 			offset = 0;
 			totalElements = totalElement;
 
-			// System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in
-			// 00000000Page" + offset);
-			// System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in
-			// 00000000Page" + totalElements);
+		
 		} else {
 
 			offset = totalElements;
 
 			totalElements = totalElement + (pageNumber * totalElement);
-			// System.out.println("****************************offset in else Page"+offset);
-			// System.out.println("************************totalelements in else
-			// Page"+totalElements);
-
+			
 		}
 		sourceBuilder.from(offset);
 		sourceBuilder.size(totalElements);
@@ -2144,15 +2139,31 @@ return	 findStoresByRegNoList(values,pageable);
 	
 	
 	
-	/*
-	 * @Override public Page<Store> findByLocationNear(Point point, Distance
-	 * distance, Pageable pageable) { // TODO Auto-generated method stub return
-	 * storeSearchRepository.findByLocationNear(point,distance,pageable); }
-	 */
+	
+	  @Override public Page<Store> findByLocationNear(/*Double lat,Double lon, Double distance
+	  ,*/ Pageable pageable) { 
+		  SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		
+			searchSourceBuilder.query( QueryBuilders.geoDistanceQuery("location")
+			          .point(10.767, 76.486)
+			          .distance(5, DistanceUnit.KILOMETERS));
+
+			SearchRequest searchRequest = generateSearchRequest("deliveryinfo", pageable.getPageSize(), pageable.getPageNumber(),
+					searchSourceBuilder);
+			SearchResponse searchResponse = null;
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			}
+			return getStoreSearchResult(searchResponse, pageable);  
+		
+	/*  storeSearchRepository.findByLocationNear(point,distance,pageable);*/ }
+	 
 
 	/*
-	 * private CriteriaQuery getGeoQuery(Point point, Distance distance) { return
-	 * new CriteriaQuery(new Criteria("location").within(point, distance)); }
+	  private CriteriaQuery getGeoQuery(Point point, Distance distance) { return
+	  new CriteriaQuery(new Criteria("location").within(point, distance)); }
 	 */
 
 	/*
