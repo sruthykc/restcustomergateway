@@ -2062,7 +2062,10 @@ public class QueryServiceImpl implements QueryService {
 			 if (	hit.getIndex().equals("store")) {
 				  result.setStoreNo((String) sourceAsMap.get("regNo"));
 				  System.out.println("************Store*****************" + result.getStoreNo()); }
-			else {
+			else { System.out.println("************else index*****************" + hit.getIndex());
+			
+			System.out.println("************else IDP*****************" +(String) sourceAsMap.get("iDPcode")); 
+			
 				  result.setStoreNo((String) sourceAsMap.get("iDPcode")); 
 				  }
 				  
