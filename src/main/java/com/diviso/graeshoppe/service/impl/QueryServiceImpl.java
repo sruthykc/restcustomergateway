@@ -2035,23 +2035,35 @@ public class QueryServiceImpl implements QueryService {
 	 */
 	public Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException {
 		
-		return findAll(searchTerm,pageable);
-		
-	/*	Set<HeaderSearch> values = new HashSet<HeaderSearch>();
-		
+	
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(matchQuery("name", "Spice India"));
-		
-		 System.out.println("************indexnamee*****************" );
+		String[] includeFields = new String[] { "regNo", "name" };
+		String[] excludeFields = new String[] { "storesetting.*" };
+		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 
-		SearchRequest searchRequest = new SearchRequest("store");
-		searchRequest.source(searchSourceBuilder);
+		searchSourceBuilder.query(matchQuery("name", searchTerm));
+
+		SearchRequest searchRequest = generateSearchRequest1( pageable.getPageSize(), pageable.getPageNumber(),
+				searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
+		
+		SearchHit[] searchHit = searchResponse.getHits().getHits();
+		 System.out.println("ddddddddddddddddddddddddddddddddddddddd**********"+	 searchHit.length);
+		 for (SearchHit hit : searchHit) {
+
+				//HeaderSearch result = new HeaderSearch();
+				 System.out.println("************getttttttindexnamee*****************" +hit.getIndex());
+				 System.out.println("************regNo*****************" +hit.field("regNo").toString());
+			}
+	/*	Set<HeaderSearch> values = new HashSet<HeaderSearch>();
+		
+		
+	
 
 		SearchHit[] searchHit = searchResponse.getHits().getHits();
 		 System.out.println("ddddddddddddddddddddddddddddddddddddddd**********"+	 searchHit.length);
@@ -2088,7 +2100,37 @@ public class QueryServiceImpl implements QueryService {
 					
 	}
 	
-	
+	private SearchRequest generateSearchRequest1( Integer totalElement, Integer pageNumber,
+			SearchSourceBuilder sourceBuilder) {
+		SearchRequest searchRequest = new SearchRequest("store","product","category");
+
+		int offset = 0;
+		int totalElements = 0;
+
+		if (pageNumber == 0) {
+			offset = 0;
+			totalElements = totalElement;
+
+			// System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in
+			// 00000000Page" + offset);
+			// System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in
+			// 00000000Page" + totalElements);
+		} else {
+
+			offset = totalElements;
+
+			totalElements = totalElement + (pageNumber * totalElement);
+			// System.out.println("****************************offset in else Page"+offset);
+			// System.out.println("************************totalelements in else
+			// Page"+totalElements);
+
+		}
+		sourceBuilder.from(offset);
+		sourceBuilder.size(totalElements);
+
+		searchRequest.source(sourceBuilder);
+		return searchRequest;
+	}
 	public Page<Store> findStoresByRegNoList(Set<HeaderSearch> values,Pageable pageable ) throws IOException{
 		Set<Store> storeSet = new HashSet<Store>(); 
 		SearchResponse searchResponse = null;
