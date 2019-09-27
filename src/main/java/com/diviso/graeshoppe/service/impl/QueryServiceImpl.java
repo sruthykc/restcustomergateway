@@ -2024,9 +2024,12 @@ public class QueryServiceImpl implements QueryService {
 
 		for (SearchHit hit : searchHit) {
 
-			HeaderSearch result = new HeaderSearch();
+			//HeaderSearch result = new HeaderSearch();
+			 System.out.println("************indexnamee*****************" +hit.getIndex());
+			 System.out.println("************indexnamee*****************" +hit.field("regNo").toString());
+		}
 
-			if (	hit.getIndex().equals("store")) {
+			/*if (	hit.getIndex().equals("store")) {
 				  result.setStoreNo(hit.field("regNo").toString());//hit.source.get("regNo").getAsString());
 				  System.out.println("************Store*****************" + result.getStoreNo()); }
 			else {
@@ -2034,12 +2037,12 @@ public class QueryServiceImpl implements QueryService {
 				  
 				  values.add(result);
 				  }
-	
+	*/
 	
 	
 		
-		return  findStoresByRegNoList( values, pageable ); 
-		
+		//return  findStoresByRegNoList( values, pageable ); 
+		return null;
 	
 				  
 	
