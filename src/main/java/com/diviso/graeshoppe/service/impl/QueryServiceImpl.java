@@ -117,6 +117,36 @@ public class QueryServiceImpl implements QueryService {
 		return getProductSearchResult(searchResponse, pageable);
 
 	}
+	
+	public Page<Store> findAll(String searchTerm, Pageable pageable) {
+
+		// System.out.println("findAllProductBySearchTerm>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		String[] includeFields = new String[] { "regNo", "name" };
+		String[] excludeFields = new String[] { "storesetting.*" };
+		searchSourceBuilder.fetchSource(includeFields, excludeFields);
+
+		searchSourceBuilder.query(matchQuery("name", searchTerm));
+
+		SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
+				searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getStoreSearchResult(searchResponse, pageable);
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 	private SearchRequest generateSearchRequest(String indexName, Integer totalElement, Integer pageNumber,
 			SearchSourceBuilder sourceBuilder) {
@@ -2005,7 +2035,9 @@ public class QueryServiceImpl implements QueryService {
 	 */
 	public Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException {
 		
-		Set<HeaderSearch> values = new HashSet<HeaderSearch>();
+		return findAll(searchTerm,pageable);
+		
+	/*	Set<HeaderSearch> values = new HashSet<HeaderSearch>();
 		
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(matchQuery("name", "Spice India"));
@@ -2028,7 +2060,7 @@ public class QueryServiceImpl implements QueryService {
 			for (SearchHit hit : searchHit) {
 				productList.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
 			}
-			System.out.println(	"EEEEEEEEEEEEEEEEEEEEEEEEEEEE"+productList.get(0));
+			System.out.println(	"EEEEEEEEEEEEEEEEEEEEEEEEEEEE"+productList.get(0));*/
 	/*	for (SearchHit hit : searchHit) {
 
 			//HeaderSearch result = new HeaderSearch();
