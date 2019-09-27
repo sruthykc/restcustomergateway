@@ -1,5 +1,6 @@
 package com.diviso.graeshoppe.web.rest;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -346,7 +347,10 @@ public class QueryResource {
 		return queryService.findRatingByStoreId(name);
 	}
 
-	
+	@GetMapping("/header/{searchTerm}")
+	public Page<Store> header(@PathVariable("searchTerm") String searchTerm, Pageable pageable)throws IOException {
+		return queryService.headerSearch(searchTerm, pageable);
+	}
 
 /*	@GetMapping("/storeByRating")
 	public Page<Store> findStoreByRating(Pageable pageable) {
@@ -365,10 +369,7 @@ public class QueryResource {
 		return queryService.findDeliveryInfoByStoreId(storeId);
 	}
 
-	@GetMapping("/header/{searchTerm}")
-	public Page<Store> header(@PathVariable("searchTerm") String searchTerm, Pageable pageable) {
-		return queryService.headerSearch(searchTerm, pageable);
-	}
+	
 
 	@GetMapping("/storeByLocationName/{locationName}")
 	public Page<Store> findStoreByLocationName(@PathVariable String locationName) {

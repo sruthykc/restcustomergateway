@@ -1949,15 +1949,12 @@ public class QueryServiceImpl implements QueryService {
 	@Override
 	public Page<DeliveryInfo> findDeliveryInfoByStoreId(String storeId, Pageable pageable) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		/*
-		 * String[] includeFields = new String[] { "iDPcode", "image" }; String[]
-		 * excludeFields = new String[] { "category.*" };
-		 * searchSourceBuilder.fetchSource(includeFields, excludeFields);
-		 */
+	
+		 
 		searchSourceBuilder.query(termQuery("store.regNo", storeId));
 
-		SearchRequest searchRequest = generateSearchRequest("deliveryinfo", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
+		SearchRequest searchRequest = generateSearchRequest("deliveryinfo", pageable.getPageSize(), pageable.getPageNumber(),
+				searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
@@ -2006,7 +2003,83 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
+	public Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException {
+		
+		Set<HeaderSearch> values = new HashSet<HeaderSearch>();
+		
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(matchQuery("name", searchTerm));
 
+		SearchRequest searchRequest = new SearchRequest("_all");
+		searchRequest.source(searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+
+		SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+
+		for (SearchHit hit : searchHit) {
+
+			HeaderSearch result = new HeaderSearch();
+
+			if (	hit.getIndex().equals("store")) {
+				  result.setStoreNo(hit.field("regNo").toString());//hit.source.get("regNo").getAsString());
+				  System.out.println("************Store*****************" + result.getStoreNo()); }
+			else {
+				  result.setStoreNo(hit.field("regNo").toString()); }
+				  
+				  values.add(result);
+				  }
+	
+	
+	
+		
+		return  findStoresByRegNoList( values, pageable ); 
+		
+	
+				  
+	
+					
+	}
+	
+	
+	public Page<Store> findStoresByRegNoList(Set<HeaderSearch> values,Pageable pageable ) throws IOException{
+		Set<Store> storeSet = new HashSet<Store>(); 
+		SearchResponse searchResponse = null;
+
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 for (HeaderSearch r : values) {
+		searchSourceBuilder.query(termQuery("regNo.keyword", r.getStoreNo()));
+
+		SearchRequest searchRequest = new SearchRequest("store");
+		
+	
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		
+		
+		SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+	
+		for (SearchHit hit : searchHit) {
+			storeSet.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
+		}
+		
+		
+		 }
+		 List<Store> storeList = new ArrayList<>();
+		  storeList.addAll(storeSet);
+			return new PageImpl(storeList, pageable, searchResponse.getHits().getTotalHits());
+
+	}
+	
+	
+	
+	
+	
 	/*
 	 * @Override public Page<Store> findByLocationNear(Point point, Distance
 	 * distance, Pageable pageable) { // TODO Auto-generated method stub return

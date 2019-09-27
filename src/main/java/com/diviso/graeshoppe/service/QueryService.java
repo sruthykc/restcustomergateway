@@ -1,5 +1,6 @@
 package com.diviso.graeshoppe.service;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 
@@ -102,6 +103,7 @@ public interface QueryService {
 	public Page<StoreType> findStoreTypeByStoreId(String storeId, Pageable pageable);
 	
 	 public List<ResultBucket> findCategoryAndCountByStoreId(String storeId, Pageable pageable);
+	 public Page<Store> headerSearch(String searchTerm, Pageable pageable)throws IOException;
 
 	/*
 	 * 
@@ -161,7 +163,7 @@ public interface QueryService {
 	 * 
 	 * 
 	 * 
-	 * public Page<Store> headerSearch(String searchTerm, Pageable pageable);
+	 * 
 	 * 
 	 * 
 	 * Page<Store> findByLocationNear(Point point, Distance distance, Pageable
