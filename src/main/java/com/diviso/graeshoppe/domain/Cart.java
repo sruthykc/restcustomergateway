@@ -22,20 +22,68 @@ public class Cart  {
  
 
   
-  @JsonProperty("id")
+  
   private Long id = null;
 
 
 
-  @JsonProperty("location")
-  private String location = null;
+ private String location = null;
 
+private LocalDate date;
 
+private ZonedDateTime zdate;
+
+private Instant idate;
+
+public Long getId() {
+	return id;
+}
+
+public void setId(Long id) {
+	this.id = id;
+}
+
+public String getLocation() {
+	return location;
+}
+
+public void setLocation(String location) {
+	this.location = location;
+}
+
+public LocalDate getDate() {
+	return date;
+}
+
+public void setDate(LocalDate date) {
+	this.date = date;
+}
+
+public ZonedDateTime getZdate() {
+	return zdate;
+}
+
+public void setZdate(ZonedDateTime zdate) {
+	this.zdate = zdate;
+}
+
+public Instant getIdate() {
+	return idate;
+}
+
+public void setIdate(Instant idate) {
+	this.idate = idate;
+}
 
 @Override
 public String toString() {
-	return "cart [id=" + id + ", location=" + location + "]";
+	return "Cart [id=" + id + ", location=" + location + ", date=" + date + ", zdate=" + zdate + ", idate=" + idate
+			+ ", getId()=" + getId() + ", getLocation()=" + getLocation() + ", getDate()=" + getDate() + ", getZdate()="
+			+ getZdate() + ", getIdate()=" + getIdate() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+			+ ", toString()=" + super.toString() + "]";
 }
+
+
 
     }
 
