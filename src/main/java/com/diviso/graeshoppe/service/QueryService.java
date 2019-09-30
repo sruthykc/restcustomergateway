@@ -101,87 +101,122 @@ public interface QueryService {
 	public Page<DeliveryInfo> findDeliveryInfoByStoreId(String storeId, Pageable pageable);
 
 	public Page<StoreType> findStoreTypeByStoreId(String storeId, Pageable pageable);
-	
-	 public List<ResultBucket> findCategoryAndCountByStoreId(String storeId, Pageable pageable);
-	 public Page<Store> headerSearch(String searchTerm, Pageable pageable)throws IOException;
 
-	  Page<Cart> findByLocationNear(/*Double lat,Double lon, Double distance,*/ Pageable
-	 pageable);
+	public List<ResultBucket> findCategoryAndCountByStoreId(String storeId, Pageable pageable);
+
+	public Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException;
+
+	Page<Cart> findByLocationNear(/* Double lat,Double lon, Double distance, */ Pageable pageable);
+
+	public Page<Address> findByCustomerId(String customerId, Pageable pageable);
+
+	public Page<Store> findAndSortStoreByMinAount(Pageable pageable);
+
+	public Page<Store> findStoreByLocationName(String locationName, Pageable pageable);
+
+	public Page<Store> findStoreByRating(Pageable pageable);
+
+	public Page<StockCurrent> findAndSortProductByPrice(Double from, Double to, Pageable pageable);
+
+	public Page<AuxilaryLineItem> findAllAuxilariesByProductId(Long productId, Pageable pageable);
+
+	public Page<StockCurrent> findStockCurrentByCategoryNameAndStoreId(String categoryName, String storeId,
+			Pageable pageable);
+
+	public StoreSettings getStoreSettings(String IDPCode);
+
+	public StoreAddress getStoreAddress(String iDPCode);
+
+	public Page<Order> findOrderByStatusName(String statusName, Pageable pageable);
+
+	public Page<Order> findOrderByDatebetweenAndStoreId(Instant from, Instant to, String storeId, Pageable pageable);
+
+	public Page<ComboLineItem> findAllCombosByProductId(Long productId, Pageable pageable);
+
+	public Discount findDiscountByProductId(Long productId);
+
+	public Page<Store> findStoreByTypeName(String name, Pageable pageable);
+
+	public List<StockCurrent> findStockCurrentByStoreIdAndCategoryId(String userId, Long categoryId,
+			Pageable pageable);
+	public Page<Order> findOrderByCustomerId(String customerId, Pageable
+			  pageable);
+	public Page<Type> findAllDeliveryTypesByStoreId(Long storeId, Pageable pageable);
+	public Page<Product> findProductsByCategoryName(String name,Pageable pageable);
+	public List<ResultBucket> findStoreTypeAndCount(Pageable pageable);
+	public  Page<Store> facetSearchByStoreTypeName(List<String> storeTypeNames, Pageable pageable);
 	/*
-	 * 
-	 * 
-	 * 
-	 * public Page<Store> findStoreByTypeName(String name, Pageable pageable);
-	 * 
-	 * 
-	 * 
-	 *
-	 * 
-	 * 
-	 * 
-	 * 
-	 * public Page<Product> findAllProductByName(String name);
-	 * 
-	 * 
-	 * 
-	 * 
-	 * public Page<Address> findByCustomerId(String customerId, Pageable pageable);
-	 * 
-	 *
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 *
-	 * 
-	 * public List<StockCurrent> findStockCurrentByStoreIdAndCategoryId(String
-	 * userId, Long categoryId, Pageable pageable);
-	 * 
-	 * public Page<Order> findOrderByCustomerId(String customerId, Pageable
-	 * pageable);
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * public Page<Type> findAllDeliveryTypesByStoreId(Long storeId, Pageable
-	 * pageable);
-	 * 
-	 * 
-	 * 
-	 * public Page<Store> findStoreByRating();
-	 * 
-	 * public Page<StockCurrent> findAndSortProductByPrice(Double from, Double to);
-	 * 
-	 * 
-	 * 
-	 * //public OrderMaster findOrderMasterByOrderId(String orderId);
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * public Page<Store> findStoreByLocationName(String locationName);
-	 * 
-	 * public Page<Store> findAndSortStoreByMinAount(Pageable pageable);
-	 * 
-	 *
-	 * 
-	 * public List<Entry> findStoreTypeAndCount(Pageable pageable);
-	 * 
-	 *//**
-		 * @param storeId
-		 * @param pageable
-		 * @return
-		 */
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 *
+								 * 
+								 * 
+								 * 
+								 * 
+								 * public Page<Product> findAllProductByName(String name);
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 *
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 *
+								 * 
+								 *
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * //public OrderMaster findOrderMasterByOrderId(String orderId);
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 * 
+								 *
+								 * 
+								 * 
+								 * 
+								 *//**
+									 * @param storeId
+									 * @param pageable
+									 * @return
+									 */
 	/*
 	 *
 	 *//**
@@ -189,7 +224,7 @@ public interface QueryService {
 		 * @return
 		 */
 	/*
-	 * public Page<Product> findProductsByCategoryName(String name);
+	 * 
 	 * 
 	 *//**
 		 * @return
@@ -201,14 +236,13 @@ public interface QueryService {
 		 * @param productId
 		 */
 	/*
-	 * public Page<AuxilaryLineItem> findAllAuxilariesByProductId(Long productId);
+	 *
 	 * 
 	 *//**
 		 * @param categoryName
 		 */
 	/*
-	 * public Page<StockCurrent> findStockCurrentByCategoryNameAndStoreId(String
-	 * categoryName,String storeId);
+	 * 
 	 * 
 	 *//**
 		 * @param storeId
@@ -229,9 +263,9 @@ public interface QueryService {
 	 * distance,Pageable pageable);
 	 * 
 	 * 
-	 * public StoreSettings getStoreSettings(String IDPCode);
 	 * 
-	 * public StoreAddress getStoreAddress(String iDPCode);
+	 * 
+	 *
 	 * 
 	 * Long findOrderCountByCustomerId(String customerId );
 	 * 
@@ -255,12 +289,11 @@ public interface QueryService {
 		 * @return
 		 */
 	/*
-	 * public Page<Order> findOrderByDatebetweenAndStoreId(Instant from, Instant
-	 * to,String storeId);
 	 * 
-	 * public Page<ComboLineItem> findAllCombosByProductId(Long productId);
 	 * 
-	 * public Discount findDiscountByProductId(Long productId);
+	 * 
+	 * 
+	 * 
 	 * 
 	 * 
 	 * 
