@@ -82,11 +82,7 @@ import com.diviso.graeshoppe.domain.Result;*/
 import com.diviso.graeshoppe.service.QueryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.diviso.graeshoppe.domain.*;
-/*import io.searchbox.client.JestClient;
-import io.searchbox.core.SearchResult;
-import io.searchbox.core.search.aggregation.MetricAggregation;
-import io.searchbox.core.search.aggregation.TermsAggregation;
-import io.searchbox.core.search.aggregation.TermsAggregation.Entry;*/
+
 
 @Service
 public class QueryServiceImpl implements QueryService {
@@ -133,18 +129,16 @@ public class QueryServiceImpl implements QueryService {
 			offset = 0;
 			totalElements = totalElement;
 
-			// System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in
-			// 00000000Page" + offset);
-			// System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in
-			// 00000000Page" + totalElements);
+		 System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in00000000Page" + offset);
+			
+			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in 00000000Page" + totalElements);
 		} else {
 
-			offset = totalElements;
+			offset = totalElement;
 
 			totalElements = totalElement + (pageNumber * totalElement);
-			// System.out.println("****************************offset in else Page"+offset);
-			// System.out.println("************************totalelements in else
-			// Page"+totalElements);
+			 System.out.println("****************************offset in else Page"+offset);
+			 System.out.println("************************totalelements in elsePage"+totalElements);
 
 		}
 		sourceBuilder.from(offset);
