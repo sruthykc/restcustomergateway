@@ -136,7 +136,7 @@ public class QueryServiceImpl implements QueryService {
 
 			offset = totalElement;
 
-			totalElements = totalElement + (pageNumber * totalElement);
+			totalElements =  (pageNumber * totalElement);
 			 System.out.println("****************************offset in else Page"+offset);
 			 System.out.println("************************totalelements in elsePage"+totalElements);
 
