@@ -191,7 +191,7 @@ public class QueryServiceImpl implements QueryService {
 			customerList.add(objectMapper.convertValue(hit.getSourceAsMap(), Customer.class));
 		}
 
-		return new PageImpl(customerList);
+		return new PageImpl(customerList,page,response.getHits().getTotalHits());
 
 	}
 
