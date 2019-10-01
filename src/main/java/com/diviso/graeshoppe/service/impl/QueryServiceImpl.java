@@ -177,7 +177,7 @@ public class QueryServiceImpl implements QueryService {
 			productList.add(objectMapper.convertValue(hit.getSourceAsMap(), Product.class));
 		}
 
-		return new PageImpl(productList, page, response.getHits().getTotalHits());
+		return new PageImpl(productList,page, response.getHits().getTotalHits());
 
 	}
 
@@ -191,7 +191,7 @@ public class QueryServiceImpl implements QueryService {
 			customerList.add(objectMapper.convertValue(hit.getSourceAsMap(), Customer.class));
 		}
 
-		return new PageImpl(customerList, page, response.getHits().getTotalHits());
+		return new PageImpl(customerList);
 
 	}
 
