@@ -114,7 +114,7 @@ public class QueryServiceImpl implements QueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getProductSearchResult(searchResponse, pageable);
+		return getProductSearchResult(searchResponse, pageable,new Product());
 
 	}
 
@@ -167,14 +167,14 @@ public class QueryServiceImpl implements QueryService {
 	 * e.printStackTrace(); } return getSearchResult(searchResponse, pageable); }
 	 */
 
-	private Page<Product> getProductSearchResult(SearchResponse response, Pageable page) {
+	private <T> Page getProductSearchResult(SearchResponse response, Pageable page,T t) {
 
 		SearchHit[] searchHit = response.getHits().getHits();
 
-		List<Product> productList = new ArrayList<>();
+		List<T> productList = new ArrayList<>();
 
 		for (SearchHit hit : searchHit) {
-			productList.add(objectMapper.convertValue(hit.getSourceAsMap(), Product.class));
+			productList.add((T) objectMapper.convertValue(hit.getSourceAsMap(), t.getClass()));
 		}
 
 		return new PageImpl(productList,page, response.getHits().getTotalHits());
@@ -290,7 +290,7 @@ public class QueryServiceImpl implements QueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getProductSearchResult(searchResponse, pageable);
+		return getProductSearchResult(searchResponse, pageable,new Product());
 
 	}
 
@@ -618,7 +618,7 @@ public class QueryServiceImpl implements QueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getProductSearchResult(searchResponse, pageable);
+		return getProductSearchResult(searchResponse, pageable,new Product());
 	}
 
 	/*
@@ -1561,7 +1561,7 @@ public class QueryServiceImpl implements QueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getProductSearchResult(searchResponse, pageable);
+		return getProductSearchResult(searchResponse, pageable,new Product());
 
 	}
 
@@ -2454,7 +2454,7 @@ public class QueryServiceImpl implements QueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getProductSearchResult(searchResponse, pageable);
+		return getProductSearchResult(searchResponse, pageable,new Product());
 	}
 	/*
 	 * @Override public Long findOrderCountByCustomerId(String customerId) { Long
