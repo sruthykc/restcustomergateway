@@ -70,7 +70,7 @@ import com.diviso.graeshoppe.service.dto.PdfDTO;
 import io.swagger.annotations.ApiParam;
 
 @RestController
-//@RequestMapping("/api/query")
+@RequestMapping("/api/query")
 public class QueryResource {
 
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
