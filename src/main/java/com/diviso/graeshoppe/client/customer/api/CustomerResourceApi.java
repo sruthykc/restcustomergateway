@@ -5,8 +5,10 @@
  */
 package com.diviso.graeshoppe.client.customer.api;
 
-import com.diviso.graeshoppe.client.customer.domain.Customer;
+import com.diviso.graeshoppe.client.customer.model.Customer;
 import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
+import com.diviso.graeshoppe.client.customer.model.OTPChallenge;
+import com.diviso.graeshoppe.client.customer.model.OTPResponse;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,7 +28,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-18T09:47:04.029+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-28T12:48:05.037111+05:30[Asia/Kolkata]")
 
 @Api(value = "CustomerResource", description = "the CustomerResource API")
 public interface CustomerResourceApi {
@@ -54,6 +56,30 @@ public interface CustomerResourceApi {
     @RequestMapping(value = "/api/customers/{id}",
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteCustomerUsingDELETE(@ApiParam(value = "id",required=true) @PathVariable("id") Long id);
+
+
+    @ApiOperation(value = "findByMobileNumber", nickname = "findByMobileNumberUsingGET", notes = "", response = CustomerDTO.class, tags={ "customer-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = CustomerDTO.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/findByMobileNumber/{mobileNumber}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<CustomerDTO> findByMobileNumberUsingGET(@ApiParam(value = "mobileNumber",required=true) @PathVariable("mobileNumber") Long mobileNumber);
+
+
+    @ApiOperation(value = "findByReference", nickname = "findByReferenceUsingGET", notes = "", response = Customer.class, tags={ "customer-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = Customer.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/findByReference/{reference}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<Customer> findByReferenceUsingGET(@ApiParam(value = "reference",required=true) @PathVariable("reference") String reference);
 
 
     @ApiOperation(value = "getAllCustomers", nickname = "getAllCustomersUsingGET", notes = "", response = CustomerDTO.class, responseContainer = "List", tags={ "customer-resource", })
@@ -92,6 +118,20 @@ public interface CustomerResourceApi {
     ResponseEntity<byte[]> getPdfAllCustomersUsingGET();
 
 
+    @ApiOperation(value = "modelToDto", nickname = "modelToDtoUsingPOST", notes = "", response = CustomerDTO.class, tags={ "customer-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = CustomerDTO.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/customer/modelToDto",
+        produces = "*/*", 
+        consumes = "application/json",
+        method = RequestMethod.POST)
+    ResponseEntity<CustomerDTO> modelToDtoUsingPOST(@ApiParam(value = "customer" ,required=true )  @Valid @RequestBody Customer customer);
+
+
     @ApiOperation(value = "searchCustomers", nickname = "searchCustomersUsingGET", notes = "", response = CustomerDTO.class, responseContainer = "List", tags={ "customer-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = CustomerDTO.class, responseContainer = "List"),
@@ -102,6 +142,33 @@ public interface CustomerResourceApi {
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<List<CustomerDTO>> searchCustomersUsingGET(@NotNull @ApiParam(value = "query", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "Page number of the requested page") @Valid @RequestParam(value = "page", required = false) Integer page,@ApiParam(value = "Size of a page") @Valid @RequestParam(value = "size", required = false) Integer size,@ApiParam(value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.") @Valid @RequestParam(value = "sort", required = false) List<String> sort);
+
+
+    @ApiOperation(value = "sendSMS", nickname = "sendSMSUsingPOST", notes = "", response = OTPResponse.class, tags={ "customer-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = OTPResponse.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/customer/otp_send",
+        produces = "*/*", 
+        method = RequestMethod.POST)
+    ResponseEntity<OTPResponse> sendSMSUsingPOST(@NotNull @ApiParam(value = "numbers", required = true) @Valid @RequestParam(value = "numbers", required = true) Long numbers);
+
+
+    @ApiOperation(value = "sendSMS", nickname = "sendSMSUsingPOST1", notes = "", response = CustomerDTO.class, tags={ "customer-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = CustomerDTO.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/customer/sendSMS",
+        produces = "*/*", 
+        consumes = "application/json",
+        method = RequestMethod.POST)
+    ResponseEntity<CustomerDTO> sendSMSUsingPOST1(@ApiParam(value = "customer" ,required=true )  @Valid @RequestBody Customer customer);
 
 
     @ApiOperation(value = "updateCustomer", nickname = "updateCustomerUsingPUT", notes = "", response = CustomerDTO.class, tags={ "customer-resource", })
@@ -117,19 +184,17 @@ public interface CustomerResourceApi {
         method = RequestMethod.PUT)
     ResponseEntity<CustomerDTO> updateCustomerUsingPUT(@ApiParam(value = "customerDTO" ,required=true )  @Valid @RequestBody CustomerDTO customerDTO);
 
-    
 
-    @ApiOperation(value = "modelToDto", nickname = "modelToDtoUsingPOST", notes = "", response = CustomerDTO.class, tags={ "customer-resource", })
+    @ApiOperation(value = "verifyOTP", nickname = "verifyOTPUsingPOST", notes = "", response = OTPChallenge.class, tags={ "customer-resource", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = CustomerDTO.class),
+        @ApiResponse(code = 200, message = "OK", response = OTPChallenge.class),
         @ApiResponse(code = 201, message = "Created"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/api/customer/modelToDto",
+    @RequestMapping(value = "/api/customer/otp_challenge",
         produces = "*/*", 
-        consumes = "application/json",
         method = RequestMethod.POST)
-    ResponseEntity<CustomerDTO> modelToDtoUsingPOST(@ApiParam(value = "customer" ,required=true )  @Valid @RequestBody Customer customer);
+    ResponseEntity<OTPChallenge> verifyOTPUsingPOST(@NotNull @ApiParam(value = "code", required = true) @Valid @RequestParam(value = "code", required = true) String code,@NotNull @ApiParam(value = "numbers", required = true) @Valid @RequestParam(value = "numbers", required = true) Long numbers);
 
 }

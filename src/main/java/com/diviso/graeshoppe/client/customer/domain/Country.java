@@ -7,7 +7,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
-
+import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +17,7 @@ import java.util.Objects;
  * A Country.
  */
 
-
+@Document(indexName = "country")
 public class Country implements Serializable {
 
     private static final long serialVersionUID = 1L;

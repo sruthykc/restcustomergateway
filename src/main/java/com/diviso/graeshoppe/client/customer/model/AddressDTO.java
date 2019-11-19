@@ -10,10 +10,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * OrderAddressDTO
+ * AddressDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-18T09:47:04.029+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-28T12:48:05.037111+05:30[Asia/Kolkata]")
 
 public class AddressDTO   {
   @JsonProperty("addressLine1")
@@ -180,7 +180,7 @@ public class AddressDTO   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class OrderAddressDTO {\n");
+    sb.append("class AddressDTO {\n");
     
     sb.append("    addressLine1: ").append(toIndentedString(addressLine1)).append("\n");
     sb.append("    addressLine2: ").append(toIndentedString(addressLine2)).append("\n");

@@ -222,6 +222,8 @@ public class QueryServiceImpl implements QueryService {
 		return new PageImpl(storeTypeList, page, response.getHits().getTotalHits());
 
 	}
+	
+	/* Not non*/
 
 	private Page<Cart> getCartSearchResult(SearchResponse response, Pageable page) {
 
