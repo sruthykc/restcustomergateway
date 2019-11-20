@@ -37,19 +37,7 @@ public class CustomerQueryServiceImpl implements CustomerQueryService{
 		this.restHighLevelClient = restHighLevelClient;
 	}
 	
-	private Page<Customer> getCustomerSearchResult(SearchResponse response, Pageable page) {
 
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<Customer> customerList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			customerList.add(objectMapper.convertValue(hit.getSourceAsMap(), Customer.class));
-		}
-
-		return new PageImpl(customerList,page,response.getHits().getTotalHits());
-
-	}
 
 
 	@Override
@@ -93,7 +81,7 @@ public class CustomerQueryServiceImpl implements CustomerQueryService{
 			e.printStackTrace();
 		}
 
-		return getAddressSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new Address());
 
 	}
 	
@@ -116,10 +104,65 @@ public class CustomerQueryServiceImpl implements CustomerQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getCustomerSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new Customer());
+
+	}
+	private SearchRequest generateSearchRequest(String indexName, Integer totalElement, Integer pageNumber,
+			SearchSourceBuilder sourceBuilder) {
+		SearchRequest searchRequest = new SearchRequest(indexName);
+
+		int offset = 0;
+		int totalElements = 0;
+
+		if (pageNumber == 0) {
+			offset = 0;
+			totalElements = totalElement;
+
+		 System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in00000000Page" + offset);
+			
+			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in 00000000Page" + totalElements);
+		} else {
+
+			offset = totalElement;
+
+			totalElements =  (pageNumber * totalElement);
+			 System.out.println("****************************offset in else Page"+offset);
+			 System.out.println("************************totalelements in elsePage"+totalElements);
+
+		}
+		sourceBuilder.from(offset);
+		sourceBuilder.size(totalElements);
+
+		searchRequest.source(sourceBuilder);
+		return searchRequest;
+	}
+	private <T> Page getResult(SearchResponse response, Pageable page,T t) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<T> list = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			list.add((T) objectMapper.convertValue(hit.getSourceAsMap(), t.getClass()));
+		}
+
+		return new PageImpl(list,page, response.getHits().getTotalHits());
 
 	}
 
+	/*private Page<Customer> getCustomerSearchResult(SearchResponse response, Pageable page) {
+
+	SearchHit[] searchHit = response.getHits().getHits();
+
+	List<Customer> customerList = new ArrayList<>();
+
+	for (SearchHit hit : searchHit) {
+		customerList.add(objectMapper.convertValue(hit.getSourceAsMap(), Customer.class));
+	}
+
+	return new PageImpl(customerList,page,response.getHits().getTotalHits());
+
+}*/
 
 	
 	

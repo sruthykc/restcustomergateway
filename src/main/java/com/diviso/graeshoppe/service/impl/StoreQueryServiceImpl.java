@@ -61,47 +61,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		this.restHighLevelClient = restHighLevelClient;
 	}
 
-	private Page<Type> getTypeSearchResult(SearchResponse response, Pageable page) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<Type> typeList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			typeList.add(objectMapper.convertValue(hit.getSourceAsMap(), Type.class));
-		}
-
-		return new PageImpl(typeList, page, response.getHits().getTotalHits());
-
-	}
-
-	private Page<StoreType> getStoreTypeSearchResult(SearchResponse response, Pageable page) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<StoreType> storeTypeList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			storeTypeList.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class));
-		}
-
-		return new PageImpl(storeTypeList, page, response.getHits().getTotalHits());
-
-	}
 	
-	private Page<DeliveryInfo> getDeliveryInfoSearchResult(SearchResponse response, Pageable page) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<DeliveryInfo> deliveryInfoList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			deliveryInfoList.add(objectMapper.convertValue(hit.getSourceAsMap(), DeliveryInfo.class));
-		}
-
-		return new PageImpl(deliveryInfoList, page, response.getHits().getTotalHits());
-
-	}
 	
 	@Override
 	public Page<Review> findAllReviews(Pageable pageable) {
@@ -121,49 +81,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getReviewSearchResult(searchResponse, pageable);
-
-	}
-
-	private Page<Review> getReviewSearchResult(SearchResponse response, Pageable page) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<Review> reviewList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			reviewList.add(objectMapper.convertValue(hit.getSourceAsMap(), Review.class));
-		}
-
-		return new PageImpl(reviewList, page, response.getHits().getTotalHits());
-
-	}
-
-	private Page<UserRating> getUserRatingSearchResult(SearchResponse response, Pageable page) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<UserRating> userRatingList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			userRatingList.add(objectMapper.convertValue(hit.getSourceAsMap(), UserRating.class));
-		}
-
-		return new PageImpl(userRatingList, page, response.getHits().getTotalHits());
-
-	}
-
-	private Page<Store> getStoreSearchResult(SearchResponse response, Pageable page) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<Store> storeList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			storeList.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
-		}
-
-		return new PageImpl(storeList, page, response.getHits().getTotalHits());
+		return getResult(searchResponse, pageable,new Review());
 
 	}
 
@@ -187,7 +105,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getUserRatingSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new UserRating());
 
 	}
 
@@ -212,7 +130,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		Page<Store> storePage = getStoreSearchResult(searchResponse, pageable);
+		Page<Store> storePage = getResult(searchResponse, pageable,new Store());
 
 		storePage.forEach(store -> {
 			List<UserRating> userRating = findUserRatingByRegNo(store.getRegNo(), pageable).getContent();
@@ -284,7 +202,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getReviewSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new Review());
 	}
 
 	@Override
@@ -306,7 +224,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getUserRatingSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new UserRating());
 
 	}
 	
@@ -504,7 +422,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		Page<Store> storePage = getStoreSearchResult(searchResponse, pageable);
+		Page<Store> storePage = getResult(searchResponse, pageable,new Store());
 		return storePage;
 	}
 	
@@ -537,7 +455,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 			storeTypeList.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class));
 		}
 
-		Page<Store> storePage = getStoreSearchResult(searchResponse, pageable);
+		Page<Store> storePage = getResult(searchResponse, pageable,new Store());
 
 		for (StoreType storeType : storeTypeList) {
 			storeSet.add(storeType.getStore());
@@ -593,7 +511,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getStoreSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new Store());
 	}
 	
 	@Override
@@ -617,7 +535,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		for (SearchHit hit : searchHit) {
 			deliveryInfoList.add(objectMapper.convertValue(hit.getSourceAsMap(), DeliveryInfo.class));
 		}
-		Page<DeliveryInfo> deliveryinfos = getDeliveryInfoSearchResult(searchResponse, pageable);
+		Page<DeliveryInfo> deliveryinfos = getResult(searchResponse, pageable,new DeliveryInfo());
 		List<Type> types = new ArrayList<Type>();
 
 		deliveryinfos.forEach(deliveryInfo -> {
@@ -674,7 +592,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
 
-		return getStoreSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new Store());
 	}
 
 	@Override
@@ -691,7 +609,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getDeliveryInfoSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new DeliveryInfo());
 
 	}
 	
@@ -784,10 +702,10 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	}
 	
-	@Override
-	public Page<Cart> findByLocationNear(/*
+/*	@Override
+	public Page<Cart> findByLocationNear(
 											 * Double lat,Double lon, Double distance ,
-											 */ Pageable pageable) {
+											  Pageable pageable) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 		searchSourceBuilder.query(
@@ -804,7 +722,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		return getCartSearchResult(searchResponse, pageable);
 
 	
-}
+}*/
 	
 	@Override
 	public Page<Store> findStoreByLocationName(String locationName, Pageable pageable) {
@@ -821,7 +739,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 			e.printStackTrace();
 		}
 
-		return getStoreSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new Store());
 	}
 
 	@Override
@@ -838,7 +756,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getStoreSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new Store());
 
 	}
 	
@@ -860,7 +778,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getStoreTypeSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new StoreType());
 
 	}
 	
@@ -947,4 +865,130 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	}
 	
+	private SearchRequest generateSearchRequest(String indexName, Integer totalElement, Integer pageNumber,
+			SearchSourceBuilder sourceBuilder) {
+		SearchRequest searchRequest = new SearchRequest(indexName);
+
+		int offset = 0;
+		int totalElements = 0;
+
+		if (pageNumber == 0) {
+			offset = 0;
+			totalElements = totalElement;
+
+		 System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in00000000Page" + offset);
+			
+			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in 00000000Page" + totalElements);
+		} else {
+
+			offset = totalElement;
+
+			totalElements =  (pageNumber * totalElement);
+			 System.out.println("****************************offset in else Page"+offset);
+			 System.out.println("************************totalelements in elsePage"+totalElements);
+
+		}
+		sourceBuilder.from(offset);
+		sourceBuilder.size(totalElements);
+
+		searchRequest.source(sourceBuilder);
+		return searchRequest;
+	}
+	private <T> Page getResult(SearchResponse response, Pageable page,T t) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<T> list = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			list.add((T) objectMapper.convertValue(hit.getSourceAsMap(), t.getClass()));
+		}
+
+		return new PageImpl(list,page, response.getHits().getTotalHits());
+
+	}
+	/*private Page<Type> getTypeSearchResult(SearchResponse response, Pageable page) {
+
+	SearchHit[] searchHit = response.getHits().getHits();
+
+	List<Type> typeList = new ArrayList<>();
+
+	for (SearchHit hit : searchHit) {
+		typeList.add(objectMapper.convertValue(hit.getSourceAsMap(), Type.class));
+	}
+
+	return new PageImpl(typeList, page, response.getHits().getTotalHits());
+
+}
+*/
+/*private Page<StoreType> getStoreTypeSearchResult(SearchResponse response, Pageable page) {
+
+	SearchHit[] searchHit = response.getHits().getHits();
+
+	List<StoreType> storeTypeList = new ArrayList<>();
+
+	for (SearchHit hit : searchHit) {
+		storeTypeList.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class));
+	}
+
+	return new PageImpl(storeTypeList, page, response.getHits().getTotalHits());
+
+}*/
+
+/*private Page<DeliveryInfo> getDeliveryInfoSearchResult(SearchResponse response, Pageable page) {
+
+	SearchHit[] searchHit = response.getHits().getHits();
+
+	List<DeliveryInfo> deliveryInfoList = new ArrayList<>();
+
+	for (SearchHit hit : searchHit) {
+		deliveryInfoList.add(objectMapper.convertValue(hit.getSourceAsMap(), DeliveryInfo.class));
+	}
+
+	return new PageImpl(deliveryInfoList, page, response.getHits().getTotalHits());
+
+}*/
+
+	/*private Page<Review> getReviewSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<Review> reviewList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			reviewList.add(objectMapper.convertValue(hit.getSourceAsMap(), Review.class));
+		}
+
+		return new PageImpl(reviewList, page, response.getHits().getTotalHits());
+
+	}*/
+
+	/*private Page<UserRating> getUserRatingSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<UserRating> userRatingList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			userRatingList.add(objectMapper.convertValue(hit.getSourceAsMap(), UserRating.class));
+		}
+
+		return new PageImpl(userRatingList, page, response.getHits().getTotalHits());
+
+	}*/
+
+	/*private Page<Store> getStoreSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<Store> storeList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			storeList.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
+		}
+
+		return new PageImpl(storeList, page, response.getHits().getTotalHits());
+
+	}*/
+
 }	

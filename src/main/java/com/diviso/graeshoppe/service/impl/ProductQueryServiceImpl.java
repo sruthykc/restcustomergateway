@@ -53,7 +53,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 	
 	public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable) {
 
-		// System.out.println("findAllProductBySearchTerm>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		String[] includeFields = new String[] { "iDPcode", "image" };
 		String[] excludeFields = new String[] { "category.*", "brand.*" };
@@ -69,55 +69,11 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getProductSearchResult(searchResponse, pageable,new Product());
+		return getResult(searchResponse, pageable,new Product());
 
 	}
 
-	private SearchRequest generateSearchRequest(String indexName, Integer totalElement, Integer pageNumber,
-			SearchSourceBuilder sourceBuilder) {
-		SearchRequest searchRequest = new SearchRequest(indexName);
-
-		int offset = 0;
-		int totalElements = 0;
-
-		if (pageNumber == 0) {
-			offset = 0;
-			totalElements = totalElement;
-
-		 System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in00000000Page" + offset);
-			
-			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in 00000000Page" + totalElements);
-		} else {
-
-			offset = totalElement;
-
-			totalElements =  (pageNumber * totalElement);
-			 System.out.println("****************************offset in else Page"+offset);
-			 System.out.println("************************totalelements in elsePage"+totalElements);
-
-		}
-		sourceBuilder.from(offset);
-		sourceBuilder.size(totalElements);
-
-		searchRequest.source(sourceBuilder);
-		return searchRequest;
-	}
-	
-	private <T> Page getProductSearchResult(SearchResponse response, Pageable page,T t) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<T> productList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			productList.add((T) objectMapper.convertValue(hit.getSourceAsMap(), t.getClass()));
-		}
-
-		return new PageImpl(productList,page, response.getHits().getTotalHits());
-
-	}
-	
-	@Override
+		@Override
 	public Page<Product> findProductByCategoryId(Long categoryId, String userId, Pageable pageable) {
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -136,7 +92,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getProductSearchResult(searchResponse, pageable,new Product());
+		return getResult(searchResponse, pageable,new Product());
 
 	}
 	
@@ -158,24 +114,9 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getStockCurrentSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new StockCurrent());
 
 	}
-
-	private Page<StockCurrent> getStockCurrentSearchResult(SearchResponse response, Pageable page) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<StockCurrent> stockCurrentList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			stockCurrentList.add(objectMapper.convertValue(hit.getSourceAsMap(), StockCurrent.class));
-		}
-
-		return new PageImpl(stockCurrentList, page, response.getHits().getTotalHits());
-
-	}
-
 
 	@Override
 	public Page<StockCurrent> findStockCurrentByProductName(String name, String storeId, Pageable pageable) {
@@ -198,25 +139,11 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getStockCurrentSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new StockCurrent());
 
 	}
 
-	private Page<Category> getCategorySearchResult(SearchResponse response, Pageable page) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<Category> categoryList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			categoryList.add(objectMapper.convertValue(hit.getSourceAsMap(), Category.class));
-			System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" + categoryList.get(0));
-			System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" + categoryList.size());
-		}
-
-		return new PageImpl(categoryList, page, response.getHits().getTotalHits());
-
-	}
+	
 
 	
 	@Override
@@ -239,7 +166,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getProductSearchResult(searchResponse, pageable,new Product());
+		return getResult(searchResponse, pageable,new Product());
 	}
 
 	
@@ -266,7 +193,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getStockCurrentSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new StockCurrent());
 
 	}
 
@@ -388,7 +315,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getStockCurrentSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new StockCurrent());
 
 	}
 	
@@ -413,7 +340,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 			e.printStackTrace();
 		}
 
-		return getCategorySearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable, new Category());
 
 	}
 
@@ -435,7 +362,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getProductSearchResult(searchResponse, pageable,new Product());
+		return getResult(searchResponse, pageable,new Product());
 
 	}
 	
@@ -546,7 +473,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
 
-		return getStockCurrentSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new StockCurrent());
 
 	}
 	
@@ -567,7 +494,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getProductSearchResult(searchResponse, pageable,new Product());
+		return getResult(searchResponse, pageable,new Product());
 	}
 	
 	@Override
@@ -584,23 +511,11 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
 
-		return getAuxilaryLineItemSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new AuxilaryLineItem());
 
 	}
 
-	private Page<AuxilaryLineItem> getAuxilaryLineItemSearchResult(SearchResponse response, Pageable page) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<AuxilaryLineItem> auxilaryLineItemList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			auxilaryLineItemList.add(objectMapper.convertValue(hit.getSourceAsMap(), AuxilaryLineItem.class));
-		}
-
-		return new PageImpl(auxilaryLineItemList, page, response.getHits().getTotalHits());
-
-	}
+	
 
 	@Override
 	public Page<StockCurrent> findStockCurrentByCategoryNameAndStoreId(String categoryName, String storeId,
@@ -619,7 +534,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
 
-		return getStockCurrentSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new StockCurrent());
 
 	}
 	
@@ -637,22 +552,10 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
 
-		return getComboLineItemSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new ComboLineItem());
 	}
 	
-	private Page<ComboLineItem> getComboLineItemSearchResult(SearchResponse response, Pageable page) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<ComboLineItem> comboLineItemList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			comboLineItemList.add(objectMapper.convertValue(hit.getSourceAsMap(), ComboLineItem.class));
-		}
-
-		return new PageImpl(comboLineItemList, page, response.getHits().getTotalHits());
-
-	}
+	
 	
 	@Override
 	public Discount findDiscountByProductId(Long productId) {
@@ -679,6 +582,107 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 
 	}
 
+
+	private SearchRequest generateSearchRequest(String indexName, Integer totalElement, Integer pageNumber,
+			SearchSourceBuilder sourceBuilder) {
+		SearchRequest searchRequest = new SearchRequest(indexName);
+
+		int offset = 0;
+		int totalElements = 0;
+
+		if (pageNumber == 0) {
+			offset = 0;
+			totalElements = totalElement;
+
+		 System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in00000000Page" + offset);
+			
+			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in 00000000Page" + totalElements);
+		} else {
+
+			offset = totalElement;
+
+			totalElements =  (pageNumber * totalElement);
+			 System.out.println("****************************offset in else Page"+offset);
+			 System.out.println("************************totalelements in elsePage"+totalElements);
+
+		}
+		sourceBuilder.from(offset);
+		sourceBuilder.size(totalElements);
+
+		searchRequest.source(sourceBuilder);
+		return searchRequest;
+	}
 	
+	private <T> Page getResult(SearchResponse response, Pageable page,T t) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<T> productList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			productList.add((T) objectMapper.convertValue(hit.getSourceAsMap(), t.getClass()));
+		}
+
+		return new PageImpl(productList,page, response.getHits().getTotalHits());
+
+	}
+	/*private Page<ComboLineItem> getComboLineItemSearchResult(SearchResponse response, Pageable page) {
+
+	SearchHit[] searchHit = response.getHits().getHits();
+
+	List<ComboLineItem> comboLineItemList = new ArrayList<>();
+
+	for (SearchHit hit : searchHit) {
+		comboLineItemList.add(objectMapper.convertValue(hit.getSourceAsMap(), ComboLineItem.class));
+	}
+
+	return new PageImpl(comboLineItemList, page, response.getHits().getTotalHits());
+
+}*/
+	
+	/*private Page<AuxilaryLineItem> getAuxilaryLineItemSearchResult(SearchResponse response, Pageable page) {
+
+	SearchHit[] searchHit = response.getHits().getHits();
+
+	List<AuxilaryLineItem> auxilaryLineItemList = new ArrayList<>();
+
+	for (SearchHit hit : searchHit) {
+		auxilaryLineItemList.add(objectMapper.convertValue(hit.getSourceAsMap(), AuxilaryLineItem.class));
+	}
+
+	return new PageImpl(auxilaryLineItemList, page, response.getHits().getTotalHits());
+
+}*/
+	/*private Page<Category> getCategorySearchResult(SearchResponse response, Pageable page) {
+
+	SearchHit[] searchHit = response.getHits().getHits();
+
+	List<Category> categoryList = new ArrayList<>();
+
+	for (SearchHit hit : searchHit) {
+		categoryList.add(objectMapper.convertValue(hit.getSourceAsMap(), Category.class));
+		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" + categoryList.get(0));
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" + categoryList.size());
+	}
+
+	return new PageImpl(categoryList, page, response.getHits().getTotalHits());
+
+}*/
+
+	/*private Page<StockCurrent> getStockCurrentSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<StockCurrent> stockCurrentList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			stockCurrentList.add(objectMapper.convertValue(hit.getSourceAsMap(), StockCurrent.class));
+		}
+
+		return new PageImpl(stockCurrentList, page, response.getHits().getTotalHits());
+
+	}
+
+*/
 	
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -25,24 +26,22 @@ import com.diviso.graeshoppe.client.order.model.Address;
 import com.diviso.graeshoppe.client.order.model.Order;
 import com.diviso.graeshoppe.client.order.model.OrderLine;
 import com.diviso.graeshoppe.service.OrderQueryService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Service
 public class OrderQueryServiceImpl implements OrderQueryService{
 	
-	private Page<Address> getAddressSearchResult(SearchResponse response, Pageable page) {
+	private RestHighLevelClient restHighLevelClient;
 
-		SearchHit[] searchHit = response.getHits().getHits();
+	private ObjectMapper objectMapper;
 
-		List<Address> addressList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			addressList.add(objectMapper.convertValue(hit.getSourceAsMap(), Address.class));
-		}
-
-		return new PageImpl(addressList, page, response.getHits().getTotalHits());
-
+	public OrderQueryServiceImpl(ObjectMapper objectMapper, RestHighLevelClient restHighLevelClient) {
+		this.objectMapper = objectMapper;
+		this.restHighLevelClient = restHighLevelClient;
 	}
+	
+	
 
 	@Override
 	public Order findById(Long id) {
@@ -83,7 +82,7 @@ public class OrderQueryServiceImpl implements OrderQueryService{
 		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
 
-		Page<Order> orderPage = getOrderSearchResult(searchResponse, pageable);
+		Page<Order> orderPage = getResult(searchResponse, pageable,new Order());
 		orderPage.forEach(order -> {
 
 			order.setOrderLines(new HashSet<OrderLine>(findOrderLinesByOrderId(order.getId())));
@@ -168,22 +167,9 @@ public class OrderQueryServiceImpl implements OrderQueryService{
 		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
 
-		return getOrderSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new Order());
 	}
-	private Page<Order> getOrderSearchResult(SearchResponse response, Pageable page) {
 
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<Order> orderList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			orderList.add(objectMapper.convertValue(hit.getSourceAsMap(), Order.class));
-		}
-
-		return new PageImpl(orderList, page, response.getHits().getTotalHits());
-
-	}
-	
 	@Override
 	public Page<Order> findOrderByDatebetweenAndStoreId(Instant from, Instant to, String storeId, Pageable pageable) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -199,8 +185,84 @@ public class OrderQueryServiceImpl implements OrderQueryService{
 		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
 
-		return getOrderSearchResult(searchResponse, pageable);
+		return getResult(searchResponse, pageable,new Order());
 
 	}
+	
+	private SearchRequest generateSearchRequest(String indexName, Integer totalElement, Integer pageNumber,
+			SearchSourceBuilder sourceBuilder) {
+		SearchRequest searchRequest = new SearchRequest(indexName);
 
+		int offset = 0;
+		int totalElements = 0;
+
+		if (pageNumber == 0) {
+			offset = 0;
+			totalElements = totalElement;
+
+		 System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in00000000Page" + offset);
+			
+			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in 00000000Page" + totalElements);
+		} else {
+
+			offset = totalElement;
+
+			totalElements =  (pageNumber * totalElement);
+			 System.out.println("****************************offset in else Page"+offset);
+			 System.out.println("************************totalelements in elsePage"+totalElements);
+
+		}
+		sourceBuilder.from(offset);
+		sourceBuilder.size(totalElements);
+
+		searchRequest.source(sourceBuilder);
+		return searchRequest;
+	}
+	private <T> Page getResult(SearchResponse response, Pageable page,T t) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<T> list = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			list.add((T) objectMapper.convertValue(hit.getSourceAsMap(), t.getClass()));
+		}
+
+		return new PageImpl(list,page, response.getHits().getTotalHits());
+
+	}
+	
+	
+	/*	
+	private Page<Address> getAddressSearchResult(SearchResponse response, Pageable page) {
+
+		SearchHit[] searchHit = response.getHits().getHits();
+
+		List<Address> addressList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			addressList.add(objectMapper.convertValue(hit.getSourceAsMap(), Address.class));
+		}
+
+		return new PageImpl(addressList, page, response.getHits().getTotalHits());
+
+	}
+*/
+	/*	private Page<Order> getOrderSearchResult(SearchResponse response, Pageable page) {
+
+	SearchHit[] searchHit = response.getHits().getHits();
+
+	List<Order> orderList = new ArrayList<>();
+
+	for (SearchHit hit : searchHit) {
+		orderList.add(objectMapper.convertValue(hit.getSourceAsMap(), Order.class));
+	}
+
+	return new PageImpl(orderList, page, response.getHits().getTotalHits());
+
+}*/
+
+	
+	
+	
 }

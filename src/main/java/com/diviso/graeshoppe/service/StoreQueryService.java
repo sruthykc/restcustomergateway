@@ -54,7 +54,7 @@ public interface StoreQueryService {
 
 	Page<DeliveryInfo> findDeliveryInfoByStoreId(String storeId, Pageable pageable);
 
-	Page<Cart> findByLocationNear(Pageable pageable);
+	//Page<Cart> findByLocationNear(Pageable pageable);
 
 	Page<Store> findStoreByLocationName(String locationName, Pageable pageable);
 
@@ -63,6 +63,8 @@ public interface StoreQueryService {
 	Page<StoreType> findStoreTypeByStoreId(String storeId, Pageable pageable);
 
 	Page<Store> facetSearchByStoreTypeName(List<String> storeTypeNames, Pageable pageable);
+
+	Page<Store> findAllStores(Pageable pageable);
 
 
 }
