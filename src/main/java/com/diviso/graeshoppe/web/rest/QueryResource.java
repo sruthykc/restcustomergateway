@@ -74,7 +74,7 @@ import com.diviso.graeshoppe.service.QueryService;
 import com.diviso.graeshoppe.service.StoreQueryService;
 
 @RestController
-//@RequestMapping("/api/que")
+@RequestMapping("/api/query")
 public class QueryResource {
 
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
