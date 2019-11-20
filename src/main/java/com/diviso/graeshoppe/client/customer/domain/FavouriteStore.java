@@ -4,13 +4,11 @@ package com.diviso.graeshoppe.client.customer.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.springframework.data.elasticsearch.annotations.Document;
-
 /**
  * A FavouriteStore.
  */
 
-@Document(indexName = "favouritestore")
+
 public class FavouriteStore implements Serializable {
 
     private static final long serialVersionUID = 1L;

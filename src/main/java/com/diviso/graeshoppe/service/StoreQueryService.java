@@ -1,5 +1,6 @@
 package com.diviso.graeshoppe.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -8,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
 import com.diviso.graeshoppe.client.store.domain.Review;
 import com.diviso.graeshoppe.client.store.domain.Store;
+import com.diviso.graeshoppe.client.store.domain.StoreAddress;
+import com.diviso.graeshoppe.client.store.domain.StoreSettings;
 import com.diviso.graeshoppe.client.store.domain.StoreType;
 import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
@@ -65,6 +68,16 @@ public interface StoreQueryService {
 	Page<Store> facetSearchByStoreTypeName(List<String> storeTypeNames, Pageable pageable);
 
 	Page<Store> findAllStores(Pageable pageable);
+
+	List<ResultBucket> findStoreTypeAndCount(Pageable pageable);
+
+	Page<Cart> findByLocationNear(Pageable pageable);
+
+	Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException;
+
+	StoreSettings getStoreSettings(String iDPCode);
+
+	StoreAddress getStoreAddress(String iDPCode);
 
 
 }

@@ -7,13 +7,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import org.springframework.data.elasticsearch.annotations.Document;
-
 /**
  * A Customer.
  */
 
-@Document(indexName = "customer")
+
 public class Customer implements Serializable {
 
     private static final long serialVersionUID = 1L;

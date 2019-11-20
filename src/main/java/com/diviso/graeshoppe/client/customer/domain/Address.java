@@ -1,13 +1,6 @@
 package com.diviso.graeshoppe.client.customer.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -15,7 +8,7 @@ import java.util.Objects;
  * A OrderAddress.
  */
 
-@Document(indexName = "address")
+
 public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;

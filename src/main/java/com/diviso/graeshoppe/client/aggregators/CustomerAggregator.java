@@ -3,7 +3,7 @@ package com.diviso.graeshoppe.client.aggregators;
 public class CustomerAggregator {
 	
 	private String name;
-	private String mobileNumber;
+	private Long mobileNumber;
 	private String reference;
 	private String email;
 	
@@ -82,13 +82,13 @@ public class CustomerAggregator {
 	/**
 	 * @return the mobileNumber
 	 */
-	public String getMobileNumber() {
+	public Long getMobileNumber() {
 		return mobileNumber;
 	}
 	/**
 	 * @param mobileNumber the mobileNumber to set
 	 */
-	public void setMobileNumber(String mobileNumber) {
+	public void setMobileNumber(Long mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
 	public String getEmail() {

@@ -1,23 +1,16 @@
 package com.diviso.graeshoppe.client.customer.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A Country.
  */
 
-@Document(indexName = "country")
+
 public class Country implements Serializable {
 
     private static final long serialVersionUID = 1L;

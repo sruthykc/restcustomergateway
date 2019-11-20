@@ -1,32 +1,25 @@
 package com.diviso.graeshoppe.client.customer.model;
 
-import java.util.Objects;
-import com.diviso.graeshoppe.client.customer.model.Address;
-import com.diviso.graeshoppe.client.customer.model.Contact;
-import com.diviso.graeshoppe.client.customer.model.FavouriteProduct;
-import com.diviso.graeshoppe.client.customer.model.FavouriteStore;
-import com.diviso.graeshoppe.client.customer.model.Note;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Pattern;
+
+import org.springframework.validation.annotation.Validated;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Customer
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-28T12:48:05.037111+05:30[Asia/Kolkata]")
-@Document(indexName = "customer")
+
 public class Customer   {
   @JsonProperty("addresses")
   @Valid

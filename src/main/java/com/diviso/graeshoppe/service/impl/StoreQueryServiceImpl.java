@@ -907,6 +907,65 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		return new PageImpl(list,page, response.getHits().getTotalHits());
 
 	}
+	
+	public List<ResultBucket> findStoreTypeAndCount1(Pageable pageable) {
+		List<ResultBucket> resultBucketList = new ArrayList<>();
+		SearchRequest searchRequest = new SearchRequest("storetype");
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(matchAllQuery());
+		searchSourceBuilder.aggregation(AggregationBuilders.terms("totalstoretype").field("name.keyword"));
+
+		searchRequest.source(searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("elasticsearch response: {} totalhitssshits" + searchResponse.getHits().getTotalHits());
+		System.out.println("elasticsearch response: {} hits .toostring" + searchResponse.toString());
+		// searchResponse.getHits().
+		Aggregations aggregations = searchResponse.getAggregations();
+		Terms categoryAggregation = searchResponse.getAggregations().get("totalstoretype");
+		for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
+			ResultBucket result = new ResultBucket();
+			result.setKey(bucket.getKey().toString());
+			result.setDocCount(bucket.getDocCount());
+			result.setKeyAsString(bucket.getKeyAsString());
+			resultBucketList.add(result);
+			System.out.println("KEY:" + bucket.getKey() + "!!keyAsString:" + bucket.getKeyAsString() + "!!count:"
+					+ bucket.getDocCount());
+
+		}
+
+		return resultBucketList;
+
+	}
+	
+	@Override
+	public Page<Cart> findByLocationNear(/*
+											 * Double lat,Double lon, Double distance ,
+											 */ Pageable pageable) {
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+		searchSourceBuilder.query(
+				QueryBuilders.geoDistanceQuery("location").point(10.767, 76.486).distance(5, DistanceUnit.KILOMETERS));
+
+		SearchRequest searchRequest = generateSearchRequest("cart", pageable.getPageSize(), pageable.getPageNumber(),
+				searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return getResult(searchResponse, pageable,new Cart());
+
+		/* storeSearchRepository.findByLocationNear(point,distance,pageable); */ }
+	
+
+
 	/*private Page<Type> getTypeSearchResult(SearchResponse response, Pageable page) {
 
 	SearchHit[] searchHit = response.getHits().getHits();
