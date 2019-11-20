@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.order.model.Offer;
+import com.diviso.graeshoppe.client.order.model.OrderLine;
 import com.diviso.graeshoppe.client.store.domain.Review;
 import com.diviso.graeshoppe.service.OfferQueryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,80 +41,39 @@ public class OfferQueryServiceImpl implements OfferQueryService {
 		this.objectMapper = objectMapper;
 		this.restHighLevelClient = restHighLevelClient;
 	}
-	
-	/*@Override
-	public List<Offer> findOfferLinesByOrderId(Long orderId) {
-		StringQuery searchQuery = new StringQuery(termQuery("order.id", orderId).toString());
-		return elasticsearchOperations.queryForList(searchQuery, Offer.class);
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		
-		 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
-		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
-		 * excludeFields);
-		 
-		searchSourceBuilder.query(termQuery("order.id", orderId));
-
-		SearchRequest searchRequest = generateSearchRequest("review", pageable.getPageSize(), pageable.getPageNumber(),
-				searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
+    public List<Offer> findOfferLinesByOrderId(Long orderId) {
+        List<Offer> offerList = new ArrayList<>();
+        SearchRequest searchRequest = new SearchRequest("offer");
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(termQuery("order.id", orderId));
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse searchResponse = null;
+        try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
+		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
-		return getResult(searchResponse, pageable,new Review());
-		
-		
-		return null;
-	}
-	
-	private SearchRequest generateSearchRequest(String indexName, Integer totalElement, Integer pageNumber,
-			SearchSourceBuilder sourceBuilder) {
-		SearchRequest searchRequest = new SearchRequest(indexName);
+       
+    	SearchHit[] searchHit = searchResponse.getHits().getHits();
 
-		int offset = 0;
-		int totalElements = 0;
-
-		if (pageNumber == 0) {
-			offset = 0;
-			totalElements = totalElement;
-
-		 System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in00000000Page" + offset);
-			
-			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in 00000000Page" + totalElements);
-		} else {
-
-			offset = totalElement;
-
-			totalElements =  (pageNumber * totalElement);
-			 System.out.println("****************************offset in else Page"+offset);
-			 System.out.println("************************totalelements in elsePage"+totalElements);
-
-		}
-		sourceBuilder.from(offset);
-		sourceBuilder.size(totalElements);
-
-		searchRequest.source(sourceBuilder);
-		return searchRequest;
-	}
-	private <T> Page getResult(SearchResponse response, Pageable page,T t) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<T> list = new ArrayList<>();
+	;
 
 		for (SearchHit hit : searchHit) {
-			list.add((T) objectMapper.convertValue(hit.getSourceAsMap(), t.getClass()));
+			offerList.add(objectMapper.convertValue(hit.getSourceAsMap(), Offer.class));
 		}
-
-		return new PageImpl(list,page, response.getHits().getTotalHits());
-
-	}
+        return offerList;
+    }
+	
+	
+	
+	
+	
+	
+	
 
 	
 	
 	
-*/
+
 	
 	
 	

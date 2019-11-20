@@ -6,6 +6,6 @@ import com.diviso.graeshoppe.client.order.model.Offer;
 
 public interface OfferQueryService {
 	
-	//public List<Offer> findOfferLinesByOrderId(Long orderId) ;
+	public List<Offer> findOfferLinesByOrderId(Long orderId) ;
 
 }
