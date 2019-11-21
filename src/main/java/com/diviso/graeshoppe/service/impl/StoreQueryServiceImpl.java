@@ -838,7 +838,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 		searchSourceBuilder.query(
-				QueryBuilders.geoDistanceQuery("location").point(lat,lon).distance(5, DistanceUnit.KILOMETERS));
+				QueryBuilders.geoDistanceQuery("location").point(10.7795,76.4708).distance(5, DistanceUnit.KILOMETERS));
 
 		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
