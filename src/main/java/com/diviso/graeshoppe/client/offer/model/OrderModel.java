@@ -21,16 +21,16 @@ public class OrderModel   {
   private OffsetDateTime claimedDate = null;
 
   @JsonProperty("orderDiscountAmount")
-  private Long orderDiscountAmount = null;
+  private Double orderDiscountAmount = null;
 
   @JsonProperty("orderDiscountTotal")
-  private Long orderDiscountTotal = null;
+  private Double orderDiscountTotal = null;
 
   @JsonProperty("orderNumber")
   private Long orderNumber = null;
 
   @JsonProperty("orderTotal")
-  private Long orderTotal = null;
+  private Double orderTotal = null;
 
   @JsonProperty("promoCode")
   private String promoCode = null;
@@ -56,7 +56,7 @@ public class OrderModel   {
     this.claimedDate = claimedDate;
   }
 
-  public OrderModel orderDiscountAmount(Long orderDiscountAmount) {
+  public OrderModel orderDiscountAmount(Double orderDiscountAmount) {
     this.orderDiscountAmount = orderDiscountAmount;
     return this;
   }
@@ -68,15 +68,15 @@ public class OrderModel   {
   @ApiModelProperty(value = "")
 
 
-  public Long getOrderDiscountAmount() {
+  public Double getOrderDiscountAmount() {
     return orderDiscountAmount;
   }
 
-  public void setOrderDiscountAmount(Long orderDiscountAmount) {
+  public void setOrderDiscountAmount(Double orderDiscountAmount) {
     this.orderDiscountAmount = orderDiscountAmount;
   }
 
-  public OrderModel orderDiscountTotal(Long orderDiscountTotal) {
+  public OrderModel orderDiscountTotal(Double orderDiscountTotal) {
     this.orderDiscountTotal = orderDiscountTotal;
     return this;
   }
@@ -88,11 +88,11 @@ public class OrderModel   {
   @ApiModelProperty(value = "")
 
 
-  public Long getOrderDiscountTotal() {
+  public Double getOrderDiscountTotal() {
     return orderDiscountTotal;
   }
 
-  public void setOrderDiscountTotal(Long orderDiscountTotal) {
+  public void setOrderDiscountTotal(Double orderDiscountTotal) {
     this.orderDiscountTotal = orderDiscountTotal;
   }
 
@@ -116,7 +116,7 @@ public class OrderModel   {
     this.orderNumber = orderNumber;
   }
 
-  public OrderModel orderTotal(Long orderTotal) {
+  public OrderModel orderTotal(Double orderTotal) {
     this.orderTotal = orderTotal;
     return this;
   }
@@ -128,11 +128,11 @@ public class OrderModel   {
   @ApiModelProperty(value = "")
 
 
-  public Long getOrderTotal() {
+  public Double getOrderTotal() {
     return orderTotal;
   }
 
-  public void setOrderTotal(Long orderTotal) {
+  public void setOrderTotal(Double orderTotal) {
     this.orderTotal = orderTotal;
   }
 

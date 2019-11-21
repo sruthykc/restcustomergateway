@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,7 +14,7 @@ import javax.validation.constraints.*;
  * OrderMasterDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-14T14:39:00.436+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-15T11:16:15.523+05:30[Asia/Kolkata]")
 
 public class OrderMasterDTO   {
   @JsonProperty("addressType")
@@ -34,11 +35,8 @@ public class OrderMasterDTO   {
   @JsonProperty("deliveryCharge")
   private Double deliveryCharge = null;
 
-  @JsonProperty("dueDate")
-  private String dueDate = null;
-
-  @JsonProperty("dueTime")
-  private String dueTime = null;
+  @JsonProperty("dueDateAndTime")
+  private OffsetDateTime dueDateAndTime = null;
 
   @JsonProperty("houseNoOrBuildingName")
   private String houseNoOrBuildingName = null;
@@ -59,7 +57,7 @@ public class OrderMasterDTO   {
   private String notes = null;
 
   @JsonProperty("orderAcceptedAt")
-  private String orderAcceptedAt = null;
+  private OffsetDateTime orderAcceptedAt = null;
 
   @JsonProperty("orderFromCustomer")
   private Long orderFromCustomer = null;
@@ -68,7 +66,7 @@ public class OrderMasterDTO   {
   private String orderNumber = null;
 
   @JsonProperty("orderPlaceAt")
-  private String orderPlaceAt = null;
+  private OffsetDateTime orderPlaceAt = null;
 
   @JsonProperty("orderStatus")
   private String orderStatus = null;
@@ -77,7 +75,7 @@ public class OrderMasterDTO   {
   private Long phone = null;
 
   @JsonProperty("pincode")
-  private Long pincode = null;
+  private String pincode = null;
 
   @JsonProperty("roadNameAreaOrStreet")
   private String roadNameAreaOrStreet = null;
@@ -217,44 +215,25 @@ public class OrderMasterDTO   {
     this.deliveryCharge = deliveryCharge;
   }
 
-  public OrderMasterDTO dueDate(String dueDate) {
-    this.dueDate = dueDate;
+  public OrderMasterDTO dueDateAndTime(OffsetDateTime dueDateAndTime) {
+    this.dueDateAndTime = dueDateAndTime;
     return this;
   }
 
   /**
-   * Get dueDate
-   * @return dueDate
+   * Get dueDateAndTime
+   * @return dueDateAndTime
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getDueDate() {
-    return dueDate;
+  public OffsetDateTime getDueDateAndTime() {
+    return dueDateAndTime;
   }
 
-  public void setDueDate(String dueDate) {
-    this.dueDate = dueDate;
-  }
-
-  public OrderMasterDTO dueTime(String dueTime) {
-    this.dueTime = dueTime;
-    return this;
-  }
-
-  /**
-   * Get dueTime
-   * @return dueTime
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public String getDueTime() {
-    return dueTime;
-  }
-
-  public void setDueTime(String dueTime) {
-    this.dueTime = dueTime;
+  public void setDueDateAndTime(OffsetDateTime dueDateAndTime) {
+    this.dueDateAndTime = dueDateAndTime;
   }
 
   public OrderMasterDTO houseNoOrBuildingName(String houseNoOrBuildingName) {
@@ -377,7 +356,7 @@ public class OrderMasterDTO   {
     this.notes = notes;
   }
 
-  public OrderMasterDTO orderAcceptedAt(String orderAcceptedAt) {
+  public OrderMasterDTO orderAcceptedAt(OffsetDateTime orderAcceptedAt) {
     this.orderAcceptedAt = orderAcceptedAt;
     return this;
   }
@@ -388,12 +367,13 @@ public class OrderMasterDTO   {
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getOrderAcceptedAt() {
+  public OffsetDateTime getOrderAcceptedAt() {
     return orderAcceptedAt;
   }
 
-  public void setOrderAcceptedAt(String orderAcceptedAt) {
+  public void setOrderAcceptedAt(OffsetDateTime orderAcceptedAt) {
     this.orderAcceptedAt = orderAcceptedAt;
   }
 
@@ -437,7 +417,7 @@ public class OrderMasterDTO   {
     this.orderNumber = orderNumber;
   }
 
-  public OrderMasterDTO orderPlaceAt(String orderPlaceAt) {
+  public OrderMasterDTO orderPlaceAt(OffsetDateTime orderPlaceAt) {
     this.orderPlaceAt = orderPlaceAt;
     return this;
   }
@@ -448,12 +428,13 @@ public class OrderMasterDTO   {
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getOrderPlaceAt() {
+  public OffsetDateTime getOrderPlaceAt() {
     return orderPlaceAt;
   }
 
-  public void setOrderPlaceAt(String orderPlaceAt) {
+  public void setOrderPlaceAt(OffsetDateTime orderPlaceAt) {
     this.orderPlaceAt = orderPlaceAt;
   }
 
@@ -497,7 +478,7 @@ public class OrderMasterDTO   {
     this.phone = phone;
   }
 
-  public OrderMasterDTO pincode(Long pincode) {
+  public OrderMasterDTO pincode(String pincode) {
     this.pincode = pincode;
     return this;
   }
@@ -509,11 +490,11 @@ public class OrderMasterDTO   {
   @ApiModelProperty(value = "")
 
 
-  public Long getPincode() {
+  public String getPincode() {
     return pincode;
   }
 
-  public void setPincode(Long pincode) {
+  public void setPincode(String pincode) {
     this.pincode = pincode;
   }
 
@@ -653,8 +634,7 @@ public class OrderMasterDTO   {
         Objects.equals(this.customerId, orderMasterDTO.customerId) &&
         Objects.equals(this.customerOrder, orderMasterDTO.customerOrder) &&
         Objects.equals(this.deliveryCharge, orderMasterDTO.deliveryCharge) &&
-        Objects.equals(this.dueDate, orderMasterDTO.dueDate) &&
-        Objects.equals(this.dueTime, orderMasterDTO.dueTime) &&
+        Objects.equals(this.dueDateAndTime, orderMasterDTO.dueDateAndTime) &&
         Objects.equals(this.houseNoOrBuildingName, orderMasterDTO.houseNoOrBuildingName) &&
         Objects.equals(this.id, orderMasterDTO.id) &&
         Objects.equals(this.landmark, orderMasterDTO.landmark) &&
@@ -678,7 +658,7 @@ public class OrderMasterDTO   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(addressType, alternatePhone, city, customerId, customerOrder, deliveryCharge, dueDate, dueTime, houseNoOrBuildingName, id, landmark, methodOfOrder, name, notes, orderAcceptedAt, orderFromCustomer, orderNumber, orderPlaceAt, orderStatus, phone, pincode, roadNameAreaOrStreet, serviceCharge, state, storeName, storePhone, totalDue);
+    return Objects.hash(addressType, alternatePhone, city, customerId, customerOrder, deliveryCharge, dueDateAndTime, houseNoOrBuildingName, id, landmark, methodOfOrder, name, notes, orderAcceptedAt, orderFromCustomer, orderNumber, orderPlaceAt, orderStatus, phone, pincode, roadNameAreaOrStreet, serviceCharge, state, storeName, storePhone, totalDue);
   }
 
   @Override
@@ -692,8 +672,7 @@ public class OrderMasterDTO   {
     sb.append("    customerId: ").append(toIndentedString(customerId)).append("\n");
     sb.append("    customerOrder: ").append(toIndentedString(customerOrder)).append("\n");
     sb.append("    deliveryCharge: ").append(toIndentedString(deliveryCharge)).append("\n");
-    sb.append("    dueDate: ").append(toIndentedString(dueDate)).append("\n");
-    sb.append("    dueTime: ").append(toIndentedString(dueTime)).append("\n");
+    sb.append("    dueDateAndTime: ").append(toIndentedString(dueDateAndTime)).append("\n");
     sb.append("    houseNoOrBuildingName: ").append(toIndentedString(houseNoOrBuildingName)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    landmark: ").append(toIndentedString(landmark)).append("\n");

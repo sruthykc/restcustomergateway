@@ -1,13 +1,11 @@
 package com.diviso.graeshoppe.client.product.model;
 
-
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * A Reason.
  */
-
 
 public class Reason implements Serializable {
 

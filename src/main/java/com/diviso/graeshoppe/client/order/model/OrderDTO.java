@@ -14,9 +14,12 @@ import javax.validation.constraints.*;
  * OrderDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-04T12:56:54.526485+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-29T12:42:01.121660+05:30[Asia/Kolkata]")
 
 public class OrderDTO   {
+  @JsonProperty("allergyNote")
+  private String allergyNote = null;
+
   @JsonProperty("approvalDetailsId")
   private Long approvalDetailsId = null;
 
@@ -44,11 +47,34 @@ public class OrderDTO   {
   @JsonProperty("paymentRef")
   private String paymentRef = null;
 
+  @JsonProperty("preOrderDate")
+  private OffsetDateTime preOrderDate = null;
+
   @JsonProperty("statusId")
   private Long statusId = null;
 
   @JsonProperty("storeId")
   private String storeId = null;
+
+  public OrderDTO allergyNote(String allergyNote) {
+    this.allergyNote = allergyNote;
+    return this;
+  }
+
+  /**
+   * Get allergyNote
+   * @return allergyNote
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getAllergyNote() {
+    return allergyNote;
+  }
+
+  public void setAllergyNote(String allergyNote) {
+    this.allergyNote = allergyNote;
+  }
 
   public OrderDTO approvalDetailsId(Long approvalDetailsId) {
     this.approvalDetailsId = approvalDetailsId;
@@ -231,6 +257,27 @@ public class OrderDTO   {
     this.paymentRef = paymentRef;
   }
 
+  public OrderDTO preOrderDate(OffsetDateTime preOrderDate) {
+    this.preOrderDate = preOrderDate;
+    return this;
+  }
+
+  /**
+   * Get preOrderDate
+   * @return preOrderDate
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public OffsetDateTime getPreOrderDate() {
+    return preOrderDate;
+  }
+
+  public void setPreOrderDate(OffsetDateTime preOrderDate) {
+    this.preOrderDate = preOrderDate;
+  }
+
   public OrderDTO statusId(Long statusId) {
     this.statusId = statusId;
     return this;
@@ -281,7 +328,8 @@ public class OrderDTO   {
       return false;
     }
     OrderDTO orderDTO = (OrderDTO) o;
-    return Objects.equals(this.approvalDetailsId, orderDTO.approvalDetailsId) &&
+    return Objects.equals(this.allergyNote, orderDTO.allergyNote) &&
+        Objects.equals(this.approvalDetailsId, orderDTO.approvalDetailsId) &&
         Objects.equals(this.customerId, orderDTO.customerId) &&
         Objects.equals(this.date, orderDTO.date) &&
         Objects.equals(this.deliveryInfoId, orderDTO.deliveryInfoId) &&
@@ -290,13 +338,14 @@ public class OrderDTO   {
         Objects.equals(this.id, orderDTO.id) &&
         Objects.equals(this.orderId, orderDTO.orderId) &&
         Objects.equals(this.paymentRef, orderDTO.paymentRef) &&
+        Objects.equals(this.preOrderDate, orderDTO.preOrderDate) &&
         Objects.equals(this.statusId, orderDTO.statusId) &&
         Objects.equals(this.storeId, orderDTO.storeId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(approvalDetailsId, customerId, date, deliveryInfoId, email, grandTotal, id, orderId, paymentRef, statusId, storeId);
+    return Objects.hash(allergyNote, approvalDetailsId, customerId, date, deliveryInfoId, email, grandTotal, id, orderId, paymentRef, preOrderDate, statusId, storeId);
   }
 
   @Override
@@ -304,6 +353,7 @@ public class OrderDTO   {
     StringBuilder sb = new StringBuilder();
     sb.append("class OrderDTO {\n");
     
+    sb.append("    allergyNote: ").append(toIndentedString(allergyNote)).append("\n");
     sb.append("    approvalDetailsId: ").append(toIndentedString(approvalDetailsId)).append("\n");
     sb.append("    customerId: ").append(toIndentedString(customerId)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
@@ -313,6 +363,7 @@ public class OrderDTO   {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    orderId: ").append(toIndentedString(orderId)).append("\n");
     sb.append("    paymentRef: ").append(toIndentedString(paymentRef)).append("\n");
+    sb.append("    preOrderDate: ").append(toIndentedString(preOrderDate)).append("\n");
     sb.append("    statusId: ").append(toIndentedString(statusId)).append("\n");
     sb.append("    storeId: ").append(toIndentedString(storeId)).append("\n");
     sb.append("}");

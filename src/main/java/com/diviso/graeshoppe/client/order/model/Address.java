@@ -1,22 +1,18 @@
 package com.diviso.graeshoppe.client.order.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Address
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-04T12:56:54.526485+05:30[Asia/Kolkata]")
-
 
 public class Address   {
   @JsonProperty("addressType")
@@ -30,6 +26,24 @@ public class Address   {
 
   @JsonProperty("customerId")
   private String customerId = null;
+  
+
+  /**
+ * @return the email
+ */
+public String getEmail() {
+	return email;
+}
+
+/**
+ * @param email the email to set
+ */
+public void setEmail(String email) {
+	this.email = email;
+}
+
+@JsonProperty( "email")
+  private String email;
 
   @JsonProperty("houseNoOrBuildingName")
   private String houseNoOrBuildingName = null;
@@ -47,7 +61,7 @@ public class Address   {
   private Long phone = null;
 
   @JsonProperty("pincode")
-  private Long pincode = null;
+  private String pincode = null;
 
   @JsonProperty("roadNameAreaOrStreet")
   private String roadNameAreaOrStreet = null;
@@ -235,7 +249,7 @@ public class Address   {
     this.phone = phone;
   }
 
-  public Address pincode(Long pincode) {
+  public Address pincode(String pincode) {
     this.pincode = pincode;
     return this;
   }
@@ -247,11 +261,11 @@ public class Address   {
   @ApiModelProperty(value = "")
 
 
-  public Long getPincode() {
+  public String getPincode() {
     return pincode;
   }
 
-  public void setPincode(Long pincode) {
+  public void setPincode(String pincode) {
     this.pincode = pincode;
   }
 

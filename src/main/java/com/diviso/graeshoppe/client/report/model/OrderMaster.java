@@ -1,22 +1,22 @@
 package com.diviso.graeshoppe.client.report.model;
 
-import java.util.Objects;
-import com.diviso.graeshoppe.client.report.model.OrderLine;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
+import java.util.Objects;
+
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import org.springframework.validation.annotation.Validated;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * OrderMaster
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-14T14:39:00.436+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-15T11:16:15.523+05:30[Asia/Kolkata]")
 
 public class OrderMaster   {
   @JsonProperty("addressType")
@@ -64,7 +64,7 @@ public class OrderMaster   {
   @JsonProperty("orderFromCustomer")
   private Long orderFromCustomer = null;
 
-  @JsonProperty("orderLine")
+  @JsonProperty("orderLines")
   @Valid
   private List<OrderLine> orderLine = null;
 

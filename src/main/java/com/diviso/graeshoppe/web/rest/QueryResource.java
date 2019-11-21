@@ -8,13 +8,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
 import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
-import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.customer.model.ContactDTO;
 import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
 import com.diviso.graeshoppe.client.customer.model.FavouriteProduct;
@@ -39,7 +35,6 @@ import com.diviso.graeshoppe.client.order.model.OrderLine;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
 import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
-
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.ComboLineItem;
@@ -48,13 +43,12 @@ import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.ProductDTO;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.client.product.model.StockCurrentDTO;
-
 import com.diviso.graeshoppe.client.report.api.ReportResourceApi;
+import com.diviso.graeshoppe.client.report.model.OrderAggregator;
 import com.diviso.graeshoppe.client.store.api.BannerResourceApi;
 import com.diviso.graeshoppe.client.store.api.ReviewResourceApi;
 import com.diviso.graeshoppe.client.store.api.StoreTypeResourceApi;
 import com.diviso.graeshoppe.client.store.api.UserRatingResourceApi;
-
 import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
 import com.diviso.graeshoppe.client.store.domain.RatingReview;
 import com.diviso.graeshoppe.client.store.domain.Review;
@@ -64,17 +58,13 @@ import com.diviso.graeshoppe.client.store.domain.StoreSettings;
 import com.diviso.graeshoppe.client.store.domain.StoreType;
 import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
-
 import com.diviso.graeshoppe.client.store.model.BannerDTO;
 import com.diviso.graeshoppe.client.store.model.StoreTypeDTO;
-
-import com.diviso.graeshoppe.domain.Cart;
 import com.diviso.graeshoppe.domain.ResultBucket;
 import com.diviso.graeshoppe.service.CustomerQueryService;
 import com.diviso.graeshoppe.service.OfferQueryService;
 import com.diviso.graeshoppe.service.OrderQueryService;
 import com.diviso.graeshoppe.service.ProductQueryService;
-import com.diviso.graeshoppe.service.QueryService;
 import com.diviso.graeshoppe.service.StoreQueryService;
 
 @RestController
@@ -131,32 +121,23 @@ public class QueryResource {
 	private OrderCommandResourceApi orderCommandResourceApi;
 
 	@Autowired
+	com.diviso.graeshoppe.client.report.api.QueryResourceApi queryResource;
+
+	@Autowired
 	private OrderQueryResourceApi orderQueryResourceApi;
 
-	/*
-	 * @GetMapping("/taskDetails/{taskName}/{orderId}/{storeId}") public
-	 * ResponseEntity<OpenTask> getTaskDetails(@PathVariable String
-	 * taskName,@PathVariable String orderId,@PathVariable String storeId) { return
-	 * orderQueryResourceApi.getTaskDetailsUsingGET(taskName,orderId, storeId);
-	 * 
-	 * }
-	 * 
-	 * 
-	 * 	@GetMapping("/checkUserExists/{reference}")
-	 *public ResponseEntity<Boolean> checkUserExists(@PathVariable String reference) {
-		return customerResourceApi.checkUserExistsUsingGET(reference);
-	 *}
-	 * 
-	 * @GetMapping("/findCustomerByMobileNumber/{mobileNumber}") public
-	 * ResponseEntity<CustomerDTO> findByMobileNumber(@PathVariable Long
-	 * mobileNumber) { return
-	 * customerResourceApi.findByMobileNumberUsingGET(mobileNumber); }
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
-	// *************************************************************************************************
+	@GetMapping("/findCustomerByMobileNumber/{mobileNumber}")
+	public ResponseEntity<CustomerDTO> findByMobileNumber(@PathVariable Long mobileNumber) {
+		return customerResourceApi.findByMobileNumberUsingGET(mobileNumber);
+	}
+
+	@GetMapping("/taskDetails/{taskName}/{orderId}/{storeId}")
+	public ResponseEntity<OpenTask> getTaskDetails(@PathVariable String taskName, @PathVariable String orderId,
+			@PathVariable String storeId) {
+		return orderQueryResourceApi.getTaskDetailsUsingGET(taskName, orderId, storeId);
+
+	}
+
 	@GetMapping("/findProductById/{id}")
 	public ResponseEntity<Product> findProductById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(productQueryService.findProductById(id));
@@ -356,8 +337,9 @@ public class QueryResource {
 	}
 
 	@GetMapping("/findByLocationNear/{lat}/{lon}/{distance}/{distanceUnit}")
-	public Page<Store> findStoreBySear(@PathVariable Double lat,@PathVariable Double lon, @PathVariable Double distance ,@PathVariable String distanceUnit, Pageable pageable) {
-		return storeQueryService.findByLocationNear(lat,lon,distance,distanceUnit,pageable);
+	public Page<Store> findStoreBySear(@PathVariable Double lat, @PathVariable Double lon,
+			@PathVariable Double distance, @PathVariable String distanceUnit, Pageable pageable) {
+		return storeQueryService.findByLocationNear(lat, lon, distance, distanceUnit, pageable);
 	}
 
 	@GetMapping("/review-count/{storeId}")
@@ -594,18 +576,14 @@ public class QueryResource {
 		return orderQueryService.findAuxilaryOrderLineByOrderLineId(orderLineId, pageable);
 	}
 
-	
+	@GetMapping("/checkUserExists/{reference}")
+	public ResponseEntity<Boolean> checkUserExists(@PathVariable String reference) {
+		return customerResourceApi.checkUserExistsUsingGET(reference);
+	}
 
-	// ******************************************************************************
-
-	/*
-	 *@GetMapping("/orderaggregator/{orderNumber}")
+	@GetMapping("/orderaggregator/{orderNumber}")
 	public ResponseEntity<OrderAggregator> getOrderAggregator(@PathVariable String orderNumber) {
 		return queryResource.getOrderAggregatorUsingGET(orderNumber);
 	}
-	 * 
-	 * 
 
-	 * 
-	 */
 }

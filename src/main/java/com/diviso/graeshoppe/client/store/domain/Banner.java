@@ -25,8 +25,6 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
-
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 

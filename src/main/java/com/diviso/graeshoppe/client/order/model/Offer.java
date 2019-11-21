@@ -1,135 +1,111 @@
 package com.diviso.graeshoppe.client.order.model;
 
-import java.util.Objects;
-import com.diviso.graeshoppe.client.order.model.Order;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
 
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Offer
+ * * A Offer.
  */
-@Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-04T12:56:54.526485+05:30[Asia/Kolkata]")
 
 
-public class Offer   {
-  @JsonProperty("id")
-  private Long id = null;
+public class Offer implements Serializable {
 
-  @JsonProperty("offerRef")
-  private String offerRef = null;
+	private static final long serialVersionUID = 1L;
 
-  @JsonProperty("order")
-  private Order order = null;
+	@JsonProperty("offerRef")
+	private String offerRef;
+	@JsonProperty("orderDiscountAmount")
+	private Double orderDiscountAmount;
+	@Override
+	public String toString() {
+		return String.format("Offer [offerRef=%s,\n orderDiscountAmount=%s,\n description=%s]", offerRef,
+				orderDiscountAmount, description);
+	}
 
-  public Offer id(Long id) {
-    this.id = id;
-    return this;
-  }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((offerRef == null) ? 0 : offerRef.hashCode());
+		result = prime * result + ((orderDiscountAmount == null) ? 0 : orderDiscountAmount.hashCode());
+		return result;
+	}
 
-  /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Offer))
+			return false;
+		Offer other = (Offer) obj;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (offerRef == null) {
+			if (other.offerRef != null)
+				return false;
+		} else if (!offerRef.equals(other.offerRef))
+			return false;
+		if (orderDiscountAmount == null) {
+			if (other.orderDiscountAmount != null)
+				return false;
+		} else if (!orderDiscountAmount.equals(other.orderDiscountAmount))
+			return false;
+		return true;
+	}
 
+	@JsonProperty("description")
+	private String description;
 
-  public Long getId() {
-    return id;
-  }
+	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
+	// remove
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+	public String getOfferRef() {
+		return offerRef;
+	}
 
-  public Offer offerRef(String offerRef) {
-    this.offerRef = offerRef;
-    return this;
-  }
+	public Offer offerRef(String offerRef) {
+		this.offerRef = offerRef;
+		return this;
+	}
 
-  /**
-   * Get offerRef
-   * @return offerRef
-  **/
-  @ApiModelProperty(value = "")
+	public void setOfferRef(String offerRef) {
+		this.offerRef = offerRef;
+	}
 
+	public Double getOrderDiscountAmount() {
+		return orderDiscountAmount;
+	}
 
-  public String getOfferRef() {
-    return offerRef;
-  }
+	public Offer orderDiscountAmount(Double orderDiscountAmount) {
+		this.orderDiscountAmount = orderDiscountAmount;
+		return this;
+	}
 
-  public void setOfferRef(String offerRef) {
-    this.offerRef = offerRef;
-  }
+	public void setOrderDiscountAmount(Double orderDiscountAmount) {
+		this.orderDiscountAmount = orderDiscountAmount;
+	}
 
-  public Offer order(Order order) {
-    this.order = order;
-    return this;
-  }
+	public String getDescription() {
+		return description;
+	}
 
-  /**
-   * Get order
-   * @return order
-  **/
-  @ApiModelProperty(value = "")
+	public Offer description(String description) {
+		this.description = description;
+		return this;
+	}
 
-  @Valid
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-  public Order getOrder() {
-    return order;
-  }
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+	// setters here, do not remove
 
-  public void setOrder(Order order) {
-    this.order = order;
-  }
-
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Offer offer = (Offer) o;
-    return Objects.equals(this.id, offer.id) &&
-        Objects.equals(this.offerRef, offer.offerRef) &&
-        Objects.equals(this.order, offer.order);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, offerRef, order);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Offer {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    offerRef: ").append(toIndentedString(offerRef)).append("\n");
-    sb.append("    order: ").append(toIndentedString(order)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 }
-

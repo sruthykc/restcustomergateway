@@ -1,18 +1,14 @@
 package com.diviso.graeshoppe.client.store.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
-
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
+
+import javax.persistence.Lob;
+
+
 
 /**
  * A Store.
@@ -35,6 +31,7 @@ public class Store implements Serializable {
 
 	private Double totalRating;
 
+	
 	private String location;
 
 	private String locationName;

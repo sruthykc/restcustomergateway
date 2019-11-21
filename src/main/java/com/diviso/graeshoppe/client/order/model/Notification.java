@@ -1,11 +1,6 @@
 package com.diviso.graeshoppe.client.order.model;
 
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -13,44 +8,30 @@ import java.util.Objects;
 /**
  * A Notification.
  */
-@Entity
-@Table(name = "notification")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+
 
 public class Notification implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
-    @Column(name = "title")
     private String title;
 
-    @Column(name = "message")
     private String message;
 
-    @Column(name = "target_id")
     private String targetId;
 
-    @Column(name = "jhi_type")
     private String type;
 
-    @Lob
-    @Column(name = "image")
     private byte[] image;
 
-    @Column(name = "image_content_type")
     private String imageContentType;
 
-    @Column(name = "jhi_date")
     private Instant date;
 
-    @Column(name = "receiver_id")
     private String receiverId;
 
-    @Column(name = "status")
     private String status;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

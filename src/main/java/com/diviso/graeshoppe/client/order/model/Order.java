@@ -1,35 +1,25 @@
 package com.diviso.graeshoppe.client.order.model;
 
-import java.util.Objects;
-import java.util.Set;
-
-import com.diviso.graeshoppe.client.order.model.ApprovalDetails;
-import com.diviso.graeshoppe.client.order.model.DeliveryInfo;
-import com.diviso.graeshoppe.client.order.model.Offer;
-import com.diviso.graeshoppe.client.order.model.OrderLine;
-import com.diviso.graeshoppe.client.order.model.Status;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
+import javax.validation.Valid;
 
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Order
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-04T12:56:54.526485+05:30[Asia/Kolkata]")
-
 
 public class Order   {
   @JsonProperty("appliedOffers")
@@ -44,8 +34,42 @@ public class Order   {
 
   @JsonProperty("date")
   private Instant date = null;
+  
+  @JsonProperty( "allergyNote")
+  private String allergyNote;
 
-  @JsonProperty("deliveryInfo")
+  @JsonProperty( "preOrderDate")
+  private Instant preOrderDate;
+
+  /**
+ * @return the allergyNote
+ */
+public String getAllergyNote() {
+	return allergyNote;
+}
+
+/**
+ * @param allergyNote the allergyNote to set
+ */
+public void setAllergyNote(String allergyNote) {
+	this.allergyNote = allergyNote;
+}
+
+/**
+ * @return the preOrderDate
+ */
+public Instant getPreOrderDate() {
+	return preOrderDate;
+}
+
+/**
+ * @param preOrderDate the preOrderDate to set
+ */
+public void setPreOrderDate(Instant preOrderDate) {
+	this.preOrderDate = preOrderDate;
+}
+
+@JsonProperty("deliveryInfo")
   private DeliveryInfo deliveryInfo = null;
 
   @JsonProperty("email")

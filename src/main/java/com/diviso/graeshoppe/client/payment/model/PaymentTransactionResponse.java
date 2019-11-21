@@ -1,25 +1,81 @@
 package com.diviso.graeshoppe.client.payment.model;
 
-public class PaymentTransactionResponse {
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
-	@Override
-	public String toString() {
-		return String.format("PaymentTransactionResponse [transactionId=%s]", transactionId);
-	}
+/**
+ * PaymentTransactionResponse
+ */
+@Validated
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-23T12:15:47.246272+05:30[Asia/Kolkata]")
 
-	private String transactionId;
+public class PaymentTransactionResponse   {
+  @JsonProperty("transactionId")
+  private String transactionId = null;
 
-	/**
-	 * @return the transactionId
-	 */
-	public String getTransactionId() {
-		return transactionId;
-	}
+  public PaymentTransactionResponse transactionId(String transactionId) {
+    this.transactionId = transactionId;
+    return this;
+  }
 
-	/**
-	 * @param transactionId the transactionId to set
-	 */
-	public void setTransactionId(String transactionId) {
-		this.transactionId = transactionId;
-	}
+  /**
+   * Get transactionId
+   * @return transactionId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getTransactionId() {
+    return transactionId;
+  }
+
+  public void setTransactionId(String transactionId) {
+    this.transactionId = transactionId;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    PaymentTransactionResponse paymentTransactionResponse = (PaymentTransactionResponse) o;
+    return Objects.equals(this.transactionId, paymentTransactionResponse.transactionId);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(transactionId);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class PaymentTransactionResponse {\n");
+    
+    sb.append("    transactionId: ").append(toIndentedString(transactionId)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+

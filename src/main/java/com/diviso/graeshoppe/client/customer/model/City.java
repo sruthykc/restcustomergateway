@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-28T12:48:05.037111+05:30[Asia/Kolkata]")
-	
+
 public class City   {
   @JsonProperty("id")
   private Long id = null;

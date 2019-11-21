@@ -8,7 +8,7 @@ import java.util.Objects;
  * A City.
  */
 
-	
+
 public class City implements Serializable {
 
     private static final long serialVersionUID = 1L;

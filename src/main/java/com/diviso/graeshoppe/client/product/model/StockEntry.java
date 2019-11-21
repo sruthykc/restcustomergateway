@@ -1,15 +1,15 @@
 package com.diviso.graeshoppe.client.product.model;
 
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A StockEntry.
  */
+
 
 public class StockEntry implements Serializable {
 
