@@ -840,7 +840,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		searchSourceBuilder.query(
 				QueryBuilders.geoDistanceQuery("location").point(lat,lon).distance(5, DistanceUnit.KILOMETERS));
 
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("cart", pageable.getPageSize(), pageable.getPageNumber(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -848,7 +848,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return serviceUtility.getPageResult(searchResponse, pageable,new Cart());
+		return serviceUtility.getPageResult(searchResponse, pageable,new Store());
 
 		 }
 
