@@ -28,6 +28,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.ScoreSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -45,13 +46,15 @@ import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.domain.Cart;
 import com.diviso.graeshoppe.domain.ResultBucket;
 import com.diviso.graeshoppe.service.StoreQueryService;
+import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Service
 public class StoreQueryServiceImpl implements StoreQueryService {
-
-
+    @Autowired
+	ServiceUtility serviceUtility;
+	
 	private RestHighLevelClient restHighLevelClient;
 
 	private ObjectMapper objectMapper;
@@ -73,7 +76,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		 */
 		searchSourceBuilder.query(matchAllQuery());
 
-		SearchRequest searchRequest = generateSearchRequest("review", pageable.getPageSize(), pageable.getPageNumber(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("review", pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -81,7 +84,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getResult(searchResponse, pageable,new Review());
+		return serviceUtility.getPageResult(searchResponse, pageable,new Review());
 
 	}
 
@@ -97,7 +100,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		 */
 		searchSourceBuilder.query(matchAllQuery());
 
-		SearchRequest searchRequest = generateSearchRequest("userrating", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("userrating", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -105,7 +108,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getResult(searchResponse, pageable,new UserRating());
+		return serviceUtility.getPageResult(searchResponse, pageable,new UserRating());
 
 	}
 
@@ -122,7 +125,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		searchSourceBuilder.query(matchAllQuery());
 
-		SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -130,7 +133,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		Page<Store> storePage = getResult(searchResponse, pageable,new Store());
+		Page<Store> storePage = serviceUtility.getPageResult(searchResponse, pageable,new Store());
 
 		storePage.forEach(store -> {
 			List<UserRating> userRating = findUserRatingByRegNo(store.getRegNo(), pageable).getContent();
@@ -156,15 +159,9 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		SearchHit[] searchHit = searchResponse.getHits().getHits();
-
-		List<Store> storeList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			storeList.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
-		}
-		return storeList.get(0);
-
+		
+		
+		return serviceUtility.getObjectResult(searchResponse, new Store());
 	}
 
 	
@@ -194,7 +191,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		searchSourceBuilder.query(termQuery("store.regNo", storeId));
 
-		SearchRequest searchRequest = generateSearchRequest("review", pageable.getPageSize(), pageable.getPageNumber(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("review", pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -202,7 +199,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getResult(searchResponse, pageable,new Review());
+		return serviceUtility.getPageResult(searchResponse, pageable,new Review());
 	}
 
 	@Override
@@ -216,7 +213,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		 */
 		searchSourceBuilder.query(termQuery("store.regNo", regNo));
 
-		SearchRequest searchRequest = generateSearchRequest("userrating", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("userrating", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -224,7 +221,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getResult(searchResponse, pageable,new UserRating());
+		return serviceUtility.getPageResult(searchResponse, pageable,new UserRating());
 
 	}
 	
@@ -280,14 +277,9 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		SearchHit[] searchHit = searchResponse.getHits().getHits();
-
-		List<UserRating> userRatingList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			userRatingList.add(objectMapper.convertValue(hit.getSourceAsMap(), UserRating.class));
-		}
-		return userRatingList.get(0);
+		
+		
+		return serviceUtility.getObjectResult(searchResponse, new UserRating());
 
 	}
 	
@@ -305,14 +297,8 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		SearchHit[] searchHit = searchResponse.getHits().getHits();
-
-		List<UserRating> userRatingList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			userRatingList.add(objectMapper.convertValue(hit.getSourceAsMap(), UserRating.class));
-		}
-		return userRatingList.get(0);
+		
+		return serviceUtility.getObjectResult(searchResponse, new UserRating());
 
 	}
 	
@@ -320,7 +306,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	public UserRating findRatingByName(String name) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-		searchSourceBuilder.query(QueryBuilders.termQuery("userName", name));
+		searchSourceBuilder.query(QueryBuilders.termQuery("userName.keyword", name));
 
 		SearchRequest searchRequest = new SearchRequest("userrating");
 		searchRequest.source(searchSourceBuilder);
@@ -330,15 +316,8 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		SearchHit[] searchHit = searchResponse.getHits().getHits();
-
-		List<UserRating> userRatingList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			userRatingList.add(objectMapper.convertValue(hit.getSourceAsMap(), UserRating.class));
-		}
-
-		return userRatingList.get(0);
+		
+		return serviceUtility.getObjectResult(searchResponse, new UserRating());
 	}
 	
 	@Override
@@ -356,15 +335,8 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		SearchHit[] searchHit = searchResponse.getHits().getHits();
-
-		List<Review> reviewList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			reviewList.add(objectMapper.convertValue(hit.getSourceAsMap(), Review.class));
-		}
-		return reviewList.get(0);
-
+		
+		return serviceUtility.getObjectResult(searchResponse, new Review());
 	}
 	
 	@Override
@@ -414,7 +386,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		 */
 		searchSourceBuilder.query(termQuery("deliveryInfos.type.name.keyword", deliveryType));
 
-		SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -422,7 +394,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		Page<Store> storePage = getResult(searchResponse, pageable,new Store());
+		Page<Store> storePage = serviceUtility.getPageResult(searchResponse, pageable,new Store());
 		return storePage;
 	}
 	
@@ -455,7 +427,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 			storeTypeList.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class));
 		}
 
-		Page<Store> storePage = getResult(searchResponse, pageable,new Store());
+		Page<Store> storePage = serviceUtility.getPageResult(searchResponse, pageable,new Store());
 
 		for (StoreType storeType : storeTypeList) {
 			storeSet.add(storeType.getStore());
@@ -470,7 +442,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		Set<Store> storeSet = new HashSet<>();
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("type.name.keyword", name)));
-		SearchRequest searchRequest = generateSearchRequest("deliveryinfo", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("deliveryinfo", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -503,7 +475,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		 */
 		searchSourceBuilder.query(matchQuery("name", searchTerm).prefixLength(3));
 
-		SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -511,7 +483,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getResult(searchResponse, pageable,new Store());
+		return serviceUtility.getPageResult(searchResponse, pageable,new Store());
 	}
 	
 	@Override
@@ -520,7 +492,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		searchSourceBuilder.query(termQuery("store.id", storeId));
 
-		SearchRequest searchRequest = generateSearchRequest("deliveryinfo", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("deliveryinfo", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -535,7 +507,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		for (SearchHit hit : searchHit) {
 			deliveryInfoList.add(objectMapper.convertValue(hit.getSourceAsMap(), DeliveryInfo.class));
 		}
-		Page<DeliveryInfo> deliveryinfos = getResult(searchResponse, pageable,new DeliveryInfo());
+		Page<DeliveryInfo> deliveryinfos = serviceUtility.getPageResult(searchResponse, pageable,new DeliveryInfo());
 		List<Type> types = new ArrayList<Type>();
 
 		deliveryinfos.forEach(deliveryInfo -> {
@@ -565,14 +537,9 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 			e.printStackTrace();
 		}
 
-		SearchHit[] searchHit = searchResponse.getHits().getHits();
-
-		List<DeliveryInfo> deliveryInfoList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			deliveryInfoList.add(objectMapper.convertValue(hit.getSourceAsMap(), DeliveryInfo.class));
-		}
-		return deliveryInfoList.get(0);
+		
+		
+		return serviceUtility.getObjectResult(searchResponse, new DeliveryInfo());
 
 	}
 	
@@ -584,7 +551,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		searchSourceBuilder.query(rangeQuery("totalRating").gte(1).lte(5));
 		searchSourceBuilder.sort(new FieldSortBuilder("totalRating").order(SortOrder.DESC));
 
-		SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -592,7 +559,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
 
-		return getResult(searchResponse, pageable,new Store());
+		return serviceUtility.getPageResult(searchResponse, pageable,new Store());
 	}
 
 	@Override
@@ -601,7 +568,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		searchSourceBuilder.query(termQuery("store.regNo", storeId));
 
-		SearchRequest searchRequest = generateSearchRequest("deliveryinfo", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("deliveryinfo", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -609,7 +576,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getResult(searchResponse, pageable,new DeliveryInfo());
+		return serviceUtility.getPageResult(searchResponse, pageable,new DeliveryInfo());
 
 	}
 	
@@ -621,7 +588,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		searchSourceBuilder.query(matchQuery("name", searchTerm));
 
-		SearchRequest searchRequest = generateSearchRequest1(pageable.getPageSize(), pageable.getPageNumber(),
+		SearchRequest searchRequest = generateSearchRequestForMultipleIndex(pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -652,31 +619,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	}
 
 	
-	private SearchRequest generateSearchRequest1(Integer totalElement, Integer pageNumber,
-			SearchSourceBuilder sourceBuilder) {
-		SearchRequest searchRequest = new SearchRequest("store", "product", "category");
-
-		int offset = 0;
-		int totalElements = 0;
-
-		if (pageNumber == 0) {
-			offset = 0;
-			totalElements = totalElement;
-
-		} else {
-
-			offset = totalElements;
-
-			totalElements = totalElement + (pageNumber * totalElement);
-
-		}
-		sourceBuilder.from(offset);
-		sourceBuilder.size(totalElements);
-
-		searchRequest.source(sourceBuilder);
-		return searchRequest;
-	}
-
+	
 	public Page<Store> findStoresByRegNoList(Set<HeaderSearch> values, Pageable pageable) throws IOException {
 		Set<Store> storeSet = new HashSet<Store>();
 		SearchResponse searchResponse = null;
@@ -730,7 +673,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		searchSourceBuilder.query(matchQuery("locationName", locationName).prefixLength(3));
 
-		SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -739,7 +682,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 			e.printStackTrace();
 		}
 
-		return getResult(searchResponse, pageable,new Store());
+		return serviceUtility.getPageResult(searchResponse, pageable,new Store());
 	}
 
 	@Override
@@ -748,7 +691,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		searchSourceBuilder.query(matchAllQuery());
 		searchSourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
-		SearchRequest searchRequest = generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -756,7 +699,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getResult(searchResponse, pageable,new Store());
+		return serviceUtility.getPageResult(searchResponse, pageable,new Store());
 
 	}
 	
@@ -770,7 +713,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		searchSourceBuilder.query(termQuery("store.regNo", storeId));
 
-		SearchRequest searchRequest = generateSearchRequest("storetype", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("storetype", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -778,7 +721,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getResult(searchResponse, pageable,new StoreType());
+		return serviceUtility.getPageResult(searchResponse, pageable,new StoreType());
 
 	}
 	
@@ -796,14 +739,8 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 			e.printStackTrace();
 		}
 
-		SearchHit[] searchHit = searchResponse.getHits().getHits();
-
-		List<Store> storeList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			storeList.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
-		}
-		return storeList.get(0).getStoreSettings();
+		
+		return serviceUtility.getObjectResult(searchResponse, new Store()).getStoreSettings();
 	}
 	
 	public StoreAddress getStoreAddress(String iDPCode) {
@@ -820,14 +757,9 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 			e.printStackTrace();
 		}
 
-		SearchHit[] searchHit = searchResponse.getHits().getHits();
-
-		List<Store> storeList = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			storeList.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
-		}
-		return storeList.get(0).getStoreAddress();
+		
+		
+		return serviceUtility.getObjectResult(searchResponse, new Store()).getStoreAddress();
 
 	}
 	
@@ -865,48 +797,6 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	}
 	
-	private SearchRequest generateSearchRequest(String indexName, Integer totalElement, Integer pageNumber,
-			SearchSourceBuilder sourceBuilder) {
-		SearchRequest searchRequest = new SearchRequest(indexName);
-
-		int offset = 0;
-		int totalElements = 0;
-
-		if (pageNumber == 0) {
-			offset = 0;
-			totalElements = totalElement;
-
-		 System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in00000000Page" + offset);
-			
-			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in 00000000Page" + totalElements);
-		} else {
-
-			offset = totalElement;
-
-			totalElements =  (pageNumber * totalElement);
-			 System.out.println("****************************offset in else Page"+offset);
-			 System.out.println("************************totalelements in elsePage"+totalElements);
-
-		}
-		sourceBuilder.from(offset);
-		sourceBuilder.size(totalElements);
-
-		searchRequest.source(sourceBuilder);
-		return searchRequest;
-	}
-	private <T> Page getResult(SearchResponse response, Pageable page,T t) {
-
-		SearchHit[] searchHit = response.getHits().getHits();
-
-		List<T> list = new ArrayList<>();
-
-		for (SearchHit hit : searchHit) {
-			list.add((T) objectMapper.convertValue(hit.getSourceAsMap(), t.getClass()));
-		}
-
-		return new PageImpl(list,page, response.getHits().getTotalHits());
-
-	}
 	
 	public List<ResultBucket> findStoreTypeAndCount1(Pageable pageable) {
 		List<ResultBucket> resultBucketList = new ArrayList<>();
@@ -952,7 +842,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		searchSourceBuilder.query(
 				QueryBuilders.geoDistanceQuery("location").point(10.767, 76.486).distance(5, DistanceUnit.KILOMETERS));
 
-		SearchRequest searchRequest = generateSearchRequest("cart", pageable.getPageSize(), pageable.getPageNumber(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("cart", pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -960,12 +850,104 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return getResult(searchResponse, pageable,new Cart());
+		return serviceUtility.getPageResult(searchResponse, pageable,new Cart());
 
 		/* storeSearchRepository.findByLocationNear(point,distance,pageable); */ }
+
+	private SearchRequest generateSearchRequestForMultipleIndex(Integer totalElement, Integer pageNumber,
+			SearchSourceBuilder sourceBuilder) {
+		SearchRequest searchRequest = new SearchRequest("store", "product", "category");
+
+		int offset = 0;
+		int totalElements = 0;
+
+		if (pageNumber == 0) {
+			offset = 0;
+			totalElements = totalElement;
+
+		} else {
+
+			offset = totalElements;
+
+			totalElements = totalElement + (pageNumber * totalElement);
+
+		}
+		sourceBuilder.from(offset);
+		sourceBuilder.size(totalElements);
+
+		searchRequest.source(sourceBuilder);
+		return searchRequest;
+	}
+
+	@Override
+	public Store findStoreById(Long id) {
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+		searchSourceBuilder.query(QueryBuilders.termQuery("id", id));
+
+		SearchRequest searchRequest = new SearchRequest("store");
+		searchRequest.source(searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return serviceUtility.getObjectResult(searchResponse, new Store());
+	}
+	
+
+//**************************************************************************************************************************
+	/*private SearchRequest generateSearchRequest(String indexName, Integer totalElement, Integer pageNumber,
+	SearchSourceBuilder sourceBuilder) {
+SearchRequest searchRequest = new SearchRequest(indexName);
+
+int offset = 0;
+int totalElements = 0;
+
+if (pageNumber == 0) {
+	offset = 0;
+	totalElements = totalElement;
+
+ System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in00000000Page" + offset);
+	
+	System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in 00000000Page" + totalElements);
+} else {
+
+	offset = totalElement;
+
+	totalElements =  (pageNumber * totalElement);
+	 System.out.println("****************************offset in else Page"+offset);
+	 System.out.println("************************totalelements in elsePage"+totalElements);
+
+}
+sourceBuilder.from(offset);
+sourceBuilder.size(totalElements);
+
+searchRequest.source(sourceBuilder);
+return searchRequest;
+}
+private <T> Page getResult(SearchResponse response, Pageable page,T t) {
+
+SearchHit[] searchHit = response.getHits().getHits();
+
+List<T> list = new ArrayList<>();
+
+for (SearchHit hit : searchHit) {
+	list.add((T) objectMapper.convertValue(hit.getSourceAsMap(), t.getClass()));
+}
+
+return new PageImpl(list,page, response.getHits().getTotalHits());
+
+}*/
+
+	//*********************************************************************************************************************
 	
 
 
+	
+	
+	
 	/*private Page<Type> getTypeSearchResult(SearchResponse response, Pageable page) {
 
 	SearchHit[] searchHit = response.getHits().getHits();

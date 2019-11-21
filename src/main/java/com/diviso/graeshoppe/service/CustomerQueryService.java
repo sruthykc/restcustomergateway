@@ -16,4 +16,8 @@ public interface CustomerQueryService {
 
 	Page<Customer> findAllCustomersWithoutSearch(Pageable pageable);
 
+	Page<FavouriteProduct> findFavouriteProductsByCustomerReference(String reference, Pageable pageable);
+
+	Page<FavouriteStore> findFavouriteStoresByCustomerReference(String reference, Pageable pageable);
+
 }
