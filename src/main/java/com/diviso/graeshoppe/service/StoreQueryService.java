@@ -57,8 +57,6 @@ public interface StoreQueryService {
 
 	Page<DeliveryInfo> findDeliveryInfoByStoreId(String storeId, Pageable pageable);
 
-	//Page<Cart> findByLocationNear(Pageable pageable);
-
 	Page<Store> findStoreByLocationName(String locationName, Pageable pageable);
 
 	Page<Store> findAndSortStoreByMinAount(Pageable pageable);
@@ -71,7 +69,7 @@ public interface StoreQueryService {
 
 	List<ResultBucket> findStoreTypeAndCount(Pageable pageable);
 
-	Page<Cart> findByLocationNear(Pageable pageable);
+	Page<Store> findByLocationNear(Double lat,Double lon, Double distance ,String distanceUnit,Pageable pageable);
 
 	Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException;
 

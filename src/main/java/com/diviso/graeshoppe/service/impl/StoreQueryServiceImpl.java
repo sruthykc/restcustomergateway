@@ -834,13 +834,11 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	}
 	
 	@Override
-	public Page<Cart> findByLocationNear(/*
-											 * Double lat,Double lon, Double distance ,
-											 */ Pageable pageable) {
+	public Page<Store> findByLocationNear(Double lat,Double lon, Double distance ,String distanceUnit, Pageable pageable) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 		searchSourceBuilder.query(
-				QueryBuilders.geoDistanceQuery("location").point(10.767, 76.486).distance(5, DistanceUnit.KILOMETERS));
+				QueryBuilders.geoDistanceQuery("location").point(lat,lon).distance(5, DistanceUnit.KILOMETERS));
 
 		SearchRequest searchRequest = serviceUtility.generateSearchRequest("cart", pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
@@ -852,7 +850,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		}
 		return serviceUtility.getPageResult(searchResponse, pageable,new Cart());
 
-		/* storeSearchRepository.findByLocationNear(point,distance,pageable); */ }
+		 }
 
 	private SearchRequest generateSearchRequestForMultipleIndex(Integer totalElement, Integer pageNumber,
 			SearchSourceBuilder sourceBuilder) {

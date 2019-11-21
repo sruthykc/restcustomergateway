@@ -142,7 +142,10 @@ public class QueryResource {
 	 * }
 	 * 
 	 * 
-	 * 
+	 * 	@GetMapping("/checkUserExists/{reference}")
+	 *public ResponseEntity<Boolean> checkUserExists(@PathVariable String reference) {
+		return customerResourceApi.checkUserExistsUsingGET(reference);
+	 *}
 	 * 
 	 * @GetMapping("/findCustomerByMobileNumber/{mobileNumber}") public
 	 * ResponseEntity<CustomerDTO> findByMobileNumber(@PathVariable Long
@@ -291,6 +294,7 @@ public class QueryResource {
 		return productQueryService.findCategoryAndCountByStoreId(storeId, pageable);
 	}
 
+	@GetMapping("/findProductsByCategoryName/{name}")
 	public Page<Product> findProductsByCategoryName(@PathVariable String name, Pageable pageable) {
 		return productQueryService.findProductsByCategoryName(name, pageable);
 	}
@@ -351,16 +355,13 @@ public class QueryResource {
 		return storeQueryService.findStoreBySearchTerm(searchTerm, pageable);
 	}
 
-	/*
-	 * not included in old version
-	 */
-	@GetMapping("/near")
-	public Page<Cart> findStoreBySear(Pageable pageable) {
-		return storeQueryService.findByLocationNear(pageable);
+	@GetMapping("/findByLocationNear/{lat}/{lon}/{distance}/{distanceUnit}")
+	public Page<Store> findStoreBySear(@PathVariable Double lat,@PathVariable Double lon, @PathVariable Double distance ,@PathVariable String distanceUnit, Pageable pageable) {
+		return storeQueryService.findByLocationNear(lat,lon,distance,distanceUnit,pageable);
 	}
 
-	@GetMapping("/review-count")
-	public Long findReviewCountByStoreId(String storeId) {
+	@GetMapping("/review-count/{storeId}")
+	public Long findReviewCountByStoreId(@PathVariable String storeId) {
 		Long l = storeQueryService.findReviewCountByStoreId(storeId);
 		return l;
 	}
@@ -604,17 +605,7 @@ public class QueryResource {
 	}
 	 * 
 	 * 
-	 *
-	 * 
-	 *
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 *
-	 * 
-	 * 
+
 	 * 
 	 */
 }
