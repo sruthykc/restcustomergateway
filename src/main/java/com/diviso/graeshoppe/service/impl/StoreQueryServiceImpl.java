@@ -635,7 +635,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 			searchSourceBuilder.query(termQuery("regNo.keyword", "spiceindia" /*r.getStoreNo()*/));
 
 			SearchRequest searchRequest = new SearchRequest("store");
-
+searchRequest.source(searchSourceBuilder);
 			
 		SearchResponse searchResponse = null;
 		try {
