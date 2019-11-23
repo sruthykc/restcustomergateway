@@ -23,7 +23,13 @@ package com.diviso.graeshoppe.client.store.domain;
 public class HeaderSearch {
 
 
-    private static final long serialVersionUID = 1L;
+    @Override
+	public String toString() {
+		return "HeaderSearch [storeNo=" + storeNo + ", getStoreNo()=" + getStoreNo() + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	}
+
+	private static final long serialVersionUID = 1L;
     
     private String storeNo;
 

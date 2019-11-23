@@ -581,8 +581,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	}
 	
 	public Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException {
-
-		Set<Store> storeSet = new HashSet<Store>();
+        Set<Store> storeSet = new HashSet<Store>();
 		Set<HeaderSearch> values = new HashSet<HeaderSearch>();
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
@@ -601,14 +600,18 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		for (SearchHit hit : searchHit) {
 			String h = hit.getSourceAsString();
+			System.out.println("$$$$$$$$$$$$$$$$$$$$HEADERSEARCH$$$$$$$$$$$$$$"+h);
 			HeaderSearch result = new HeaderSearch();
 			Map<String, Object> sourceAsMap = hit.getSourceAsMap();
 
 			if (hit.getIndex().equals("store")) {
 				result.setStoreNo((String) sourceAsMap.get("regNo"));
+				System.out.println("^^^^^^^^^^^^^^^^^^^^IF------result^^^^^^^^^^^^^^^^^^^^^^^"+result);
 			} else {
 
 				result.setStoreNo((String) sourceAsMap.get("iDPcode"));
+				
+				System.out.println("^^^^^^^^^^^^^^^^^^^^ELSE--result^^^^^^^^^^^^^^^^^^^^^^^"+result);
 			}
 
 			values.add(result);
@@ -641,6 +644,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		}
 		List<Store> storeList = new ArrayList<>();
 		storeList.addAll(storeSet);
+		System.out.println("^^^^^^^^^^^^^^^^^^^^ELSE--result^^^^^^^^^^^^^^^^^^^^^^^"+storeList);
 		return new PageImpl(storeList, pageable, searchResponse.getHits().getTotalHits());
 
 	}
