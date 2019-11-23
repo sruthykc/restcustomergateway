@@ -624,6 +624,8 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	
 	
 	public Page<Store> findStoresByRegNoList(Set<HeaderSearch> values, Pageable pageable) throws IOException {
+		System.out.println("######Entering findStoresByRegNoList............");
+		System.out.println("***************values.size............"+values.size());
 		Set<Store> storeSet = new HashSet<Store>();
 		SearchResponse searchResponse = null;
 
