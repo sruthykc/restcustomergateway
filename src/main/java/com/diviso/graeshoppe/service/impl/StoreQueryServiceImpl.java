@@ -631,6 +631,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		for (HeaderSearch r : values) {
+			System.out.println("***************.\"regNo.keyword\", r.getStoreNo())..........."+r.getStoreNo());
 			searchSourceBuilder.query(termQuery("regNo.keyword", r.getStoreNo()));
 
 			SearchRequest searchRequest = new SearchRequest("store");
