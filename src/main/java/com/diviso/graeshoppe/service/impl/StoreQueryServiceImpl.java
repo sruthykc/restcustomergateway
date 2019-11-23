@@ -627,7 +627,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		System.out.println("######Entering findStoresByRegNoList............");
 		System.out.println("***************values.size............"+values.size());
 		Set<Store> storeSet = new HashSet<Store>();
-		SearchResponse searchResponse = null;
+		
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		for (HeaderSearch r : values) {
@@ -636,7 +636,12 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 			SearchRequest searchRequest = new SearchRequest("store");
 
+			
+		SearchResponse searchResponse = null;
+		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
+		}
 
 			SearchHit[] searchHit = searchResponse.getHits().getHits();
 			System.out.println("++++++++++++++searchHit.length +++++++++++++++++++++++"+searchHit.length);
