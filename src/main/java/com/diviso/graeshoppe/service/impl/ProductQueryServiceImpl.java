@@ -59,7 +59,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		String[] excludeFields = new String[] { "category.*", "brand.*" };
 		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 
-		searchSourceBuilder.query(matchQuery("name", searchTerm));
+		searchSourceBuilder.query(matchQuery("name", searchTerm).prefixLength(3));
 
 		SearchRequest searchRequest = generateSearchRequest("product", pageable.getPageSize(), pageable.getPageNumber(),
 				searchSourceBuilder);
