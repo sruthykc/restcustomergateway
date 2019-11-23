@@ -631,17 +631,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		for (HeaderSearch r : values) {
-			System.out.println("***************.\"regNo.keyword\", r.getStoreNo())..........."+r.getStoreNo());
-			searchSourceBuilder.query(termQuery("regNo.keyword", "spiceindia" /*r.getStoreNo()*/));
-
-			SearchRequest searchRequest = new SearchRequest("store");
-
 			
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
-		}
 
 			SearchHit[] searchHit = searchResponse.getHits().getHits();
 			System.out.println("++++++++++++++searchHit.length +++++++++++++++++++++++"+searchHit.length);
@@ -657,6 +647,27 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	//	return new PageImpl(storeList, pageable, searchResponse.getHits().getTotalHits());
 
 	}
+	
+	
+	public Store test() {
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(termQuery("regNo.keyword", "spiceindia" /*r.getStoreNo()*/));
+
+		SearchRequest searchRequest = new SearchRequest("store");
+
+		
+	SearchResponse searchResponse = null;
+	try {
+		searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+	} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
+	}
+	return serviceUtility.getObjectResult(searchResponse, new Store());
+	}
+	
+	
+	
+	
+	
 	
 /*	@Override
 	public Page<Cart> findByLocationNear(
