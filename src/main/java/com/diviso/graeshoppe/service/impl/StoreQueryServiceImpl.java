@@ -644,7 +644,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		}
 		List<Store> storeList = new ArrayList<>();
 		storeList.addAll(storeSet);
-		System.out.println("^^^^^^^^^^^^^^^^^^^^ELSE--result^^^^^^^^^^^^^^^^^^^^^^^"+storeList);
+		System.out.println("^^^^^^^^^^^^^^^^^^^^STORElIST^^^^^^^^^^^^^^^^^^^^^^^"+storeList);
 		return new PageImpl(storeList, pageable, searchResponse.getHits().getTotalHits());
 
 	}
