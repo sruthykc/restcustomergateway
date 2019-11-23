@@ -23,11 +23,7 @@ package com.diviso.graeshoppe.client.store.domain;
 public class HeaderSearch {
 
 
-    @Override
-	public String toString() {
-		return "HeaderSearch [storeNo=" + storeNo + ", getStoreNo()=" + getStoreNo() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
-	}
+   
 
 	private static final long serialVersionUID = 1L;
     
@@ -39,6 +35,36 @@ public class HeaderSearch {
 
 	public void setStoreNo(String storeNo) {
 		this.storeNo = storeNo;
+	}
+	 @Override
+		public String toString() {
+			return "HeaderSearch [storeNo=" + storeNo + ", getStoreNo()=" + getStoreNo() + ", getClass()=" + getClass()
+					+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+		}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((storeNo == null) ? 0 : storeNo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		HeaderSearch other = (HeaderSearch) obj;
+		if (storeNo == null) {
+			if (other.storeNo != null)
+				return false;
+		} else if (!storeNo.equals(other.storeNo))
+			return false;
+		return true;
 	}
 	
 }

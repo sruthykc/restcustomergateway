@@ -600,7 +600,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		for (SearchHit hit : searchHit) {
 			String h = hit.getSourceAsString();
-			System.out.println("$$$$$$$$$$$$$$$$$$$$HEADERSEARCH$$$$$$$$$$$$$$"+h);
+			//System.out.println("$$$$$$$$$$$$$$$$$$$$HEADERSEARCH$$$$$$$$$$$$$$"+h);
 			HeaderSearch result = new HeaderSearch();
 			Map<String, Object> sourceAsMap = hit.getSourceAsMap();
 
@@ -616,7 +616,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 			values.add(result);
 		}
-
+		System.out.println("^^^^^^^^^^^^^^^^^^^^VALUESSS^^^^^^^^^^^^^^^^^^^^^^^"+values);
 		return findStoresByRegNoList(values, pageable);
 
 	}
