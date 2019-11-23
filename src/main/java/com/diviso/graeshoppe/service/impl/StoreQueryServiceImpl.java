@@ -632,14 +632,14 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		for (HeaderSearch r : values) {
 			System.out.println("***************.\"regNo.keyword\", r.getStoreNo())..........."+r.getStoreNo());
-			searchSourceBuilder.query(termQuery("regNo.keyword", r.getStoreNo()));
+			searchSourceBuilder.query(termQuery("regNo.keyword", "spiceindia" /*r.getStoreNo()*/));
 
 			SearchRequest searchRequest = new SearchRequest("store");
 
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 
 			SearchHit[] searchHit = searchResponse.getHits().getHits();
-
+			System.out.println("++++++++++++++searchHit.length +++++++++++++++++++++++"+searchHit.length);
 			for (SearchHit hit : searchHit) {
 				storeSet.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
 			}
