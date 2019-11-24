@@ -635,6 +635,7 @@ return null;
 	}
 
 	private Store createQuery(HeaderSearch r) {
+		
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(termQuery("regNo.keyword", /*"spiceindia"*/  r.getStoreNo() ));
 
