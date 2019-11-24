@@ -610,35 +610,36 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		System.out.println("%%%%Set<HeaderSearch> values%%%%%%%%%%%%%%%"+values);
 		Set<Store> storeSet = new HashSet<Store>();
 
-		SearchResponse searchResponse = null;
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		//SearchResponse searchResponse = null;
+		//SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		for (HeaderSearch r : values) {
+			storeSet.add(createQuery(r));
+			//searchSourceBuilder.query(termQuery("regNo.keyword", r.getStoreNo()));
 
-			searchSourceBuilder.query(termQuery("regNo.keyword", r.getStoreNo()));
+			//SearchRequest searchRequest = new SearchRequest("store");
+			//searchRequest.source(searchSourceBuilder);
 
-			SearchRequest searchRequest = new SearchRequest("store");
-			searchRequest.source(searchSourceBuilder);
-
-			SearchHit[] searchHit = searchResponse.getHits().getHits();
-			System.out.println("++++++++++++++searchHit.length +++++++++++++++++++++++" + searchHit.length);
-			for (SearchHit hit : searchHit) {
-				storeSet.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
-			}
+			//SearchHit[] searchHit = searchResponse.getHits().getHits();
+			//System.out.println("++++++++++++++searchHit.length +++++++++++++++++++++++" + searchHit.length);
+			//for (SearchHit hit : searchHit) {
+			//	storeSet.add(objectMapper.convertValue(hit.getSourceAsMap(), Store.class));
+			//}
 
 		}
 		List<Store> storeList = new ArrayList<>();
 		storeList.addAll(storeSet);
-
-		return new PageImpl(storeList, pageable, searchResponse.getHits().getTotalHits());
+		System.out.println("%%%%EXIT%%%%%%%%%%%%%%%"+storeList);
+return null;
+		//return new PageImpl(storeList, pageable, searchResponse.getHits().getTotalHits());
 
 	}
 
-	private Store test() {
+	private Store createQuery(HeaderSearch r) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(termQuery("regNo.keyword", "spiceindia" /* r.getStoreNo() */));
+		searchSourceBuilder.query(termQuery("regNo.keyword", /*"spiceindia"*/  r.getStoreNo() ));
 
 		SearchRequest searchRequest = new SearchRequest("store");
-
+		searchRequest.source(searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
