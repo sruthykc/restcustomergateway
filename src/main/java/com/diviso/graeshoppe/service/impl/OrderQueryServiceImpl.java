@@ -76,7 +76,7 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 	public Page<Order> findOrderByCustomerId(String customerId, Pageable pageable) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-		searchSourceBuilder.query(termQuery("customerId", customerId));
+		searchSourceBuilder.query(termQuery("customerId.keyword", customerId));
 
 		SearchRequest searchRequest = serviceUtility.generateSearchRequest("order", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
@@ -170,7 +170,7 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 	public Page<Order> findOrderByDatebetweenAndStoreId(Instant from, Instant to, String storeId, Pageable pageable) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-		searchSourceBuilder.query(QueryBuilders.boolQuery().must(termQuery("storeId", storeId))
+		searchSourceBuilder.query(QueryBuilders.boolQuery().must(termQuery("storeId.keyword", storeId))
 				.must(rangeQuery("date").gte(from).lte(to)));
 
 		SearchRequest searchRequest = serviceUtility.generateSearchRequest("order", pageable.getPageSize(),
@@ -233,7 +233,7 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 	  
             SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-    		searchSourceBuilder.query(termQuery("receiverId", receiverId));
+    		searchSourceBuilder.query(termQuery("receiverId.keyword", receiverId));
     		searchSourceBuilder.sort(new FieldSortBuilder("_id").order(SortOrder.DESC));
 
     		SearchRequest searchRequest = serviceUtility.generateSearchRequest("notification", pageable.getPageSize(),
@@ -273,79 +273,5 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 	  
 	  
 	 
-
-	/*
-	 * private SearchRequest generateSearchRequest(String indexName, Integer
-	 * totalElement, Integer pageNumber, SearchSourceBuilder sourceBuilder) {
-	 * SearchRequest searchRequest = new SearchRequest(indexName);
-	 * 
-	 * int offset = 0; int totalElements = 0;
-	 * 
-	 * if (pageNumber == 0) { offset = 0; totalElements = totalElement;
-	 * 
-	 * System.out.
-	 * println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&offset in00000000Page" +
-	 * offset);
-	 * 
-	 * System.out.
-	 * println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalelements in 00000000Page"
-	 * + totalElements); } else {
-	 * 
-	 * offset = totalElement;
-	 * 
-	 * totalElements = (pageNumber * totalElement);
-	 * System.out.println("****************************offset in else Page"+offset);
-	 * System.out.println("************************totalelements in elsePage"
-	 * +totalElements);
-	 * 
-	 * } sourceBuilder.from(offset); sourceBuilder.size(totalElements);
-	 * 
-	 * searchRequest.source(sourceBuilder); return searchRequest; } private <T> Page
-	 * getResult(SearchResponse response, Pageable page,T t) {
-	 * 
-	 * SearchHit[] searchHit = response.getHits().getHits();
-	 * 
-	 * List<T> list = new ArrayList<>();
-	 * 
-	 * for (SearchHit hit : searchHit) { list.add((T)
-	 * objectMapper.convertValue(hit.getSourceAsMap(), t.getClass())); }
-	 * 
-	 * return new PageImpl(list,page, response.getHits().getTotalHits());
-	 * 
-	 * }
-	 * 
-	 */
-	/*
-	 * private Page<Address> getAddressSearchResult(SearchResponse response,
-	 * Pageable page) {
-	 * 
-	 * SearchHit[] searchHit = response.getHits().getHits();
-	 * 
-	 * List<Address> addressList = new ArrayList<>();
-	 * 
-	 * for (SearchHit hit : searchHit) {
-	 * addressList.add(objectMapper.convertValue(hit.getSourceAsMap(),
-	 * Address.class)); }
-	 * 
-	 * return new PageImpl(addressList, page, response.getHits().getTotalHits());
-	 * 
-	 * }
-	 */
-	/*
-	 * private Page<Order> getOrderSearchResult(SearchResponse response, Pageable
-	 * page) {
-	 * 
-	 * SearchHit[] searchHit = response.getHits().getHits();
-	 * 
-	 * List<Order> orderList = new ArrayList<>();
-	 * 
-	 * for (SearchHit hit : searchHit) {
-	 * orderList.add(objectMapper.convertValue(hit.getSourceAsMap(), Order.class));
-	 * }
-	 * 
-	 * return new PageImpl(orderList, page, response.getHits().getTotalHits());
-	 * 
-	 * }
-	 */
 
 }

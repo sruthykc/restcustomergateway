@@ -1,9 +1,14 @@
 package com.diviso.graeshoppe.web.rest.util;
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +17,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import com.diviso.graeshoppe.client.store.domain.HeaderSearch;
+import com.diviso.graeshoppe.client.store.domain.Store;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -22,6 +29,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ServiceUtility {
 	@Autowired
 	private ObjectMapper objectMapper;
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public  <T> Page getPageResult(SearchResponse response, Pageable page, T t) {
 
