@@ -263,7 +263,6 @@ public class QueryResource {
 		return ResponseEntity.ok().body(productQueryService.findStockCurrentByStoreId(storeId, pageable));
 	}
 
-
 	// priority1
 	@GetMapping("/findCategoryAndCountBystoreId/{storeId}")
 	public List<ResultBucket> findCategoryAndCountBystoreId(@PathVariable String storeId, Pageable pageable) {
@@ -327,7 +326,10 @@ public class QueryResource {
 
 	}
 
-	/*Method used at the area of header search, once header search fixed remove this*/
+	/*
+	 * Method used at the area of header search, once header search fixed remove
+	 * this
+	 */
 	@GetMapping("/findStore/{searchTerm}")
 	public Page<Store> findStoreBySearchTerm(@PathVariable String searchTerm, Pageable pageable) {
 		return storeQueryService.findStoreBySearchTerm(searchTerm, pageable);
@@ -533,14 +535,15 @@ public class QueryResource {
 	}
 
 	@GetMapping("/facetSearchByStoreTypeName")
-	public Page<Store> facetSearchByStoreTypeName(/*List<String> storeTypeNames,*/ Pageable pageable) {
+	public Page<Store> facetSearchByStoreTypeName(/* List<String> storeTypeNames, */ Pageable pageable) {
 
 		List<String> storeTypeNames = new ArrayList<String>();
-		
-		storeTypeNames.add(0, "Chineese");
-		storeTypeNames.add(1, "Italian");
-		storeTypeNames.add(2, "Indian");
-		
+
+		storeTypeNames.add("Chineese");
+		storeTypeNames.add("Italian");
+		storeTypeNames.add("Indian");
+		System.out.println("++++++++++++++++++++++++++++++++++Querresource" + storeTypeNames);
+
 		return storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
 	}
 
