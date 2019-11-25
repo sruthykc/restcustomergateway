@@ -263,10 +263,6 @@ public class QueryResource {
 		return ResponseEntity.ok().body(productQueryService.findStockCurrentByStoreId(storeId, pageable));
 	}
 
-	@GetMapping("/findCategoryAndCount")
-	public List<ResultBucket> findCategoryAndCount(Pageable pageable) {
-		return productQueryService.findCategoryAndCount(pageable);
-	}
 
 	// priority1
 	@GetMapping("/findCategoryAndCountBystoreId/{storeId}")
@@ -331,6 +327,7 @@ public class QueryResource {
 
 	}
 
+	/*Method used at the area of header search, once header search fixed remove this*/
 	@GetMapping("/findStore/{searchTerm}")
 	public Page<Store> findStoreBySearchTerm(@PathVariable String searchTerm, Pageable pageable) {
 		return storeQueryService.findStoreBySearchTerm(searchTerm, pageable);
@@ -394,11 +391,11 @@ public class QueryResource {
 	public UserRating findRatingByStoreId(@PathVariable String storeId) {
 		return storeQueryService.findRatingByStoreId(storeId);
 	}
-
-	@GetMapping("/ratingByName/{name}")
-	public UserRating findRatingByCustomerName(@PathVariable String name) {
-		return storeQueryService.findRatingByStoreId(name);
-	}
+	/*
+	 * @GetMapping("/ratingByName/{name}") public UserRating
+	 * findRatingByCustomerName(@PathVariable String name) { return
+	 * storeQueryService.findRatingByStoreId(name); }
+	 */
 
 	// complete
 	@GetMapping("/header/{searchTerm}")
@@ -430,11 +427,12 @@ public class QueryResource {
 		return storeQueryService.findStoreByLocationName(locationName, pageable);
 	}
 
-	@GetMapping("/sortStoreByMinAmount")
-	public Page<Store> findAndSortStoreBydeliveryTime(Pageable pageable) {
-
-		return storeQueryService.findAndSortStoreByMinAount(pageable);
-	}
+	/*
+	 * @GetMapping("/sortStoreByMinAmount") public Page<Store>
+	 * findAndSortStoreBydeliveryTime(Pageable pageable) {
+	 * 
+	 * return storeQueryService.findAndSortStoreByMinAount(pageable); }
+	 */
 
 	@GetMapping("/storesByStoreType/{storeType}")
 	public Page<Store> findStoreByStoreType(@PathVariable String storeType, Pageable pageable) {
@@ -487,12 +485,17 @@ public class QueryResource {
 		return productQueryService.findAllAuxilariesByProductId(productId, pageable);
 	}
 
-	@GetMapping("/stock-current-by-categoryname/{categoryName}/{storeId}")
-	public Page<StockCurrent> findStockCurrentByCategoryNameAndStoreId(@PathVariable String categoryName,
-			@PathVariable String storeId, Pageable pageable) {
-		return productQueryService.findStockCurrentByCategoryNameAndStoreId(categoryName, storeId, pageable);
-
-	}
+	/*
+	 * @GetMapping("/stock-current-by-categoryname/{categoryName}/{storeId}") public
+	 * Page<StockCurrent> findStockCurrentByCategoryNameAndStoreId(@PathVariable
+	 * String categoryName,
+	 * 
+	 * @PathVariable String storeId, Pageable pageable) { return
+	 * productQueryService.findStockCurrentByCategoryNameAndStoreId(categoryName,
+	 * storeId, pageable);
+	 * 
+	 * }
+	 */
 
 	@GetMapping("/storeSettings/{IDPCode}")
 	public StoreSettings getStoreSettings(@PathVariable String IDPCode) {
@@ -529,9 +532,15 @@ public class QueryResource {
 		return productQueryService.findDiscountByProductId(productId);
 	}
 
-	@GetMapping("/facetSearchByStoreTypeName/{productId}")
+	@GetMapping("/facetSearchByStoreTypeName")
 	public Page<Store> facetSearchByStoreTypeName(List<String> storeTypeNames, Pageable pageable) {
 
+		
+		
+		storeTypeNames.add(0, "Chineese");
+		storeTypeNames.add(1, "Italian");
+		storeTypeNames.add(2, "Indian");
+		
 		return storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
 	}
 
