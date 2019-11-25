@@ -191,7 +191,7 @@ public class QueryResource {
 
 	// priority1
 	@GetMapping("/findCategoryAndCountBystoreId/{storeId}")
-	public List<? extends Bucket> findCategoryAndCountBystoreId(@PathVariable String storeId, Pageable pageable) {
+	public List<ResultBucket> findCategoryAndCountBystoreId(@PathVariable String storeId, Pageable pageable) {
 
 		return productQueryService.findCategoryAndCountByStoreId(storeId, pageable);
 	}
