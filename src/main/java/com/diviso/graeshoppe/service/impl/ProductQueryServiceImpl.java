@@ -369,7 +369,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
             // Terms byCompanyAggregation = aggregations.get("by_categories");
              System.out.println("sicccc"+ byCompanyAggregation.getBuckets().size());
             // Bucket elasticBucket = byCompanyAggregation.getBucketByKey("Burger");
-             for (Terms.Bucket bucket : byCompanyAggregation.getBuckets()) {
+            /* for (Terms.Bucket bucket : byCompanyAggregation.getBuckets()) {
      			ResultBucket result = new ResultBucket();
      			result.setKey(bucket.getKey().toString());
      			result.setDocCount(bucket.getDocCount());
@@ -378,7 +378,8 @@ public class ProductQueryServiceImpl implements ProductQueryService{
      			System.out.println("KEY:" + bucket.getKey() + "!!keyAsString:" + bucket.getKeyAsString() + "!!count:"
      					+ bucket.getDocCount());
 
-     		}
+     		}*/
+             System.out.println("metadata"+  byCompanyAggregation.getMetaData());
 	}
 	
 	
