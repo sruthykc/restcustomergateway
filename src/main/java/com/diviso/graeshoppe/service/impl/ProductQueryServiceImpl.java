@@ -250,13 +250,15 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		aggregation.subAggregation(AggregationBuilders.terms("store").field("iDPcode.keyword"));
 		searchSourceBuilder.aggregation(aggregation);
 */
-		
-		
 		FilterAggregationBuilder  filterAggregationBuilder= AggregationBuilders
-	     . filter ( "byStoreFilter" , QueryBuilders . termQuery ( "iDPcode.keyword" , storeId ));
-		filterAggregationBuilder.subAggregation( AggregationBuilders.terms("totalcategories")
+			     . filter ( "byStoreFilter" , QueryBuilders . termQuery ( "iDPcode.keyword" , storeId ));
+		TermsAggregationBuilder aggregation=	AggregationBuilders.terms("totalcategories")
+		.field("category.name.keyword");
+		aggregation.subAggregation(filterAggregationBuilder);
+		
+		/*filterAggregationBuilder.subAggregation( AggregationBuilders.terms("totalcategories")
 				.field("category.name.keyword"));
-		searchSourceBuilder.aggregation(filterAggregationBuilder);
+		searchSourceBuilder.aggregation(filterAggregationBuilder);*/
 		
 		searchRequest.source(searchSourceBuilder);
 		SearchResponse searchResponse = null;
@@ -311,7 +313,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 	//	System.out.println("swwwwwwwwwwwwwwwwwwwwww"+categoryAggregation.getMetaData().toString());
 		//return  categoryAggregation.getBuckets();//storeBasedEntry;
 		
-		System.out.println("HHHHHHHHHHHHHHHHHHHH"+categoryAggregation.getBuckets().toString());
+		//System.out.println("HHHHHHHHHHHHHHHHHHHH"+categoryAggregation.getBuckets().toString());
 		System.out.println("sizeeeeeeeeeeeeeeee"+categoryAggregation.getBuckets().size());
 		for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
 			ResultBucket result = new ResultBucket();
