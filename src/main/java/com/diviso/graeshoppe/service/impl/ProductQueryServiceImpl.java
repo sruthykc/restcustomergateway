@@ -45,11 +45,11 @@ import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class ProductQueryServiceImpl implements ProductQueryService{
+public class ProductQueryServiceImpl implements ProductQueryService {
 
 	@Autowired
 	ServiceUtility serviceUtility;
-	
+
 	private RestHighLevelClient restHighLevelClient;
 
 	private ObjectMapper objectMapper;
@@ -58,10 +58,9 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		this.objectMapper = objectMapper;
 		this.restHighLevelClient = restHighLevelClient;
 	}
-	
+
 	public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable) {
 
-		
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		String[] includeFields = new String[] { "iDPcode", "image" };
 		String[] excludeFields = new String[] { "category.*", "brand.*" };
@@ -69,19 +68,19 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 
 		searchSourceBuilder.query(matchQuery("name", searchTerm).prefixLength(3));
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("product", pageable.getPageSize(), pageable.getPageNumber(),
-				searchSourceBuilder);
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("product", pageable.getPageSize(),
+				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return serviceUtility.getPageResult(searchResponse, pageable,new Product());
+		return serviceUtility.getPageResult(searchResponse, pageable, new Product());
 
 	}
 
-		@Override
+	@Override
 	public Page<Product> findProductByCategoryId(Long categoryId, String userId, Pageable pageable) {
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -92,18 +91,18 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		searchSourceBuilder.query(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("category.id", categoryId))
 				.must(QueryBuilders.matchQuery("iDPcode", userId)));
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("product", pageable.getPageSize(), pageable.getPageNumber(),
-				searchSourceBuilder);
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("product", pageable.getPageSize(),
+				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return serviceUtility.getPageResult(searchResponse, pageable,new Product());
+		return serviceUtility.getPageResult(searchResponse, pageable, new Product());
 
 	}
-	
+
 	@Override
 	public Page<StockCurrent> findStockCurrentByProductId(Long productId, Pageable pageable) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -114,7 +113,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		 */
 		searchSourceBuilder.query(termQuery("product.id", productId));
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("stockcurrent", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("stockcurrent", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -122,7 +121,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return serviceUtility.getPageResult(searchResponse, pageable,new StockCurrent());
+		return serviceUtility.getPageResult(searchResponse, pageable, new StockCurrent());
 
 	}
 
@@ -139,7 +138,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		 */
 		searchSourceBuilder.query(query);
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("stockcurrent", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("stockcurrent", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -147,13 +146,10 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return serviceUtility.getPageResult(searchResponse, pageable,new StockCurrent());
+		return serviceUtility.getPageResult(searchResponse, pageable, new StockCurrent());
 
 	}
 
-	
-
-	
 	@Override
 	public Page<Product> findAllProductsByStoreId(String storeId, Pageable pageable) {
 
@@ -166,18 +162,17 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		 */
 		searchSourceBuilder.query(termQuery("iDPcode.keyword", storeId));
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("product", pageable.getPageSize(), pageable.getPageNumber(),
-				searchSourceBuilder);
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("product", pageable.getPageSize(),
+				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return serviceUtility.getPageResult(searchResponse, pageable,new Product());
+		return serviceUtility.getPageResult(searchResponse, pageable, new Product());
 	}
 
-	
 	@Override
 	public Page<StockCurrent> findStockCurrentByStoreId(String iDPcode, Pageable pageable) {
 
@@ -193,7 +188,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		 */
 		searchSourceBuilder.query(query);
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("stockcurrent", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("stockcurrent", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -201,7 +196,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return serviceUtility.getPageResult(searchResponse, pageable,new StockCurrent());
+		return serviceUtility.getPageResult(searchResponse, pageable, new StockCurrent());
 
 	}
 
@@ -239,43 +234,127 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 
 		return resultBucketList;
 	}
-	
-	/*@Override
-	public void findCategoryAndCountByStoreId(String storeId, Pageable pageable) {
-		List<ResultBucket> resultBucketList = new ArrayList<>();
-		SearchRequest searchRequest = new SearchRequest("product");
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(matchAllQuery());
-		TermsAggregationBuilder aggregation = AggregationBuilders.terms("totalcategories")
-				.field("category.name.keyword");
-		aggregation.subAggregation(AggregationBuilders.terms("store").field("iDPcode.keyword"));
-		searchSourceBuilder.aggregation(aggregation);
 
-		FilterAggregationBuilder  filterAggregationBuilder= AggregationBuilders
-			     . filter ( "byStoreFilter" , QueryBuilders . termQuery ( "iDPcode.keyword" , storeId ));
-		TermsAggregationBuilder aggregation=	AggregationBuilders.terms("totalcategories")
-		.field("category.name.keyword");
-		//aggregation.subAggregation(filterAggregationBuilder);
-		
-		filterAggregationBuilder.subAggregation( AggregationBuilders.terms("totalcategories")
-				.field("category.name.keyword"));
+	/*
+	 * @Override public void findCategoryAndCountByStoreId(String storeId, Pageable
+	 * pageable) { List<ResultBucket> resultBucketList = new ArrayList<>();
+	 * SearchRequest searchRequest = new SearchRequest("product");
+	 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+	 * searchSourceBuilder.query(matchAllQuery()); TermsAggregationBuilder
+	 * aggregation = AggregationBuilders.terms("totalcategories")
+	 * .field("category.name.keyword");
+	 * aggregation.subAggregation(AggregationBuilders.terms("store").field(
+	 * "iDPcode.keyword")); searchSourceBuilder.aggregation(aggregation);
+	 * 
+	 * FilterAggregationBuilder filterAggregationBuilder= AggregationBuilders .
+	 * filter ( "byStoreFilter" , QueryBuilders . termQuery ( "iDPcode.keyword" ,
+	 * storeId )); TermsAggregationBuilder aggregation=
+	 * AggregationBuilders.terms("totalcategories") .field("category.name.keyword");
+	 * //aggregation.subAggregation(filterAggregationBuilder);
+	 * 
+	 * filterAggregationBuilder.subAggregation(
+	 * AggregationBuilders.terms("totalcategories")
+	 * .field("category.name.keyword"));
+	 * searchSourceBuilder.aggregation(filterAggregationBuilder);
+	 * 
+	 * searchRequest.source(searchSourceBuilder); SearchResponse searchResponse =
+	 * null; try { searchResponse = restHighLevelClient.search(searchRequest,
+	 * RequestOptions.DEFAULT); } catch (IOException e) { // TODO Auto-generated
+	 * catch block e.printStackTrace(); }
+	 * System.out.println("elasticsearch response: {} totalhitssshits" +
+	 * searchResponse.getHits().getTotalHits()); //
+	 * System.out.println("elasticsearch response: {} hits .toostring" +
+	 * searchResponse.toString()); // searchResponse.getHits(). Aggregations
+	 * aggregations = searchResponse.getAggregations();
+	 * 
+	 * Terms categoryAggregation =
+	 * searchResponse.getAggregations().get("totalcategories"); for (Terms.Bucket
+	 * bucket : categoryAggregation.getBuckets()) { ResultBucket result = new
+	 * ResultBucket(); result.setKey(bucket.getKey().toString());
+	 * result.setDocCount(bucket.getDocCount());
+	 * result.setKeyAsString(bucket.getKeyAsString()); resultBucketList.add(result);
+	 * System.out.println("KEY:" + bucket.getKey() + "!!keyAsString:" +
+	 * bucket.getKeyAsString() + "!!count:" + bucket.getDocCount());
+	 * 
+	 * }
+	 * 
+	 * List<ResultBucket> storeBasedEntry = new ArrayList<>();
+	 * 
+	 * categoryAggregation.getBuckets().forEach(bucket -> {
+	 * 
+	 * int i = 0;
+	 * 
+	 * System.out.println("SSSSSSSSSSSSSSSSSS" +
+	 * bucket.getAggregations().get("store"));
+	 * 
+	 * Terms storeAggregation = bucket.getAggregations().get("store");
+	 * System.out.println("storeAggregation" +
+	 * storeAggregation.getBuckets().get(i).getKeyAsString()); String storeName =
+	 * storeAggregation.getBuckets().get(i).getKeyAsString();
+	 * 
+	 * if (storeName.equals(storeId)) { ResultBucket storeEntry = new
+	 * ResultBucket(); storeEntry.setKey(bucket.getKey().toString());
+	 * storeEntry.setDocCount(bucket.getDocCount());
+	 * storeEntry.setKeyAsString(bucket.getKeyAsString());
+	 * 
+	 * storeBasedEntry.add(storeEntry); } i++; });
+	 * 
+	 * //System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
+	 * categoryAggregation.getBuckets());
+	 * 
+	 * //Terms.Bucket buc = (Bucket) categoryAggregation.getBuckets(); //
+	 * System.out.println("swwwwwwwwwwwwwwwwwwwwww"+categoryAggregation.getMetaData(
+	 * ).toString()); //return categoryAggregation.getBuckets();//storeBasedEntry;
+	 * 
+	 * //System.out.println("HHHHHHHHHHHHHHHHHHHH"+categoryAggregation.getBuckets().
+	 * toString());
+	 * System.out.println("sizeeeeeeeeeeeeeeee"+categoryAggregation.getBuckets().
+	 * size()); for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
+	 * ResultBucket result = new ResultBucket();
+	 * result.setKey(bucket.getKey().toString());
+	 * result.setDocCount(bucket.getDocCount());
+	 * result.setKeyAsString(bucket.getKeyAsString()); resultBucketList.add(result);
+	 * System.out.println("KEY:" + bucket.getKey() + "!!keyAsString:" +
+	 * bucket.getKeyAsString() + "!!count:" + bucket.getDocCount());
+	 * 
+	 * }
+	 * 
+	 * 
+	 * 
+	 * 
+	 * //return resultBucketList;
+	 * 
+	 * }
+	 */
+
+	@Override
+	public List<ResultBucket> findCategoryAndCountByStoreId(String storeId, Pageable pageable) {
+		 List<ResultBucket> resultBucketList = new ArrayList<>();
+		SearchRequest searchRequest = new SearchRequest("product");
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		FilterAggregationBuilder filterAggregationBuilder = AggregationBuilders.filter("byStoreFilter",
+				QueryBuilders.termQuery("iDPcode.keyword", storeId));
+		TermsAggregationBuilder aggregation = AggregationBuilders.terms("by_categories").field("category.name.keyword");
+
+		filterAggregationBuilder.subAggregation(aggregation);
+
 		searchSourceBuilder.aggregation(filterAggregationBuilder);
-		
+
+		searchSourceBuilder.query(QueryBuilders.matchAllQuery());
 		searchRequest.source(searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
-		System.out.println("elasticsearch response: {} totalhitssshits" + searchResponse.getHits().getTotalHits());
-	//	System.out.println("elasticsearch response: {} hits .toostring" + searchResponse.toString());
-		// searchResponse.getHits().
+
 		Aggregations aggregations = searchResponse.getAggregations();
-
-		Terms categoryAggregation = searchResponse.getAggregations().get("totalcategories");
-		for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
+		Filter byStoreFilterAggregation = aggregations.get("byStoreFilter");
+		Terms byCompanyAggregation = byStoreFilterAggregation.getAggregations().get("by_categories");
+//refactor by for each
+		for (Terms.Bucket bucket : byCompanyAggregation.getBuckets()) {
 			ResultBucket result = new ResultBucket();
 			result.setKey(bucket.getKey().toString());
 			result.setDocCount(bucket.getDocCount());
@@ -285,111 +364,9 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 					+ bucket.getDocCount());
 
 		}
-
-		List<ResultBucket> storeBasedEntry = new ArrayList<>();
-
-		categoryAggregation.getBuckets().forEach(bucket -> {
-
-			int i = 0;
-
-			System.out.println("SSSSSSSSSSSSSSSSSS" + bucket.getAggregations().get("store"));
-
-			Terms storeAggregation = bucket.getAggregations().get("store");
-			System.out.println("storeAggregation" + storeAggregation.getBuckets().get(i).getKeyAsString());
-			String storeName = storeAggregation.getBuckets().get(i).getKeyAsString();
-
-			if (storeName.equals(storeId)) {
-				ResultBucket storeEntry = new ResultBucket();
-				storeEntry.setKey(bucket.getKey().toString());
-				storeEntry.setDocCount(bucket.getDocCount());
-				storeEntry.setKeyAsString(bucket.getKeyAsString());
-
-				storeBasedEntry.add(storeEntry);
-			}
-			i++;
-		});
-
-		//System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+categoryAggregation.getBuckets());
-	
-		//Terms.Bucket buc =	(Bucket) categoryAggregation.getBuckets();
-	//	System.out.println("swwwwwwwwwwwwwwwwwwwwww"+categoryAggregation.getMetaData().toString());
-		//return  categoryAggregation.getBuckets();//storeBasedEntry;
-		
-		//System.out.println("HHHHHHHHHHHHHHHHHHHH"+categoryAggregation.getBuckets().toString());
-		System.out.println("sizeeeeeeeeeeeeeeee"+categoryAggregation.getBuckets().size());
-		for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
-			ResultBucket result = new ResultBucket();
-			result.setKey(bucket.getKey().toString());
-			result.setDocCount(bucket.getDocCount());
-			result.setKeyAsString(bucket.getKeyAsString());
-			resultBucketList.add(result);
-			System.out.println("KEY:" + bucket.getKey() + "!!keyAsString:" + bucket.getKeyAsString() + "!!count:"
-					+ bucket.getDocCount());
-
-		}
-
-		
-		
-		
-		//return resultBucketList;
-
-	}*/
-	
-	@Override
-	public void findCategoryAndCountByStoreId(String storeId, Pageable pageable) {
-		 SearchRequest searchRequest = new SearchRequest("product");
-         // tag::search-request-aggregations
-         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-         FilterAggregationBuilder  filterAggregationBuilder= AggregationBuilders
-			     . filter ( "byStoreFilter" , QueryBuilders . termQuery ( "iDPcode.keyword" , storeId ));
-         TermsAggregationBuilder aggregation = AggregationBuilders.terms("by_categories")
-                 .field("category.name.keyword");
-        
-         filterAggregationBuilder.subAggregation(aggregation);
-        // aggregation. subAggregation(filterAggregationBuilder);
-         
-         
-       
-         
-         searchSourceBuilder.aggregation(filterAggregationBuilder);
-         // end::search-request-aggregations
-         searchSourceBuilder.query(QueryBuilders.matchAllQuery());
-         searchRequest.source(searchSourceBuilder);
-         SearchResponse searchResponse = null;
- 		try {
-          searchResponse =  restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
- 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-             // tag::search-request-aggregations-get
-             Aggregations aggregations = searchResponse.getAggregations();
-        Filter f=     aggregations.get("byStoreFilter");
-        Terms byCompanyAggregation =   f.getAggregations().get("by_categories");
-            // Terms byCompanyAggregation = aggregations.get("by_categories");
-             System.out.println("sicccc"+ byCompanyAggregation.getBuckets().size());
-            // Bucket elasticBucket = byCompanyAggregation.getBucketByKey("Burger");
-            /* for (Terms.Bucket bucket : byCompanyAggregation.getBuckets()) {
-     			ResultBucket result = new ResultBucket();
-     			result.setKey(bucket.getKey().toString());
-     			result.setDocCount(bucket.getDocCount());
-     			result.setKeyAsString(bucket.getKeyAsString());
-     			//resultBucketList.add(result);
-     			System.out.println("KEY:" + bucket.getKey() + "!!keyAsString:" + bucket.getKeyAsString() + "!!count:"
-     					+ bucket.getDocCount());
-
-     		}*/
-             System.out.println("metadata"+  byCompanyAggregation.getBuckets());
+	return	resultBucketList;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	@Override
 	public Page<StockCurrent> findAllStockCurrentByProductNameStoreId(String productName, String storeId,
 			Pageable pageable) {
@@ -403,7 +380,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		searchSourceBuilder.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("iDPcode.keyword", storeId))
 				.must(QueryBuilders.termQuery("product.name.keyword", productName)));
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("stockcurrent", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("stockcurrent", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -411,10 +388,10 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return serviceUtility.getPageResult(searchResponse, pageable,new StockCurrent());
+		return serviceUtility.getPageResult(searchResponse, pageable, new StockCurrent());
 
 	}
-	
+
 	@Override
 	public Page<Category> findCategoryByIDPcode(String iDPcode, Pageable pageable) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -424,10 +401,10 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
 		 * excludeFields);
 		 */
-		
+
 		searchSourceBuilder.query(termQuery("iDPcode.keyword", iDPcode));
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("category", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("category", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -450,18 +427,18 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		searchSourceBuilder.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("iDPcode.keyword", userId))
 				.must(QueryBuilders.termQuery("category.name.keyword", categoryName)));
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("product", pageable.getPageSize(), pageable.getPageNumber(),
-				searchSourceBuilder);
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("product", pageable.getPageSize(),
+				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return serviceUtility.getPageResult(searchResponse, pageable,new Product());
+		return serviceUtility.getPageResult(searchResponse, pageable, new Product());
 
 	}
-	
+
 	@Override
 	public List<StockCurrent> findStockCurrentByStoreIdAndCategoryId(String userId, Long categoryId,
 			Pageable pageable) {
@@ -472,8 +449,8 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(query);
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("product", pageable.getPageSize(), pageable.getPageNumber(),
-				searchSourceBuilder);
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("product", pageable.getPageSize(),
+				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
@@ -544,11 +521,10 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 			e.printStackTrace();
 		}
 
-		
-		
 		return serviceUtility.getObjectResult(searchResponse, new Product());
 
 	}
+
 	@Override
 	public Page<StockCurrent> findAndSortProductByPrice(Double from, Double to, Pageable pageable) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -556,7 +532,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		searchSourceBuilder.query(rangeQuery("sellPrice").gte(from).lte(to));
 		searchSourceBuilder.sort(new FieldSortBuilder("sellPrice").order(SortOrder.DESC));
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("stockcurrent", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("stockcurrent", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -564,10 +540,10 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
 
-		return serviceUtility.getPageResult(searchResponse, pageable,new StockCurrent());
+		return serviceUtility.getPageResult(searchResponse, pageable, new StockCurrent());
 
 	}
-	
+
 	@Override
 	public Page<Product> findProductsByCategoryName(String name, Pageable pageable) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -577,24 +553,24 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 
 		searchSourceBuilder.query(matchQuery("category.name", name));
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("product", pageable.getPageSize(), pageable.getPageNumber(),
-				searchSourceBuilder);
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("product", pageable.getPageSize(),
+				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		return serviceUtility.getPageResult(searchResponse, pageable,new Product());
+		return serviceUtility.getPageResult(searchResponse, pageable, new Product());
 	}
-	
+
 	@Override
 	public Page<AuxilaryLineItem> findAllAuxilariesByProductId(Long productId, Pageable pageable) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 		searchSourceBuilder.query(termQuery("product.id", productId));
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("auxilarylineitem", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("auxilarylineitem", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -602,11 +578,9 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
 
-		return serviceUtility.getPageResult(searchResponse, pageable,new AuxilaryLineItem());
+		return serviceUtility.getPageResult(searchResponse, pageable, new AuxilaryLineItem());
 
 	}
-
-	
 
 	@Override
 	public Page<StockCurrent> findStockCurrentByCategoryNameAndStoreId(String categoryName, String storeId,
@@ -617,7 +591,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 				QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("product.category.name.keyword", categoryName))
 						.must(QueryBuilders.matchQuery("product.iDPcode", storeId)));
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("stockcurrent", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("stockcurrent", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -625,17 +599,17 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
 
-		return serviceUtility.getPageResult(searchResponse, pageable,new StockCurrent());
+		return serviceUtility.getPageResult(searchResponse, pageable, new StockCurrent());
 
 	}
-	
+
 	@Override
 	public Page<ComboLineItem> findAllCombosByProductId(Long productId, Pageable pageable) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 		searchSourceBuilder.query(termQuery("product.id", productId));
 
-		SearchRequest searchRequest =serviceUtility.generateSearchRequest("combolineitem", pageable.getPageSize(),
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("combolineitem", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -643,11 +617,9 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
 		}
 
-		return serviceUtility.getPageResult(searchResponse, pageable,new ComboLineItem());
+		return serviceUtility.getPageResult(searchResponse, pageable, new ComboLineItem());
 	}
-	
-	
-	
+
 	@Override
 	public Discount findDiscountByProductId(Long productId) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -662,11 +634,9 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-	
-		
+
 		return serviceUtility.getObjectResult(searchResponse, new Product()).getDiscount();
 
 	}
 
-	
 }
