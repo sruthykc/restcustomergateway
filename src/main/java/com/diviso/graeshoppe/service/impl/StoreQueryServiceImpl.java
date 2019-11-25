@@ -75,86 +75,79 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		 * new String[] { "category.*" };
 		 */
 
-		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-		// searchSourceBuilder.fetchSource(includeFields, excludeFields);
-
-		searchSourceBuilder.query(matchAllQuery());
-
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("review", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-		}*/
+		/*
+		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 * 
+		 * // searchSourceBuilder.fetchSource(includeFields, excludeFields);
+		 * 
+		 * searchSourceBuilder.query(matchAllQuery());
+		 * 
+		 * SearchRequest searchRequest = serviceUtility.generateSearchRequest("review",
+		 * pageable.getPageSize(), pageable.getPageNumber(), searchSourceBuilder);
+		 * SearchResponse searchResponse = null; try { searchResponse =
+		 * restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT); } catch
+		 * (IOException e) { // TODO Auto-generated e.printStackTrace(); }
+		 */
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(matchAllQuery());
-		SearchResponse searchResponse =  searchResponseForPage("review", searchSourceBuilder,pageable);
-		
+		SearchResponse searchResponse = searchResponseForPage("review", searchSourceBuilder, pageable);
+
 		return serviceUtility.getPageResult(searchResponse, pageable, new Review());
 
 	}
 
 	@Override
 	public Page<UserRating> findAllUserRatings(Pageable pageable) {
-		
 
 		/*
 		 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
 		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
 		 * excludeFields);
 		 */
-	/*	SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(matchAllQuery());
-
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("userrating", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-		}*/
+		/*
+		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 * searchSourceBuilder.query(matchAllQuery());
+		 * 
+		 * SearchRequest searchRequest =
+		 * serviceUtility.generateSearchRequest("userrating", pageable.getPageSize(),
+		 * pageable.getPageNumber(), searchSourceBuilder); SearchResponse searchResponse
+		 * = null; try { searchResponse = restHighLevelClient.search(searchRequest,
+		 * RequestOptions.DEFAULT); } catch (IOException e) { // TODO Auto-generated
+		 * e.printStackTrace(); }
+		 */
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(matchAllQuery());
-		SearchResponse searchResponse =  searchResponseForPage("userrating", searchSourceBuilder,pageable);
-		
+		SearchResponse searchResponse = searchResponseForPage("userrating", searchSourceBuilder, pageable);
+
 		return serviceUtility.getPageResult(searchResponse, pageable, new UserRating());
 
 	}
 
 	@Override
 	public Page<Store> findAllStores(Pageable pageable) {
-		
 
 		/*
 		 * String[] includeFields = new String[] { ""}; String[] excludeFields = new
 		 * String[] { "storeaddress.*","reviews.*" };
 		 * searchSourceBuilder.fetchSource(includeFields, excludeFields);
 		 */
-		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		/*
+		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 * 
+		 * searchSourceBuilder.query(matchAllQuery());
+		 * 
+		 * SearchRequest searchRequest = serviceUtility.generateSearchRequest("store",
+		 * pageable.getPageSize(), pageable.getPageNumber(), searchSourceBuilder);
+		 * SearchResponse searchResponse = null; try { searchResponse =
+		 * restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT); } catch
+		 * (IOException e) { // TODO Auto-generated e.printStackTrace(); }
+		 */
 
-		searchSourceBuilder.query(matchAllQuery());
-
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-		}*/
-		
-		
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(matchAllQuery());
-		SearchResponse searchResponse =  searchResponseForPage("store", searchSourceBuilder,pageable);
-		
-		
-		
+		SearchResponse searchResponse = searchResponseForPage("store", searchSourceBuilder, pageable);
+
 		Page<Store> storePage = serviceUtility.getPageResult(searchResponse, pageable, new Store());
 
 		storePage.forEach(store -> {
@@ -206,50 +199,47 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	@Override
 	public Page<Review> findReviewByStoreId(String storeId, Pageable pageable) {
 
-		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-		searchSourceBuilder.query(termQuery("store.regNo.keyword", storeId));
-
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("review", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-		}*/
+		/*
+		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 * 
+		 * searchSourceBuilder.query(termQuery("store.regNo.keyword", storeId));
+		 * 
+		 * SearchRequest searchRequest = serviceUtility.generateSearchRequest("review",
+		 * pageable.getPageSize(), pageable.getPageNumber(), searchSourceBuilder);
+		 * SearchResponse searchResponse = null; try { searchResponse =
+		 * restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT); } catch
+		 * (IOException e) { // TODO Auto-generated e.printStackTrace(); }
+		 */
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(termQuery("store.regNo.keyword", storeId));
-		SearchResponse searchResponse =  searchResponseForPage("review", searchSourceBuilder,pageable);
-		
+		SearchResponse searchResponse = searchResponseForPage("review", searchSourceBuilder, pageable);
+
 		return serviceUtility.getPageResult(searchResponse, pageable, new Review());
 	}
 
 	@Override
 	public Page<UserRating> findUserRatingByRegNo(String regNo, Pageable pageable) {
-		
 
 		/*
 		 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
 		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
 		 * excludeFields);
 		 */
-		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(termQuery("store.regNo.keyword", regNo));
-
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("userrating", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-		}*/
+		/*
+		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 * searchSourceBuilder.query(termQuery("store.regNo.keyword", regNo));
+		 * 
+		 * SearchRequest searchRequest =
+		 * serviceUtility.generateSearchRequest("userrating", pageable.getPageSize(),
+		 * pageable.getPageNumber(), searchSourceBuilder); SearchResponse searchResponse
+		 * = null; try { searchResponse = restHighLevelClient.search(searchRequest,
+		 * RequestOptions.DEFAULT); } catch (IOException e) { // TODO Auto-generated
+		 * e.printStackTrace(); }
+		 */
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(termQuery("store.regNo.keyword", regNo));
-		SearchResponse searchResponse =  searchResponseForPage("userrating", searchSourceBuilder,pageable);
-		
-		
+		SearchResponse searchResponse = searchResponseForPage("userrating", searchSourceBuilder, pageable);
+
 		return serviceUtility.getPageResult(searchResponse, pageable, new UserRating());
 
 	}
@@ -411,29 +401,28 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	@Override
 	public Page<Store> findStoreByDeliveryType(String deliveryType, Pageable pageable) {
-		
 
 		/*
 		 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
 		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
 		 * excludeFields);
 		 */
-		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(termQuery("deliveryInfos.type.name.keyword", deliveryType));
-
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-		}*/
+		/*
+		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 * searchSourceBuilder.query(termQuery("deliveryInfos.type.name.keyword",
+		 * deliveryType));
+		 * 
+		 * SearchRequest searchRequest = serviceUtility.generateSearchRequest("store",
+		 * pageable.getPageSize(), pageable.getPageNumber(), searchSourceBuilder);
+		 * SearchResponse searchResponse = null; try { searchResponse =
+		 * restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT); } catch
+		 * (IOException e) { // TODO Auto-generated e.printStackTrace(); }
+		 */
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(termQuery("deliveryInfos.type.name.keyword", deliveryType));
-		SearchResponse searchResponse =  searchResponseForPage("store", searchSourceBuilder,pageable);
+		SearchResponse searchResponse = searchResponseForPage("store", searchSourceBuilder, pageable);
 		return serviceUtility.getPageResult(searchResponse, pageable, new Store());
-		
+
 	}
 
 	@Override
@@ -504,27 +493,26 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	@Override
 	public Page<Store> findStoreBySearchTerm(String searchTerm, Pageable pageable) {
-		
+
 		/*
 		 * String[] includeFields = new String[] { "iDPcode", "image" }; String[]
 		 * excludeFields = new String[] { "category.*" };
 		 * searchSourceBuilder.fetchSource(includeFields, excludeFields);
 		 */
-		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(matchQuery("name", searchTerm).prefixLength(3));
-
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-		}*/
+		/*
+		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 * searchSourceBuilder.query(matchQuery("name", searchTerm).prefixLength(3));
+		 * 
+		 * SearchRequest searchRequest = serviceUtility.generateSearchRequest("store",
+		 * pageable.getPageSize(), pageable.getPageNumber(), searchSourceBuilder);
+		 * SearchResponse searchResponse = null; try { searchResponse =
+		 * restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT); } catch
+		 * (IOException e) { // TODO Auto-generated e.printStackTrace(); }
+		 */
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(matchQuery("name", searchTerm).prefixLength(3));
-		SearchResponse searchResponse =  searchResponseForPage("store", searchSourceBuilder,pageable);
-		
+		SearchResponse searchResponse = searchResponseForPage("store", searchSourceBuilder, pageable);
+
 		return serviceUtility.getPageResult(searchResponse, pageable, new Store());
 	}
 
@@ -587,47 +575,47 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	@Override
 	public Page<Store> findStoreByRating(Pageable pageable) {
 
-		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-		searchSourceBuilder.query(rangeQuery("totalRating").gte(1).lte(5));
-		searchSourceBuilder.sort(new FieldSortBuilder("totalRating").order(SortOrder.DESC));
-
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
-		}*/
+		/*
+		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 * 
+		 * searchSourceBuilder.query(rangeQuery("totalRating").gte(1).lte(5));
+		 * searchSourceBuilder.sort(new
+		 * FieldSortBuilder("totalRating").order(SortOrder.DESC));
+		 * 
+		 * SearchRequest searchRequest = serviceUtility.generateSearchRequest("store",
+		 * pageable.getPageSize(), pageable.getPageNumber(), searchSourceBuilder);
+		 * SearchResponse searchResponse = null; try { searchResponse =
+		 * restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT); } catch
+		 * (IOException e) { // TODO Auto-generated e.printStackTrace(); } return }
+		 */
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(rangeQuery("totalRating").gte(1).lte(5));
 		searchSourceBuilder.sort(new FieldSortBuilder("totalRating").order(SortOrder.DESC));
-		SearchResponse searchResponse =  searchResponseForPage("store", searchSourceBuilder,pageable);
-		
-
+		SearchResponse searchResponse = searchResponseForPage("store", searchSourceBuilder, pageable);
 
 		return serviceUtility.getPageResult(searchResponse, pageable, new Store());
 	}
 
 	@Override
 	public Page<DeliveryInfo> findDeliveryInfoByStoreId(String storeId, Pageable pageable) {
-		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-		searchSourceBuilder.query(termQuery("store.regNo.keyword", storeId));
-
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("deliveryinfo", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-			
-		}*/
+		/*
+		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 * 
+		 * searchSourceBuilder.query(termQuery("store.regNo.keyword", storeId));
+		 * 
+		 * SearchRequest searchRequest =
+		 * serviceUtility.generateSearchRequest("deliveryinfo", pageable.getPageSize(),
+		 * pageable.getPageNumber(), searchSourceBuilder); SearchResponse searchResponse
+		 * = null; try { searchResponse = restHighLevelClient.search(searchRequest,
+		 * RequestOptions.DEFAULT); } catch (IOException e) { // TODO Auto-generated
+		 * e.printStackTrace();
+		 * 
+		 * }
+		 */
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(termQuery("store.regNo.keyword", storeId));
-		SearchResponse searchResponse =  searchResponseForPage("deliveryinfo", searchSourceBuilder,pageable);
-		
+		SearchResponse searchResponse = searchResponseForPage("deliveryinfo", searchSourceBuilder, pageable);
+
 		return serviceUtility.getPageResult(searchResponse, pageable, new DeliveryInfo());
 
 	}
@@ -648,9 +636,6 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 			e.printStackTrace();
 		}
 
-		
-		
-		
 		SearchHit[] searchHit = searchResponse.getHits().getHits();
 
 		for (SearchHit hit : searchHit) {
@@ -694,51 +679,44 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	@Override
 	public Page<Store> findStoreByLocationName(String locationName, Pageable pageable) {
-	/*	SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-		searchSourceBuilder.query(matchQuery("locationName", locationName).prefixLength(3));
-
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-		}*/
+		/*
+		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 * 
+		 * searchSourceBuilder.query(matchQuery("locationName",
+		 * locationName).prefixLength(3));
+		 * 
+		 * SearchRequest searchRequest = serviceUtility.generateSearchRequest("store",
+		 * pageable.getPageSize(), pageable.getPageNumber(), searchSourceBuilder);
+		 * SearchResponse searchResponse = null; try { searchResponse =
+		 * restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT); } catch
+		 * (IOException e) { // TODO Auto-generated e.printStackTrace(); }
+		 */
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(matchQuery("locationName", locationName).prefixLength(3));
-		SearchResponse searchResponse =  searchResponseForPage("store", searchSourceBuilder,pageable);
-		
-		
-		
+		SearchResponse searchResponse = searchResponseForPage("store", searchSourceBuilder, pageable);
+
 		return serviceUtility.getPageResult(searchResponse, pageable, new Store());
 	}
 
 	@Override
 	public Page<Store> findAndSortStoreByMinAount(Pageable pageable) {
-		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-		searchSourceBuilder.query(matchAllQuery());
-		searchSourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("store", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-		}
-		*/
+		/*
+		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 * 
+		 * searchSourceBuilder.query(matchAllQuery()); searchSourceBuilder.sort(new
+		 * ScoreSortBuilder().order(SortOrder.DESC)); SearchRequest searchRequest =
+		 * serviceUtility.generateSearchRequest("store", pageable.getPageSize(),
+		 * pageable.getPageNumber(), searchSourceBuilder); SearchResponse searchResponse
+		 * = null; try { searchResponse = restHighLevelClient.search(searchRequest,
+		 * RequestOptions.DEFAULT); } catch (IOException e) { // TODO Auto-generated
+		 * e.printStackTrace(); }
+		 */
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(matchAllQuery());
 		searchSourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
-		SearchResponse searchResponse =  searchResponseForPage("store", searchSourceBuilder,pageable);
-		
-		
-		
-		
+		SearchResponse searchResponse = searchResponseForPage("store", searchSourceBuilder, pageable);
+
 		return serviceUtility.getPageResult(searchResponse, pageable, new Store());
 
 	}
@@ -747,29 +725,28 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	public Page<StoreType> findStoreTypeByStoreId(String storeId, Pageable pageable) {
 		String[] includeFields = new String[] { "id", "name" };
 		String[] excludeFields = new String[] { "store.*" };
-		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		
-		searchSourceBuilder.fetchSource(includeFields, excludeFields);
+		/*
+		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 * 
+		 * searchSourceBuilder.fetchSource(includeFields, excludeFields);
+		 * 
+		 * searchSourceBuilder.query(termQuery("store.regNo", storeId));
+		 * 
+		 * SearchRequest searchRequest =
+		 * serviceUtility.generateSearchRequest("storetype", pageable.getPageSize(),
+		 * pageable.getPageNumber(), searchSourceBuilder); SearchResponse searchResponse
+		 * = null; try { searchResponse = restHighLevelClient.search(searchRequest,
+		 * RequestOptions.DEFAULT); } catch (IOException e) { // TODO Auto-generated
+		 * e.printStackTrace(); }
+		 */
 
-		searchSourceBuilder.query(termQuery("store.regNo", storeId));
-
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("storetype", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-		}*/
-		
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 
 		searchSourceBuilder.query(termQuery("store.regNo", storeId));
 
-		SearchResponse searchResponse =  searchResponseForPage("storetype", searchSourceBuilder,pageable);
-		
-		
+		SearchResponse searchResponse = searchResponseForPage("storetype", searchSourceBuilder, pageable);
+
 		return serviceUtility.getPageResult(searchResponse, pageable, new StoreType());
 
 	}
@@ -838,7 +815,10 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 			for (SearchHit hit : searchHit) {
 				storeTypeList.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class));
+				System.out.println("++++++++++++++++++++++++++++++++++" + storeTypeList);
 				storeSet.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class).getStore());
+				System.out.println("++++++++++++++++++++++++++++++++++" + storeSet);
+
 			}
 
 		}
@@ -897,7 +877,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-		
+
 		return serviceUtility.getPageResult(searchResponse, pageable, new Store());
 
 	}
@@ -929,19 +909,18 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	@Override
 	public Store findStoreById(Long id) {
-		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		/*
+		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		 * 
+		 * searchSourceBuilder.query(QueryBuilders.termQuery("id", id));
+		 * 
+		 * SearchRequest searchRequest = new SearchRequest("store");
+		 * searchRequest.source(searchSourceBuilder); SearchResponse searchResponse =
+		 * null; try { searchResponse = restHighLevelClient.search(searchRequest,
+		 * RequestOptions.DEFAULT); } catch (IOException e) { // TODO Auto-generated
+		 * e.printStackTrace(); }
+		 */
 
-		searchSourceBuilder.query(QueryBuilders.termQuery("id", id));
-
-		SearchRequest searchRequest = new SearchRequest("store");
-		searchRequest.source(searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-		}*/
-		
 		QueryBuilder dslQuery = termQuery("id", id);
 		SearchResponse searchResponse = searchResponseForObject("store", dslQuery);
 		return serviceUtility.getObjectResult(searchResponse, new Store());
