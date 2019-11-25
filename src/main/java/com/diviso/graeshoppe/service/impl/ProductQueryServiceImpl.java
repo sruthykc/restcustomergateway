@@ -305,7 +305,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		});
 */
 		System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+categoryAggregation.getBuckets());
-		System.out.println("HHHHHHHHHHHHHHHHHHHH"+categoryAggregation.getBuckets().toString());
+	//	System.out.println("HHHHHHHHHHHHHHHHHHHH"+categoryAggregation.getBuckets().toString());
 		
 		return  null;//storeBasedEntry;
 
