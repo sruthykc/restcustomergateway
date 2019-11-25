@@ -336,7 +336,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 	
 	@Override
 	public void findCategoryAndCountByStoreId(String storeId, Pageable pageable) {
-		 SearchRequest searchRequest = new SearchRequest();
+		 SearchRequest searchRequest = new SearchRequest("product");
          // tag::search-request-aggregations
          SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
          FilterAggregationBuilder  filterAggregationBuilder= AggregationBuilders
@@ -345,7 +345,8 @@ public class ProductQueryServiceImpl implements ProductQueryService{
                  .field("category.name.keyword");
          //aggregation.subAggregation(AggregationBuilders.avg("average_age")
            //      .field("age"));
-     	aggregation.subAggregation(filterAggregationBuilder);
+        // filterAggregationBuilder.subAggregation(aggregation);
+         aggregation. subAggregation(filterAggregationBuilder);
          searchSourceBuilder.aggregation(aggregation);
          // end::search-request-aggregations
          searchSourceBuilder.query(QueryBuilders.matchAllQuery());
