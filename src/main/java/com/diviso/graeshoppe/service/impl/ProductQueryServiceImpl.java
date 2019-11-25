@@ -346,8 +346,8 @@ public class ProductQueryServiceImpl implements ProductQueryService{
          //aggregation.subAggregation(AggregationBuilders.avg("average_age")
            //      .field("age"));
         // filterAggregationBuilder.subAggregation(aggregation);
-         aggregation. subAggregation(filterAggregationBuilder);
-         searchSourceBuilder.aggregation(aggregation);
+        // aggregation. subAggregation(filterAggregationBuilder);
+         searchSourceBuilder.aggregation(filterAggregationBuilder);
          // end::search-request-aggregations
          searchSourceBuilder.query(QueryBuilders.matchAllQuery());
          searchRequest.source(searchSourceBuilder);
