@@ -240,7 +240,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 	}
 	
 	@Override
-	public List<ResultBucket> findCategoryAndCountByStoreId(String storeId, Pageable pageable) {
+	public void findCategoryAndCountByStoreId(String storeId, Pageable pageable) {
 		List<ResultBucket> resultBucketList = new ArrayList<>();
 		SearchRequest searchRequest = new SearchRequest("product");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -306,10 +306,13 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		});
 */
 		//System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+categoryAggregation.getBuckets());
-	//	System.out.println("HHHHHHHHHHHHHHHHHHHH"+categoryAggregation.getBuckets().toString());
+	
 		//Terms.Bucket buc =	(Bucket) categoryAggregation.getBuckets();
 	//	System.out.println("swwwwwwwwwwwwwwwwwwwwww"+categoryAggregation.getMetaData().toString());
 		//return  categoryAggregation.getBuckets();//storeBasedEntry;
+		
+		System.out.println("HHHHHHHHHHHHHHHHHHHH"+categoryAggregation.getBuckets().toString());
+		System.out.println("sizeeeeeeeeeeeeeeee"+categoryAggregation.getBuckets().size());
 		for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
 			ResultBucket result = new ResultBucket();
 			result.setKey(bucket.getKey().toString());
@@ -324,7 +327,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		
 		
 		
-		return resultBucketList;
+		//return resultBucketList;
 
 	}
 	
