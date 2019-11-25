@@ -239,26 +239,26 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		return resultBucketList;
 	}
 	
-	@Override
+	/*@Override
 	public void findCategoryAndCountByStoreId(String storeId, Pageable pageable) {
 		List<ResultBucket> resultBucketList = new ArrayList<>();
 		SearchRequest searchRequest = new SearchRequest("product");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(matchAllQuery());
-		/*TermsAggregationBuilder aggregation = AggregationBuilders.terms("totalcategories")
+		TermsAggregationBuilder aggregation = AggregationBuilders.terms("totalcategories")
 				.field("category.name.keyword");
 		aggregation.subAggregation(AggregationBuilders.terms("store").field("iDPcode.keyword"));
 		searchSourceBuilder.aggregation(aggregation);
-*/
-	/*	FilterAggregationBuilder  filterAggregationBuilder= AggregationBuilders
-			     . filter ( "byStoreFilter" , QueryBuilders . termQuery ( "iDPcode.keyword" , storeId ));*/
+
+		FilterAggregationBuilder  filterAggregationBuilder= AggregationBuilders
+			     . filter ( "byStoreFilter" , QueryBuilders . termQuery ( "iDPcode.keyword" , storeId ));
 		TermsAggregationBuilder aggregation=	AggregationBuilders.terms("totalcategories")
 		.field("category.name.keyword");
 		//aggregation.subAggregation(filterAggregationBuilder);
 		
-		/*filterAggregationBuilder.subAggregation( AggregationBuilders.terms("totalcategories")
+		filterAggregationBuilder.subAggregation( AggregationBuilders.terms("totalcategories")
 				.field("category.name.keyword"));
-		searchSourceBuilder.aggregation(filterAggregationBuilder);*/
+		searchSourceBuilder.aggregation(filterAggregationBuilder);
 		
 		searchRequest.source(searchSourceBuilder);
 		SearchResponse searchResponse = null;
@@ -274,7 +274,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		Aggregations aggregations = searchResponse.getAggregations();
 
 		Terms categoryAggregation = searchResponse.getAggregations().get("totalcategories");
-		/*for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
+		for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
 			ResultBucket result = new ResultBucket();
 			result.setKey(bucket.getKey().toString());
 			result.setDocCount(bucket.getDocCount());
@@ -307,7 +307,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 			}
 			i++;
 		});
-*/
+
 		//System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+categoryAggregation.getBuckets());
 	
 		//Terms.Bucket buc =	(Bucket) categoryAggregation.getBuckets();
@@ -332,7 +332,41 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		
 		//return resultBucketList;
 
+	}*/
+	
+	@Override
+	public void findCategoryAndCountByStoreId(String storeId, Pageable pageable) {
+		 SearchRequest searchRequest = new SearchRequest();
+         // tag::search-request-aggregations
+         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+         TermsAggregationBuilder aggregation = AggregationBuilders.terms("by_categories")
+                 .field("category.name.keyword");
+         //aggregation.subAggregation(AggregationBuilders.avg("average_age")
+           //      .field("age"));
+         searchSourceBuilder.aggregation(aggregation);
+         // end::search-request-aggregations
+         searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+         searchRequest.source(searchSourceBuilder);
+         SearchResponse searchResponse = null;
+ 		try {
+          searchResponse =  restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+ 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+             // tag::search-request-aggregations-get
+             Aggregations aggregations = searchResponse.getAggregations();
+             Terms byCompanyAggregation = aggregations.get("by_company");
+             System.out.println("sicccc"+ byCompanyAggregation.getBuckets().size());
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@Override
 	public Page<StockCurrent> findAllStockCurrentByProductNameStoreId(String productName, String storeId,
