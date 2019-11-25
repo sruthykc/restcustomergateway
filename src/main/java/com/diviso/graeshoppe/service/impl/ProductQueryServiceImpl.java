@@ -360,7 +360,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		}
              // tag::search-request-aggregations-get
              Aggregations aggregations = searchResponse.getAggregations();
-             Terms byCompanyAggregation = aggregations.get("by_categories");
+             Terms byCompanyAggregation = aggregations.get("byStoreFilter");
              System.out.println("sicccc"+ byCompanyAggregation.getBuckets().size());
             // Bucket elasticBucket = byCompanyAggregation.getBucketByKey("Burger");
              for (Terms.Bucket bucket : byCompanyAggregation.getBuckets()) {
