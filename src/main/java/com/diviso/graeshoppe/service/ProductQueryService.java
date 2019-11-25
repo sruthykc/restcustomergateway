@@ -39,9 +39,9 @@ public interface ProductQueryService {
 
 	Page<Category> findCategoryByIDPcode(String iDPcode, Pageable pageable);
 
-	Page<Product> findProductByStoreIdAndCategoryName(String userId, String categoryName, Pageable pageable);
+	//Page<Product> findProductByStoreIdAndCategoryName(String userId, String categoryName, Pageable pageable);
 
-	List<StockCurrent> findStockCurrentByStoreIdAndCategoryId(String userId, Long categoryId, Pageable pageable);
+	Page<StockCurrent> findStockCurrentByStoreIdAndCategoryId(String userId, Long categoryId, Pageable pageable);
 
 	Product findProductById(Long id);
 
