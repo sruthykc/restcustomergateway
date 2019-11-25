@@ -18,6 +18,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.filter.Filter;
 import org.elasticsearch.search.aggregations.bucket.filter.FilterAggregationBuilder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
@@ -339,25 +340,18 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		 SearchRequest searchRequest = new SearchRequest("product");
          // tag::search-request-aggregations
          SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        /* FilterAggregationBuilder  filterAggregationBuilder= AggregationBuilders
+         FilterAggregationBuilder  filterAggregationBuilder= AggregationBuilders
 			     . filter ( "byStoreFilter" , QueryBuilders . termQuery ( "iDPcode.keyword" , storeId ));
          TermsAggregationBuilder aggregation = AggregationBuilders.terms("by_categories")
-                 .field("category.name.keyword");*/
-         //aggregation.subAggregation(AggregationBuilders.avg("average_age")
-           //      .field("age"));
-        // filterAggregationBuilder.subAggregation(aggregation);
+                 .field("category.name.keyword");
+        
+         filterAggregationBuilder.subAggregation(aggregation);
         // aggregation. subAggregation(filterAggregationBuilder);
          
          
-         TermsAggregationBuilder aggBuilder = AggregationBuilders.terms("by_categories")//
-     			.field("category.name.keyword");//
-         aggBuilder.subAggregation(AggregationBuilders
-			     . filter ("byStoreFilter" , QueryBuilders.termQuery ( "iDPcode.keyword" , storeId )));//
-     					
-
+       
          
-         
-         searchSourceBuilder.aggregation(aggBuilder);
+         searchSourceBuilder.aggregation(filterAggregationBuilder);
          // end::search-request-aggregations
          searchSourceBuilder.query(QueryBuilders.matchAllQuery());
          searchRequest.source(searchSourceBuilder);
@@ -370,8 +364,9 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		}
              // tag::search-request-aggregations-get
              Aggregations aggregations = searchResponse.getAggregations();
-       
-             Terms byCompanyAggregation = aggregations.get("by_categories");
+        Filter f=     aggregations.get("byStoreFilter");
+        Terms byCompanyAggregation =   f.getAggregations().get("by_categories");
+            // Terms byCompanyAggregation = aggregations.get("by_categories");
              System.out.println("sicccc"+ byCompanyAggregation.getBuckets().size());
             // Bucket elasticBucket = byCompanyAggregation.getBucketByKey("Burger");
              for (Terms.Bucket bucket : byCompanyAggregation.getBuckets()) {
