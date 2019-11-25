@@ -3,6 +3,7 @@ package com.diviso.graeshoppe.service;
 import java.util.List;
 
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -32,7 +33,7 @@ public interface ProductQueryService {
 
 	List<ResultBucket> findCategoryAndCount(Pageable pageable);
 
-	List<ResultBucket> findCategoryAndCountByStoreId(String storeId, Pageable pageable);
+	List<? extends Bucket> findCategoryAndCountByStoreId(String storeId, Pageable pageable);
 
 	Page<StockCurrent> findAllStockCurrentByProductNameStoreId(String productName, String storeId, Pageable pageable);
 

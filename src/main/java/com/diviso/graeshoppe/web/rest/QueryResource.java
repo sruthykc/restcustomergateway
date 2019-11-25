@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -190,7 +191,7 @@ public class QueryResource {
 
 	// priority1
 	@GetMapping("/findCategoryAndCountBystoreId/{storeId}")
-	public List<ResultBucket> findCategoryAndCountBystoreId(@PathVariable String storeId, Pageable pageable) {
+	public List<? extends Bucket> findCategoryAndCountBystoreId(@PathVariable String storeId, Pageable pageable) {
 
 		return productQueryService.findCategoryAndCountByStoreId(storeId, pageable);
 	}

@@ -20,6 +20,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.filter.FilterAggregationBuilder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
@@ -239,7 +240,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 	}
 	
 	@Override
-	public List<ResultBucket> findCategoryAndCountByStoreId(String storeId, Pageable pageable) {
+	public List<? extends Bucket> findCategoryAndCountByStoreId(String storeId, Pageable pageable) {
 		List<ResultBucket> resultBucketList = new ArrayList<>();
 		SearchRequest searchRequest = new SearchRequest("product");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -304,10 +305,10 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 			i++;
 		});
 */
-		System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+categoryAggregation.getBuckets());
+		//System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+categoryAggregation.getBuckets());
 	//	System.out.println("HHHHHHHHHHHHHHHHHHHH"+categoryAggregation.getBuckets().toString());
 		
-		return  null;//storeBasedEntry;
+		return  categoryAggregation.getBuckets();//storeBasedEntry;
 
 	}
 	
