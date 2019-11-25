@@ -267,7 +267,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 			e.printStackTrace();
 		}
 		System.out.println("elasticsearch response: {} totalhitssshits" + searchResponse.getHits().getTotalHits());
-		System.out.println("elasticsearch response: {} hits .toostring" + searchResponse.toString());
+	//	System.out.println("elasticsearch response: {} hits .toostring" + searchResponse.toString());
 		// searchResponse.getHits().
 		Aggregations aggregations = searchResponse.getAggregations();
 		Terms categoryAggregation = searchResponse.getAggregations().get("totalcategories");
@@ -307,8 +307,8 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 */
 		//System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+categoryAggregation.getBuckets());
 	//	System.out.println("HHHHHHHHHHHHHHHHHHHH"+categoryAggregation.getBuckets().toString());
-		Terms.Bucket buc =	(Bucket) categoryAggregation.getBuckets();
-		System.out.println(categoryAggregation.getBuckets().size()+"wwwwwwwwwwwwwwwww"+buc);
+		//Terms.Bucket buc =	(Bucket) categoryAggregation.getBuckets();
+		System.out.println("sie"+categoryAggregation.getBuckets().size());
 		//return  categoryAggregation.getBuckets();//storeBasedEntry;
 		return null;
 
