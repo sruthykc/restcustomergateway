@@ -339,10 +339,13 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		 SearchRequest searchRequest = new SearchRequest();
          // tag::search-request-aggregations
          SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+         FilterAggregationBuilder  filterAggregationBuilder= AggregationBuilders
+			     . filter ( "byStoreFilter" , QueryBuilders . termQuery ( "iDPcode.keyword" , storeId ));
          TermsAggregationBuilder aggregation = AggregationBuilders.terms("by_categories")
                  .field("category.name.keyword");
          //aggregation.subAggregation(AggregationBuilders.avg("average_age")
            //      .field("age"));
+     	aggregation.subAggregation(filterAggregationBuilder);
          searchSourceBuilder.aggregation(aggregation);
          // end::search-request-aggregations
          searchSourceBuilder.query(QueryBuilders.matchAllQuery());
