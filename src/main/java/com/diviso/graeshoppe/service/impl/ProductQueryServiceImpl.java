@@ -18,6 +18,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.filter.FilterAggregationBuilder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -243,11 +244,19 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		SearchRequest searchRequest = new SearchRequest("product");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(matchAllQuery());
-		TermsAggregationBuilder aggregation = AggregationBuilders.terms("totalcategories")
+		/*TermsAggregationBuilder aggregation = AggregationBuilders.terms("totalcategories")
 				.field("category.name.keyword");
 		aggregation.subAggregation(AggregationBuilders.terms("store").field("iDPcode.keyword"));
 		searchSourceBuilder.aggregation(aggregation);
-
+*/
+		
+		
+		FilterAggregationBuilder  filterAggregationBuilder= AggregationBuilders
+	     . filter ( "byStoreFilter" , QueryBuilders . termQuery ( "iDPcode.keyword" , storeId ));
+		filterAggregationBuilder.subAggregation( AggregationBuilders.terms("totalcategories")
+				.field("category.name.keyword"));
+		searchSourceBuilder.aggregation(filterAggregationBuilder);
+		
 		searchRequest.source(searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
@@ -261,7 +270,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		// searchResponse.getHits().
 		Aggregations aggregations = searchResponse.getAggregations();
 		Terms categoryAggregation = searchResponse.getAggregations().get("totalcategories");
-		for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
+		/*for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
 			ResultBucket result = new ResultBucket();
 			result.setKey(bucket.getKey().toString());
 			result.setDocCount(bucket.getDocCount());
@@ -294,8 +303,10 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 			}
 			i++;
 		});
-
-		return storeBasedEntry;
+*/
+		System.out.println("HHHHHHHHHHHHHHHHHHHH"+categoryAggregation.getBuckets().toString());
+		
+		return  null;//storeBasedEntry;
 
 	}
 	
