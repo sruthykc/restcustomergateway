@@ -250,11 +250,11 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 		aggregation.subAggregation(AggregationBuilders.terms("store").field("iDPcode.keyword"));
 		searchSourceBuilder.aggregation(aggregation);
 */
-		FilterAggregationBuilder  filterAggregationBuilder= AggregationBuilders
-			     . filter ( "byStoreFilter" , QueryBuilders . termQuery ( "iDPcode.keyword" , storeId ));
+	/*	FilterAggregationBuilder  filterAggregationBuilder= AggregationBuilders
+			     . filter ( "byStoreFilter" , QueryBuilders . termQuery ( "iDPcode.keyword" , storeId ));*/
 		TermsAggregationBuilder aggregation=	AggregationBuilders.terms("totalcategories")
 		.field("category.name.keyword");
-		aggregation.subAggregation(filterAggregationBuilder);
+		//aggregation.subAggregation(filterAggregationBuilder);
 		
 		/*filterAggregationBuilder.subAggregation( AggregationBuilders.terms("totalcategories")
 				.field("category.name.keyword"));
@@ -272,6 +272,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
 	//	System.out.println("elasticsearch response: {} hits .toostring" + searchResponse.toString());
 		// searchResponse.getHits().
 		Aggregations aggregations = searchResponse.getAggregations();
+
 		Terms categoryAggregation = searchResponse.getAggregations().get("totalcategories");
 		/*for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
 			ResultBucket result = new ResultBucket();
