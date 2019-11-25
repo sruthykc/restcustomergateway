@@ -379,7 +379,7 @@ public class ProductQueryServiceImpl implements ProductQueryService{
      					+ bucket.getDocCount());
 
      		}*/
-             System.out.println("metadata"+  byCompanyAggregation.getMetaData());
+             System.out.println("metadata"+  byCompanyAggregation.getBuckets());
 	}
 	
 	
