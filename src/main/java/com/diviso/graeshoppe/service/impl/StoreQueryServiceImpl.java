@@ -805,16 +805,16 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 		
-		for (StoreTypeWrapper term : storeTypeWrapper) {
-			System.out.println("vStoreTypeWrapper term"+term.getTypeName());
-		QueryBuilder dslQuery = QueryBuilders.termQuery("name.keyword", term.getTypeName());
+		//for (StoreTypeWrapper term : storeTypeWrapper) {
+		//	System.out.println("vStoreTypeWrapper term"+term.getTypeName());
+		QueryBuilder dslQuery = QueryBuilders.termQuery("name.keyword", "Indian"/*term.getTypeName()*/);
 		searchSourceBuilder.query(dslQuery);
 		SearchResponse searchResponse =serviceUtility. searchResponseForSourceBuilder("storetype",searchSourceBuilder);
 	
-		StoreType t=serviceUtility.getObjectResult(searchResponse, new StoreType());
+		Store t=serviceUtility.getObjectResult(searchResponse, new StoreType()).getStore();
 		System.out.println("tttttttttttt"+t);
 		//storeSet.add(serviceUtility.getObjectResult(searchResponse, new StoreType()).getStore());
-		}
+		//}
 	// return new PageImpl(new ArrayList<Store>(storeSet));
 		return null;
 		
