@@ -372,7 +372,7 @@ public class QueryResource {
 		return productQueryService.findDiscountByProductId(productId);
 	}
 
-	@GetMapping("/facetSearchByStoreTypeName{name}")
+	@GetMapping("/facetSearchByStoreTypeName/{name}")
 	public void /*Page<Store>*/ facetSearchByStoreTypeName(@PathVariable String name,/* List<String> storeTypeNames, */ Pageable pageable) {
 
 		List<String> storeTypeNames = new ArrayList<String>();
