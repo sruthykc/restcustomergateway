@@ -801,9 +801,9 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		String[] includeFields = new String[] { "closingTime", "contactNo", "email", "id", "image", "imageContentType",
 				"info", "location", "locationName", "maxDeliveryTime", "minAmount", "name", "openingTime", "regNo" };
-		String[] excludeFields = new String[] { "storetype.*", "storesettings.*", "storeaddress.*" };
+		String[] excludeFields = new String[] {  "storesettings.*", "storeaddress.*" };
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.fetchSource(includeFields, excludeFields);
+		//searchSourceBuilder.fetchSource(includeFields, excludeFields);
 		
 		for (StoreTypeWrapper term : storeTypeWrapper) {
 		System.out.println("vStoreTypeWrapper term"+term.getTypeName());
