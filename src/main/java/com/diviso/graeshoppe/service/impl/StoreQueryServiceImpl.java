@@ -799,11 +799,11 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		
 		Set<Store> storeSet = new HashSet<>();
 
-		String[] includeFields = new String[] { "closingTime", "contactNo", "email", "id", "image", "imageContentType",
-				"info", "location", "locationName", "maxDeliveryTime", "minAmount", "name", "openingTime", "regNo" };
+		String[] includeFields = new String[] { "store.closingTime", "store.contactNo", "store.email", "store.id", "store.image", "store.imageContentType",
+				"store.info", "store.location", "store.locationName", "store.maxDeliveryTime", "store.minAmount", "store.name", "store.openingTime", "store.regNo" };
 		
 		//String[] includeFields = new String[] { "store.*"};
-		String[] excludeFields = new String[] {  "id","name","storesettings.*", "storeaddress.*" };
+		String[] excludeFields = new String[] {  "storetype.id","storetype.name","storesettings.*", "storeaddress.*" };
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 		
