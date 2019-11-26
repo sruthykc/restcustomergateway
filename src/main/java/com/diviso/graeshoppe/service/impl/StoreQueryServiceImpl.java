@@ -834,6 +834,19 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		//return new PageImpl(new ArrayList<Store>(storeSet));
 
 	}
+	public StoreType test(String name) {
+		
+		QueryBuilder dslQuery = QueryBuilders.termQuery("name.keyword", name);
+		SearchResponse searchResponse = searchResponseForObject("store", dslQuery);
+
+		return serviceUtility.getObjectResult(searchResponse, new StoreType());
+		
+		
+		
+	}
+	
+	
+	
 
 	public List<ResultBucket> findStoreTypeAndCount1(Pageable pageable) {
 		List<ResultBucket> resultBucketList = new ArrayList<>();

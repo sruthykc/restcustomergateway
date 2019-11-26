@@ -372,17 +372,18 @@ public class QueryResource {
 		return productQueryService.findDiscountByProductId(productId);
 	}
 
-	@GetMapping("/facetSearchByStoreTypeName")
-	public void /*Page<Store>*/ facetSearchByStoreTypeName(/* List<String> storeTypeNames, */ Pageable pageable) {
+	@GetMapping("/facetSearchByStoreTypeName{name}")
+	public void /*Page<Store>*/ facetSearchByStoreTypeName(String name,/* List<String> storeTypeNames, */ Pageable pageable) {
 
 		List<String> storeTypeNames = new ArrayList<String>();
 
-		storeTypeNames.add("Chineese");
-		storeTypeNames.add("Italian");
-		storeTypeNames.add("Indian");
+		storeTypeNames.add("chineese");
+		storeTypeNames.add("italian");
+		storeTypeNames.add("indian");
 		System.out.println("++++++++++++++++++++++++++++++++++Querresource" + storeTypeNames);
 		storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
 		//return storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
+		storeQueryService.test(name); 
 	}
 	@GetMapping("/favouriteproductsbycustomerreference/{reference}")
 	public Page<FavouriteProduct> findFavouriteProductsByCustomerReference(@PathVariable String reference,

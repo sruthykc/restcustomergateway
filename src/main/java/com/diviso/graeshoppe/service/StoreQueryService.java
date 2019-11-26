@@ -78,6 +78,8 @@ public interface StoreQueryService {
 	StoreAddress getStoreAddress(String iDPCode);
 
 	Store findStoreById(Long id);
+	
+	StoreType test(String name);
 
 
 }
