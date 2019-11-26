@@ -373,7 +373,7 @@ public class QueryResource {
 	}
 
 	@GetMapping("/facetSearchByStoreTypeName/{name}")
-	public List<StoreType> /*Page<Store>*/ facetSearchByStoreTypeName(@PathVariable String name,/* List<String> storeTypeNames, */ Pageable pageable) {
+	public Page<Store> facetSearchByStoreTypeName(@PathVariable String name,/* List<String> storeTypeNames, */ Pageable pageable) {
 
 		List<String> storeTypeNames = new ArrayList<String>();
 
