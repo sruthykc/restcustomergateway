@@ -793,7 +793,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	
 	
-	public Page<Store>  facetSearchByStoreTypeName(List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable) {
+	public  List<StoreType>/*Page<Store>*/  facetSearchByStoreTypeName(List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable) {
 		
 		List<StoreType> storeTypeList = new ArrayList<>();
 		
@@ -813,11 +813,12 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	
 		StoreType t=serviceUtility.getObjectResult(searchResponse, new StoreType());
 		System.out.println("tttttttttttt"+t);
-		storeSet.add(serviceUtility.getObjectResult(searchResponse, new StoreType()).getStore());
+		storeTypeList.add(serviceUtility.getObjectResult(searchResponse, new StoreType()));
+		//storeSet.add(serviceUtility.getObjectResult(searchResponse, new StoreType()).getStore());
 		}
-	 return new PageImpl(new ArrayList<Store>(storeSet));
+	// return new PageImpl(new ArrayList<Store>(storeSet));
 	
-		
+		return storeTypeList;
 		
 		
 	}
