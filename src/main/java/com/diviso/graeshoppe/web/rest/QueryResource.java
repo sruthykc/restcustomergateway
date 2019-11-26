@@ -375,7 +375,7 @@ public class QueryResource {
 
 	@GetMapping("/facetSearchByStoreTypeName")
 	public Page<Store> facetSearchByStoreTypeName(@RequestBody List<String> storeTypeNames, Pageable pageable) {
-
+System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"+storeTypeNames.get(0));
 		/*List<String> storeTypeNames = new ArrayList<String>();
 
 		storeTypeNames.add("Chineese");
