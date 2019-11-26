@@ -373,7 +373,7 @@ public class QueryResource {
 	}
 
 	@GetMapping("/facetSearchByStoreTypeName/{name}")
-	public StoreType /*Page<Store>*/ facetSearchByStoreTypeName(@PathVariable String name,/* List<String> storeTypeNames, */ Pageable pageable) {
+	public List<StoreType> /*Page<Store>*/ facetSearchByStoreTypeName(@PathVariable String name,/* List<String> storeTypeNames, */ Pageable pageable) {
 
 		List<String> storeTypeNames = new ArrayList<String>();
 
@@ -383,7 +383,7 @@ public class QueryResource {
 		System.out.println("++++++++++++++++++++++++++++++++++Querresource" + storeTypeNames);
 		//storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
 		//return storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
-	return	storeQueryService.test(name); 
+	return	storeQueryService.test(storeTypeNames); 
 	}
 	@GetMapping("/favouriteproductsbycustomerreference/{reference}")
 	public Page<FavouriteProduct> findFavouriteProductsByCustomerReference(@PathVariable String reference,

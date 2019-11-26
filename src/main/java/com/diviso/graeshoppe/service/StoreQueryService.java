@@ -79,7 +79,7 @@ public interface StoreQueryService {
 
 	Store findStoreById(Long id);
 	
-	StoreType test(String name);
+	List<StoreType> test(List<String> name);
 
 
 }

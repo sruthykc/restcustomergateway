@@ -834,13 +834,16 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		//return new PageImpl(new ArrayList<Store>(storeSet));
 
 	}
-	public StoreType test(String name) {
+	public List<StoreType> test(List<String> storeTypeNames) {
 		
-		QueryBuilder dslQuery = QueryBuilders.termQuery("name.keyword", "Chineese");
+		List<StoreType> storeTypeList = new ArrayList<>();
+		for (String term : storeTypeNames) {
+		QueryBuilder dslQuery = QueryBuilders.termQuery("name.keyword", term);
 		SearchResponse searchResponse = searchResponseForObject("storetype", dslQuery);
-	StoreType t=	serviceUtility.getObjectResult(searchResponse, new StoreType());
-	System.out.println("oooooooooooooooooooooooooooooooooooooooooo"+t);
-		return serviceUtility.getObjectResult(searchResponse, new StoreType());
+	
+	storeTypeList.add(serviceUtility.getObjectResult(searchResponse, new StoreType()));
+		}
+	return storeTypeList;
 		
 		
 		
