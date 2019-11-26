@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -372,18 +373,18 @@ public class QueryResource {
 		return productQueryService.findDiscountByProductId(productId);
 	}
 
-	@GetMapping("/facetSearchByStoreTypeName/{name}")
-	public Page<Store> facetSearchByStoreTypeName(@PathVariable String name,/* List<String> storeTypeNames, */ Pageable pageable) {
+	@GetMapping("/facetSearchByStoreTypeName")
+	public Page<Store> facetSearchByStoreTypeName(@RequestBody List<String> storeTypeNames, Pageable pageable) {
 
-		List<String> storeTypeNames = new ArrayList<String>();
+		/*List<String> storeTypeNames = new ArrayList<String>();
 
 		storeTypeNames.add("Chineese");
 		storeTypeNames.add("Italian");
 		storeTypeNames.add("Indian");
-		System.out.println("++++++++++++++++++++++++++++++++++Querresource" + storeTypeNames);
-		//storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
-		//return storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
-	return	storeQueryService.test(storeTypeNames); 
+		System.out.println("++++++++++++++++++++++++++++++++++Querresource" + storeTypeNames);*/
+		
+		return storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
+	
 	}
 	@GetMapping("/favouriteproductsbycustomerreference/{reference}")
 	public Page<FavouriteProduct> findFavouriteProductsByCustomerReference(@PathVariable String reference,
