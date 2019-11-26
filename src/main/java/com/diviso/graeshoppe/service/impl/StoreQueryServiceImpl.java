@@ -811,7 +811,8 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		searchSourceBuilder.query(dslQuery);
 		SearchResponse searchResponse =serviceUtility. searchResponseForSourceBuilder("storetype",searchSourceBuilder);
 	
-		serviceUtility.getObjectResult(searchResponse, new StoreType());
+		StoreType t=serviceUtility.getObjectResult(searchResponse, new StoreType());
+		System.out.println("tttttttttttt"+t);
 		//storeSet.add(serviceUtility.getObjectResult(searchResponse, new StoreType()).getStore());
 		}
 	// return new PageImpl(new ArrayList<Store>(storeSet));
