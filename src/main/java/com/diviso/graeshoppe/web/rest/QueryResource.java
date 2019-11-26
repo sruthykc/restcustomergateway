@@ -59,6 +59,7 @@ import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.client.store.model.BannerDTO;
 import com.diviso.graeshoppe.domain.ResultBucket;
+import com.diviso.graeshoppe.domain.StoreTypeWrapper;
 import com.diviso.graeshoppe.service.CustomerQueryService;
 import com.diviso.graeshoppe.service.OfferQueryService;
 import com.diviso.graeshoppe.service.OrderQueryService;
@@ -374,16 +375,10 @@ public class QueryResource {
 	}
 
 	@GetMapping("/facetSearchByStoreTypeName")
-	public Page<Store> facetSearchByStoreTypeName(@RequestBody List<String> storeTypeNames, Pageable pageable) {
-System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"+storeTypeNames.get(0));
-		/*List<String> storeTypeNames = new ArrayList<String>();
+	public Page<Store> facetSearchByStoreTypeName(@RequestBody  StoreTypeWrapper storeTypeWrapper, Pageable pageable) {
 
-		storeTypeNames.add("Chineese");
-		storeTypeNames.add("Italian");
-		storeTypeNames.add("Indian");
-		System.out.println("++++++++++++++++++++++++++++++++++Querresource" + storeTypeNames);*/
-		
-		return storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
+	
+		return storeQueryService.facetSearchByStoreTypeName(storeTypeWrapper.getStoreTypeNames(), pageable);
 	
 	}
 	@GetMapping("/favouriteproductsbycustomerreference/{reference}")
