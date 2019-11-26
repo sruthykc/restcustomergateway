@@ -45,6 +45,7 @@ import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.domain.Cart;
 import com.diviso.graeshoppe.domain.ResultBucket;
+import com.diviso.graeshoppe.domain.StoreTypeWrapper;
 import com.diviso.graeshoppe.service.StoreQueryService;
 import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -792,7 +793,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	
 	
-	public Page<Store>  facetSearchByStoreTypeName(List<String> storeTypeNames, Pageable pageable) {
+	public Page<Store>  facetSearchByStoreTypeName(List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable) {
 		
 		List<StoreType> storeTypeList = new ArrayList<>();
 		
@@ -804,8 +805,8 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 		
-		for (String term : storeTypeNames) {
-		QueryBuilder dslQuery = QueryBuilders.termQuery("name.keyword", term);
+		for (StoreTypeWrapper term : storeTypeWrapper) {
+		QueryBuilder dslQuery = QueryBuilders.termQuery("name.keyword", term.getTypeName());
 		searchSourceBuilder.query(dslQuery);
 		SearchResponse searchResponse =serviceUtility. searchResponseForSourceBuilder("storetype",searchSourceBuilder);
 	

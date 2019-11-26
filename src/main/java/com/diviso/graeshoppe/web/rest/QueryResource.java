@@ -375,10 +375,10 @@ public class QueryResource {
 	}
 
 	@GetMapping("/facetSearchByStoreTypeName")
-	public Page<Store> facetSearchByStoreTypeName(@RequestBody  StoreTypeWrapper storeTypeWrapper, Pageable pageable) {
+	public Page<Store> facetSearchByStoreTypeName(@RequestBody  List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable) {
 
 	
-		return storeQueryService.facetSearchByStoreTypeName(storeTypeWrapper.getStoreTypeNames(), pageable);
+		return storeQueryService.facetSearchByStoreTypeName(storeTypeWrapper, pageable);
 	
 	}
 	@GetMapping("/favouriteproductsbycustomerreference/{reference}")

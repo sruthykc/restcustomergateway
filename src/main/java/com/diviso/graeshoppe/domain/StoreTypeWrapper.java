@@ -3,21 +3,23 @@ package com.diviso.graeshoppe.domain;
 import java.util.List;
 
 public class StoreTypeWrapper {
-	private List<String> storeTypeNames;
+	
 
-	public List<String> getStoreTypeNames() {
-		return storeTypeNames;
+	private String typeName;
+
+	public String getTypeName() {
+		return typeName;
 	}
 
-	public void setStoreTypeNames(List<String> storeTypeNames) {
-		this.storeTypeNames = storeTypeNames;
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((storeTypeNames == null) ? 0 : storeTypeNames.hashCode());
+		result = prime * result + ((typeName == null) ? 0 : typeName.hashCode());
 		return result;
 	}
 
@@ -30,16 +32,17 @@ public class StoreTypeWrapper {
 		if (getClass() != obj.getClass())
 			return false;
 		StoreTypeWrapper other = (StoreTypeWrapper) obj;
-		if (storeTypeNames == null) {
-			if (other.storeTypeNames != null)
+		if (typeName == null) {
+			if (other.typeName != null)
 				return false;
-		} else if (!storeTypeNames.equals(other.storeTypeNames))
+		} else if (!typeName.equals(other.typeName))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "StoreTypeWrapper [storeTypeNames=" + storeTypeNames + "]";
+		return "StoreTypeWrapper [typeName=" + typeName + "]";
 	}
+
 }
