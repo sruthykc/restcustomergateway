@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.diviso.graeshoppe.client.order.model.Address;
 import com.diviso.graeshoppe.client.order.model.AuxilaryOrderLine;
 import com.diviso.graeshoppe.client.order.model.Notification;
 import com.diviso.graeshoppe.client.order.model.Order;
@@ -32,6 +33,8 @@ public interface OrderQueryService {
 	Page<Notification> findNotificationByReceiverId(String receiverId, Pageable pageable);
 
 	Page<AuxilaryOrderLine> findAuxilaryOrderLineByOrderLineId(Long orderLineId, Pageable pageable);
+
+	Page<Address> findAllSavedAddresses(String customerId, Pageable pageable);
 
 	
 	

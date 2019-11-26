@@ -5,7 +5,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,7 @@ import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
 import com.diviso.graeshoppe.client.customer.model.FavouriteProduct;
 import com.diviso.graeshoppe.client.customer.model.FavouriteStore;
 import com.diviso.graeshoppe.client.order.api.OrderQueryResourceApi;
+import com.diviso.graeshoppe.client.order.model.Address;
 import com.diviso.graeshoppe.client.order.model.AuxilaryOrderLine;
 import com.diviso.graeshoppe.client.order.model.Notification;
 import com.diviso.graeshoppe.client.order.model.Offer;
@@ -351,6 +351,11 @@ public class QueryResource {
 
 	}
 
+	
+	@GetMapping("/orders/addresses/{customerId}")
+	public Page<Address> getAllSavedAddress(@PathVariable String customerId, Pageable pageable) {
+		return orderQueryService.findAllSavedAddresses(customerId,pageable);
+	}
 	@GetMapping("/orderStatus/{statusName}")
 	public Page<Order> findOrderByStatusName(@PathVariable String statusName, Pageable pageable) {
 		return orderQueryService.findOrderByStatusName(statusName, pageable);

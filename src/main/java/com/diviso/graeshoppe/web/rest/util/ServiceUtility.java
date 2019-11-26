@@ -1,6 +1,4 @@
 package com.diviso.graeshoppe.web.rest.util;
-import static org.elasticsearch.index.query.QueryBuilders.termQuery;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +16,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import com.diviso.graeshoppe.client.store.domain.HeaderSearch;
-import com.diviso.graeshoppe.client.store.domain.Store;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**

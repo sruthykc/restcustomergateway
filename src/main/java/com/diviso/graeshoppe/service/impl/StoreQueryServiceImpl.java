@@ -43,7 +43,6 @@ import com.diviso.graeshoppe.client.store.domain.StoreSettings;
 import com.diviso.graeshoppe.client.store.domain.StoreType;
 import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
-import com.diviso.graeshoppe.domain.Cart;
 import com.diviso.graeshoppe.domain.ResultBucket;
 import com.diviso.graeshoppe.service.StoreQueryService;
 import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
@@ -244,6 +243,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	}
 
+	@Override
 	public List<ResultBucket> findStoreTypeAndCount(Pageable pageable) {
 		List<ResultBucket> resultBucketList = new ArrayList<>();
 		SearchRequest searchRequest = new SearchRequest("storetype");
@@ -620,6 +620,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	}
 
+	@Override
 	public Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException {
 		Set<Store> storeSet = new HashSet<Store>();
 		Set<HeaderSearch> values = new HashSet<HeaderSearch>();
@@ -751,6 +752,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	}
 
+	@Override
 	public StoreSettings getStoreSettings(String IDPCode) {
 		/*
 		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -770,6 +772,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		return serviceUtility.getObjectResult(searchResponse, new Store()).getStoreSettings();
 	}
 
+	@Override
 	public StoreAddress getStoreAddress(String iDPCode) {
 		/*
 		 * SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -834,6 +837,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		//return new PageImpl(new ArrayList<Store>(storeSet));
 
 	}
+	@Override
 	public StoreType test(String name) {
 		
 		QueryBuilder dslQuery = QueryBuilders.termQuery("name.keyword", name);

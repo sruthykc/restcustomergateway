@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,6 +27,21 @@ import com.diviso.graeshoppe.client.customer.model.FavouriteProductDTO;
 import com.diviso.graeshoppe.client.customer.model.FavouriteStoreDTO;
 import com.diviso.graeshoppe.client.customer.model.OTPChallenge;
 import com.diviso.graeshoppe.client.customer.model.OTPResponse;
+import com.diviso.graeshoppe.client.offer.model.OrderModel;
+import com.diviso.graeshoppe.client.order.model.AddressDTO;
+import com.diviso.graeshoppe.client.order.model.DeliveryInfoDTO;
+import com.diviso.graeshoppe.client.order.model.NotificationDTO;
+import com.diviso.graeshoppe.client.order.model.aggregator.DeliveryInfo;
+import com.diviso.graeshoppe.client.order.model.aggregator.Order;
+import com.diviso.graeshoppe.client.order.model.aggregator.OrderInitiateResponse;
+import com.diviso.graeshoppe.client.payment.model.OrderRequest;
+import com.diviso.graeshoppe.client.payment.model.OrderResponse;
+import com.diviso.graeshoppe.client.payment.model.PaymentDTO;
+import com.diviso.graeshoppe.client.payment.model.PaymentExecutionRequest;
+import com.diviso.graeshoppe.client.payment.model.PaymentInitiateRequest;
+import com.diviso.graeshoppe.client.payment.model.PaymentInitiateResponse;
+import com.diviso.graeshoppe.client.payment.model.PaymentTransaction;
+import com.diviso.graeshoppe.client.payment.model.PaymentTransactionResponse;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
 import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
@@ -45,6 +61,9 @@ import com.diviso.graeshoppe.client.store.model.ReplyDTO;
 import com.diviso.graeshoppe.client.store.model.ReviewDTO;
 import com.diviso.graeshoppe.client.store.model.StoreDTO;
 import com.diviso.graeshoppe.client.store.model.UserRatingDTO;
+import com.diviso.graeshoppe.service.OfferCommandService;
+import com.diviso.graeshoppe.service.OrderCommandService;
+import com.diviso.graeshoppe.service.PaymentCommandService;
 import com.diviso.graeshoppe.service.QueryService;
 import com.diviso.graeshoppe.service.StoreQueryService;
 
@@ -55,6 +74,8 @@ public class CommandResource {
 	@Autowired
 	private UomResourceApi uomResourceApi;
 
+	@Autowired
+	private OrderCommandService orderCommandService;
 	@Autowired
 	private CategoryResourceApi categoryResourceApi;
 
@@ -94,6 +115,12 @@ public class CommandResource {
 
 	@Autowired
 	QueryResource queryResource;
+	
+	@Autowired
+	private PaymentCommandService paymentCommandService;
+	
+	@Autowired
+	private OfferCommandService offerCommandService;
 
 	private final Logger log = LoggerFactory.getLogger(CommandResource.class);
 
@@ -354,5 +381,106 @@ public class CommandResource {
 		}
 		return queryResource.findRatingReviewByStoreidAndCustomerName(store.getRegNo(), pageable);
 	}
+	
+	
+	/*********************** Order related operations ****************************/
+	
+	@PostMapping("/order/initiateOrder")
+	public ResponseEntity<OrderInitiateResponse> initiateOrder(@RequestBody Order order) {
+		return ResponseEntity.ok(orderCommandService.initiateOrder(order));
+	}
+	
+	
+	@PostMapping("/orders/addresses")
+	public ResponseEntity<AddressDTO> createAddress(@RequestBody AddressDTO addressDTO) {
+		return  orderCommandService.createAddressUsingPOST(addressDTO);
+		
+	}
+	
+	@PostMapping("/orders/collectDeliveryDetails/{taskId}/{orderId}")
+	public ResponseEntity<com.diviso.graeshoppe.client.order.model.CommandResource> collectDeliveryDetails(@RequestBody DeliveryInfo deliveryInfo,
+			@PathVariable String taskId, @PathVariable String orderId) {
+		return ResponseEntity.ok(orderCommandService.createDeliveryInfo(taskId, deliveryInfo, orderId));
+	}
+	
+	@PutMapping("/delivery-info")
+	public ResponseEntity<DeliveryInfoDTO> editDeliveryInfo(@RequestBody DeliveryInfo deliveryInfo) {
+		return ResponseEntity.ok(orderCommandService.editDeliveryInfo( deliveryInfo));
+	}
+	
+	@DeleteMapping("/orders/{id}")
+	public void deleteOrderLine(@PathVariable Long id) {
+		 orderCommandService.deleteOrderLine(id);
+	}
+
+	@DeleteMapping("/auxilaries/{id}")
+	public void deleteAuxilaryOrderLine(@PathVariable Long id) {
+		 orderCommandService.deleteAuxilaryOrderLine(id);
+	}
+	
+	@PutMapping("/order")
+	public ResponseEntity<Order> editOrder(@RequestBody Order order) {
+		return ResponseEntity.ok(orderCommandService.editOrder(order));
+	}
+	
+	@PutMapping("/notifications")
+	public ResponseEntity<NotificationDTO> updateNotification(@RequestBody NotificationDTO notificationDTO) {
+		return orderCommandService.updateNotification(notificationDTO);
+	}
+
+	@PutMapping("/addresses")
+	public ResponseEntity<AddressDTO> updateAddress(@RequestBody AddressDTO addressDTO) {
+		return orderCommandService.updateAddress(addressDTO);
+	}
+
+	@DeleteMapping("/addresses/{id}")
+	public ResponseEntity<Void> deleteAddress(@PathVariable Long id) {
+		return orderCommandService.deleteAddress(id);
+	}
+	
+	
+	/************************** Payment related operations ******************************************/
+	
+	@PostMapping("/razorpay/order")
+	public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
+		return paymentCommandService.createOrder(orderRequest);
+	}
+
+	@PostMapping("/processPayment/{status}/{taskId}")
+	public ResponseEntity<com.diviso.graeshoppe.client.payment.model.CommandResource> processPayment(@RequestBody PaymentDTO paymentDTO, @PathVariable String status,
+			@PathVariable String taskId) {
+		return paymentCommandService.processPayment(paymentDTO,status,taskId);
+	}
+	
+	@PostMapping("/paypal/initiate")
+	public ResponseEntity<PaymentInitiateResponse> initiatePayment(
+			@RequestBody PaymentInitiateRequest paymentInitiateRequest) {
+		return paymentCommandService.initiatePaymentUsingPOST(paymentInitiateRequest);
+	}
+
+	@PostMapping("/paypal/execute/{paymentId}")
+	public ResponseEntity<Void> executePayment(@RequestBody PaymentExecutionRequest paymentExecutionRequest,
+			@PathVariable String paymentId) {
+		return paymentCommandService.executePaymentUsingPOST(paymentId, paymentExecutionRequest);
+	}
+
+	@GetMapping("/clientToken")
+	public ResponseEntity<String> createClientAuthToken() {
+		return paymentCommandService.createClientAuthTokenUsingGET();
+	}
+
+	@PostMapping("/transaction")
+	public ResponseEntity<PaymentTransactionResponse> createTransaction(@RequestBody PaymentTransaction paymentTransaction) {
+		return paymentCommandService.createTransactionUsingPOST(paymentTransaction);
+	}
+	
+	/******************************** Offer related operatons ******************************************/
+	
+	@PostMapping("/claimOffer/{customerId}")
+	public ResponseEntity<OrderModel> checkOfferEligibility(@RequestBody OrderModel orderModel,@PathVariable String customerId) {
+		return offerCommandService.claimOffer(orderModel,customerId); 
+	}
+
+	/***********************************************************************************/
 
 }

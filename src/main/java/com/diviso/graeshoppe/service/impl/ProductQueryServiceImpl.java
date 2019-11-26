@@ -21,14 +21,12 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.filter.Filter;
 import org.elasticsearch.search.aggregations.bucket.filter.FilterAggregationBuilder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +36,6 @@ import com.diviso.graeshoppe.client.product.model.ComboLineItem;
 import com.diviso.graeshoppe.client.product.model.Discount;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
-import com.diviso.graeshoppe.client.store.domain.Review;
-import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.domain.ResultBucket;
 import com.diviso.graeshoppe.service.ProductQueryService;
 import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
@@ -60,6 +56,7 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 		this.restHighLevelClient = restHighLevelClient;
 	}
 
+	@Override
 	public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable) {
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();

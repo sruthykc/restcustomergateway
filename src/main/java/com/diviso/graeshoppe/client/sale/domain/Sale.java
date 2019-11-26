@@ -22,9 +22,6 @@ import java.util.Objects;
 import java.util.Set;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-
 
 /**
  * TODO Provide a detailed description here 

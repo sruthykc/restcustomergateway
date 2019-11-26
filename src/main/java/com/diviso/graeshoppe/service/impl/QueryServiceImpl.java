@@ -1,12 +1,9 @@
 package com.diviso.graeshoppe.service.impl;
 
-import static org.elasticsearch.action.search.SearchType.QUERY_THEN_FETCH;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
-import org.elasticsearch.search.aggregations.bucket.filter.Filter;
-import org.elasticsearch.search.aggregations.bucket.filter.FilterAggregationBuilder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -18,10 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.swing.text.DefaultEditorKit.CutAction;
-
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -36,26 +29,11 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.ScoreSortBuilder;
-import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-/*import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.query.Criteria;
-import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
-import org.springframework.data.elasticsearch.core.query.FetchSourceFilterBuilder;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
-import org.springframework.data.elasticsearch.core.query.StringQuery;*/
-import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.order.model.Address;
 import com.diviso.graeshoppe.client.order.model.Order;
@@ -75,7 +53,6 @@ import com.diviso.graeshoppe.client.store.domain.StoreSettings;
 import com.diviso.graeshoppe.client.store.domain.StoreType;
 import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
-import com.diviso.graeshoppe.domain.GraeshoppeGeneric;
 //import com.diviso.graeshoppe.repository.search.StoreSearchRepository;
 /*import com.diviso.graeshoppe.client.product.domain.Product;
 import com.diviso.graeshoppe.domain.Result;*/
@@ -96,6 +73,7 @@ public class QueryServiceImpl implements QueryService {
 		this.restHighLevelClient = restHighLevelClient;
 	}
 
+	@Override
 	public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable) {
 
 		// System.out.println("findAllProductBySearchTerm>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -1017,6 +995,7 @@ public class QueryServiceImpl implements QueryService {
 	 * return categoryAggregation.getBuckets(); }
 	 */
 
+	@Override
 	public List<ResultBucket> findStoreTypeAndCount(Pageable pageable) {
 		List<ResultBucket> resultBucketList = new ArrayList<>();
 		SearchRequest searchRequest = new SearchRequest("storetype");
@@ -2206,6 +2185,7 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
+	@Override
 	public Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException {
 
 		Set<Store> storeSet = new HashSet<Store>();
@@ -2488,6 +2468,7 @@ public class QueryServiceImpl implements QueryService {
 	 * elasticsearchOperations.queryForObject(searchQuery, Store.class); return
 	 * store.getStoreSettings(); }
 	 */
+	@Override
 	public StoreSettings getStoreSettings(String IDPCode) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
@@ -2520,6 +2501,7 @@ public class QueryServiceImpl implements QueryService {
 	 * elasticsearchOperations.queryForObject(searchQuery, Store.class); return
 	 * store.getStoreAddress(); }
 	 */
+	@Override
 	public StoreAddress getStoreAddress(String iDPCode) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
