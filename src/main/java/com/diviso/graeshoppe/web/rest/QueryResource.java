@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,6 +59,7 @@ import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.client.store.model.BannerDTO;
 import com.diviso.graeshoppe.domain.ResultBucket;
+import com.diviso.graeshoppe.domain.StoreTypeWrapper;
 import com.diviso.graeshoppe.service.CustomerQueryService;
 import com.diviso.graeshoppe.service.OfferQueryService;
 import com.diviso.graeshoppe.service.OrderQueryService;
@@ -377,18 +379,12 @@ public class QueryResource {
 		return productQueryService.findDiscountByProductId(productId);
 	}
 
-	@GetMapping("/facetSearchByStoreTypeName/{name}")
-	public StoreType /*Page<Store>*/ facetSearchByStoreTypeName(@PathVariable String name,/* List<String> storeTypeNames, */ Pageable pageable) {
+	@GetMapping("/facetSearchByStoreTypeName")
+	public Page<Store> facetSearchByStoreTypeName(@RequestBody List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable) {
 
-		List<String> storeTypeNames = new ArrayList<String>();
-
-		storeTypeNames.add("chineese");
-		storeTypeNames.add("italian");
-		storeTypeNames.add("indian");
-		System.out.println("++++++++++++++++++++++++++++++++++Querresource" + storeTypeNames);
-		//storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
-		//return storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
-	return	storeQueryService.test(name); 
+	
+		return storeQueryService.facetSearchByStoreTypeName(storeTypeWrapper, pageable);
+	
 	}
 	@GetMapping("/favouriteproductsbycustomerreference/{reference}")
 	public Page<FavouriteProduct> findFavouriteProductsByCustomerReference(@PathVariable String reference,

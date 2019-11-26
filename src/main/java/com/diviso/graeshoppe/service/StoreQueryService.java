@@ -15,6 +15,7 @@ import com.diviso.graeshoppe.client.store.domain.StoreType;
 import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.domain.ResultBucket;
+import com.diviso.graeshoppe.domain.StoreTypeWrapper;
 
 public interface StoreQueryService {
 
@@ -62,7 +63,7 @@ public interface StoreQueryService {
 
 	Page<StoreType> findStoreTypeByStoreId(String storeId, Pageable pageable);
 
-	void facetSearchByStoreTypeName(List<String> storeTypeNames, Pageable pageable);
+	Page<Store>  facetSearchByStoreTypeName(List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable);
 
 	Page<Store> findAllStores(Pageable pageable);
 
@@ -78,7 +79,7 @@ public interface StoreQueryService {
 
 	Store findStoreById(Long id);
 	
-	StoreType test(String name);
+	
 
 
 }

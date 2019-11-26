@@ -44,6 +44,7 @@ import com.diviso.graeshoppe.client.store.domain.StoreType;
 import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.domain.ResultBucket;
+import com.diviso.graeshoppe.domain.StoreTypeWrapper;
 import com.diviso.graeshoppe.service.StoreQueryService;
 import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -793,64 +794,52 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	}
 
-	@Override
-	public  void /*Page<Store>*/ facetSearchByStoreTypeName(List<String> storeTypeNames, Pageable pageable) {
-		List<StoreType> storeTypeList = null;
-		Set<Store> storeSet = new HashSet<>();
-
-		String[] includeFields = new String[] { "closingTime", "contactNo", "email", "id", "image", "imageContentType",
-				"info", "location", "locationName", "maxDeliveryTime", "minAmount", "name", "openingTime", "regNo" };
-		String[] excludeFields = new String[] { "storetype.*", "storesettings.*", "storeaddress.*" };
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-		//searchSourceBuilder.fetchSource(includeFields, excludeFields);
-		for (String term : storeTypeNames) {
-			
-			System.out.println("111111111111111111111111111111111"+term);
-			searchSourceBuilder.query(QueryBuilders.termQuery("name.keyword", term));
-			SearchRequest searchRequest = new SearchRequest("storetype");
-			searchRequest.source(searchSourceBuilder);
-			SearchResponse searchResponse = null;
-			try {
-				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			StoreType t=serviceUtility.getObjectResult(searchResponse, new StoreType());
-			storeTypeList.add(t);
-
-			System.out.println("StoreTypeList"+storeTypeList);
-			
-			
-			/*SearchHit[] searchHit = searchResponse.getHits().getHits();
-			System.out.println("000000000000000000"+searchHit.length);
-			for (SearchHit hit : searchHit) {
-				
-				storeTypeList.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class));
-				System.out.println("++++++++++++++++++++++++++++++++++" + storeTypeList);
-				storeSet.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class).getStore());
-				System.out.println("++++++++++++++++++++++++++++++++++" + storeSet);
-
-			}
-*/
-		}
-		//return new PageImpl(new ArrayList<Store>(storeSet));
-
-	}
-	@Override
-	public StoreType test(String name) {
-		
-		QueryBuilder dslQuery = QueryBuilders.termQuery("name.keyword", name);
-		SearchResponse searchResponse = searchResponseForObject("store", dslQuery);
-
-		return serviceUtility.getObjectResult(searchResponse, new StoreType());
-		
-		
-		
-	}
-	
-	
-	
+	/*
+	 * public Page<Store> facetSearchByStoreTypeName(List<StoreTypeWrapper>
+	 * storeTypeWrapper, Pageable pageable) {
+	 * 
+	 * List<StoreType> storeTypeList = new ArrayList<>();
+	 * 
+	 * Set<Store> storeSet = new HashSet<>();
+	 * 
+	 * String[] includeFields = new String[] { "closingTime", "contactNo", "email",
+	 * "id", "image", "imageContentType", "info", "location", "locationName",
+	 * "maxDeliveryTime", "minAmount", "name", "openingTime", "regNo" }; String[]
+	 * excludeFields = new String[] { "storetype.*", "storesettings.*",
+	 * "storeaddress.*" }; SearchSourceBuilder searchSourceBuilder = new
+	 * SearchSourceBuilder();
+	 * 
+	 * //searchSourceBuilder.fetchSource(includeFields, excludeFields); for (String
+	 * term : storeTypeNames) {
+	 * 
+	 * System.out.println("111111111111111111111111111111111"+term);
+	 * searchSourceBuilder.query(QueryBuilders.termQuery("name.keyword", term));
+	 * SearchRequest searchRequest = new SearchRequest("storetype");
+	 * searchRequest.source(searchSourceBuilder); SearchResponse searchResponse =
+	 * null; try { searchResponse = restHighLevelClient.search(searchRequest,
+	 * RequestOptions.DEFAULT); } catch (IOException e) { e.printStackTrace(); }
+	 * StoreType t=serviceUtility.getObjectResult(searchResponse, new StoreType());
+	 * storeTypeList.add(t);
+	 * 
+	 * System.out.println("StoreTypeList"+storeTypeList);
+	 * 
+	 * 
+	 * SearchHit[] searchHit = searchResponse.getHits().getHits();
+	 * System.out.println("000000000000000000"+searchHit.length); for (SearchHit hit
+	 * : searchHit) {
+	 * 
+	 * storeTypeList.add(objectMapper.convertValue(hit.getSourceAsMap(),
+	 * StoreType.class)); System.out.println("++++++++++++++++++++++++++++++++++" +
+	 * storeTypeList); storeSet.add(objectMapper.convertValue(hit.getSourceAsMap(),
+	 * StoreType.class).getStore());
+	 * System.out.println("++++++++++++++++++++++++++++++++++" + storeSet);
+	 * 
+	 * }
+	 * 
+	 * } //return new PageImpl(new ArrayList<Store>(storeSet));
+	 * 
+	 * }
+	 */
 
 	public List<ResultBucket> findStoreTypeAndCount1(Pageable pageable) {
 		List<ResultBucket> resultBucketList = new ArrayList<>();
@@ -996,6 +985,12 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		QueryBuilder dslQuery = termQuery("regNo.keyword", r.getStoreNo());
 		SearchResponse searchResponse = searchResponseForObject("store", dslQuery);
 		return serviceUtility.getObjectResult(searchResponse, new Store());
+	}
+
+	@Override
+	public Page<Store> facetSearchByStoreTypeName(List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	// **************************************************************************************************************************

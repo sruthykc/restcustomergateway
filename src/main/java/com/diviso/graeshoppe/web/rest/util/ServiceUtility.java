@@ -58,7 +58,19 @@ public class ServiceUtility {
 		return searchResponse;
 	}
 
-	
+	public  SearchResponse searchResponseForSourceBuilder(String indexName,SearchSourceBuilder searchSourceBuilder ) {
+
+		
+
+		SearchRequest searchRequest = new SearchRequest(indexName);
+		searchRequest.source(searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated e.printStackTrace(); } return
+		}
+		return searchResponse;
+	}
 	
 	
 	
