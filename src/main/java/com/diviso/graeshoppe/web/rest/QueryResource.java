@@ -377,9 +377,9 @@ public class QueryResource {
 
 		List<String> storeTypeNames = new ArrayList<String>();
 
-		storeTypeNames.add("chineese");
-		storeTypeNames.add("italian");
-		storeTypeNames.add("indian");
+		storeTypeNames.add("Chineese");
+		storeTypeNames.add("Italian");
+		storeTypeNames.add("Indian");
 		System.out.println("++++++++++++++++++++++++++++++++++Querresource" + storeTypeNames);
 		//storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
 		//return storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
