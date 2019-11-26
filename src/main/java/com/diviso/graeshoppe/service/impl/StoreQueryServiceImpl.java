@@ -791,7 +791,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	}
 
 	@Override
-	public Page<Store> facetSearchByStoreTypeName(List<String> storeTypeNames, Pageable pageable) {
+	public  void /*Page<Store>*/ facetSearchByStoreTypeName(List<String> storeTypeNames, Pageable pageable) {
 		List<StoreType> storeTypeList = null;
 		Set<Store> storeSet = new HashSet<>();
 
@@ -813,18 +813,25 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			SearchHit[] searchHit = searchResponse.getHits().getHits();
+			StoreType t=serviceUtility.getObjectResult(searchResponse, new StoreType());
+			storeTypeList.add(t);
+
+			System.out.println("StoreTypeList"+storeTypeList);
+			
+			
+			/*SearchHit[] searchHit = searchResponse.getHits().getHits();
 			System.out.println("000000000000000000"+searchHit.length);
 			for (SearchHit hit : searchHit) {
+				
 				storeTypeList.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class));
 				System.out.println("++++++++++++++++++++++++++++++++++" + storeTypeList);
 				storeSet.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class).getStore());
 				System.out.println("++++++++++++++++++++++++++++++++++" + storeSet);
 
 			}
-
+*/
 		}
-		return new PageImpl(new ArrayList<Store>(storeSet));
+		//return new PageImpl(new ArrayList<Store>(storeSet));
 
 	}
 

@@ -373,7 +373,7 @@ public class QueryResource {
 	}
 
 	@GetMapping("/facetSearchByStoreTypeName")
-	public Page<Store> facetSearchByStoreTypeName(/* List<String> storeTypeNames, */ Pageable pageable) {
+	public void /*Page<Store>*/ facetSearchByStoreTypeName(/* List<String> storeTypeNames, */ Pageable pageable) {
 
 		List<String> storeTypeNames = new ArrayList<String>();
 
@@ -381,8 +381,8 @@ public class QueryResource {
 		storeTypeNames.add("Italian");
 		storeTypeNames.add("Indian");
 		System.out.println("++++++++++++++++++++++++++++++++++Querresource" + storeTypeNames);
-
-		return storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
+		storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
+		//return storeQueryService.facetSearchByStoreTypeName(storeTypeNames, pageable);
 	}
 	@GetMapping("/favouriteproductsbycustomerreference/{reference}")
 	public Page<FavouriteProduct> findFavouriteProductsByCustomerReference(@PathVariable String reference,

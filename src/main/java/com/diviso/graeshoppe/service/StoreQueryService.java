@@ -63,7 +63,7 @@ public interface StoreQueryService {
 
 	Page<StoreType> findStoreTypeByStoreId(String storeId, Pageable pageable);
 
-	Page<Store> facetSearchByStoreTypeName(List<String> storeTypeNames, Pageable pageable);
+	void facetSearchByStoreTypeName(List<String> storeTypeNames, Pageable pageable);
 
 	Page<Store> findAllStores(Pageable pageable);
 
