@@ -375,7 +375,7 @@ public class QueryResource {
 	}
 
 	@GetMapping("/facetSearchByStoreTypeName")
-	public List<StoreType>/*Page<Store>*/ facetSearchByStoreTypeName(@RequestBody List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable) {
+	public Page<Store> facetSearchByStoreTypeName(@RequestBody List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable) {
 
 	
 		return storeQueryService.facetSearchByStoreTypeName(storeTypeWrapper, pageable);

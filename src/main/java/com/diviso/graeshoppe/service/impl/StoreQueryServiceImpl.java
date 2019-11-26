@@ -793,7 +793,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	
 	
-	public  List<StoreType>/*Page<Store>*/  facetSearchByStoreTypeName(List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable) {
+	public  Page<Store>  facetSearchByStoreTypeName(List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable) {
 		
 		List<StoreType> storeTypeList = new ArrayList<>();
 		
@@ -805,7 +805,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		String[] includeFields = new String[] { "store.*"};
 		String[] excludeFields = new String[] {  "storesettings.*", "storeaddress.*" };
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.fetchSource(includeFields, excludeFields);
+		//searchSourceBuilder.fetchSource(includeFields, excludeFields);
 		
 		for (StoreTypeWrapper term : storeTypeWrapper) {
 		System.out.println("vStoreTypeWrapper term"+term.getTypeName());
@@ -816,11 +816,11 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		StoreType t=serviceUtility.getObjectResult(searchResponse, new StoreType());
 		System.out.println("tttttttttttt"+t);
 		storeTypeList.add(serviceUtility.getObjectResult(searchResponse, new StoreType()));
-		//storeSet.add(serviceUtility.getObjectResult(searchResponse, new StoreType()).getStore());
+		storeSet.add(serviceUtility.getObjectResult(searchResponse, new StoreType()).getStore());
 		}
-	// return new PageImpl(new ArrayList<Store>(storeSet));
+	 return new PageImpl(new ArrayList<Store>(storeSet));
 	
-		return storeTypeList;
+		//return storeTypeList;
 		
 		
 	}
