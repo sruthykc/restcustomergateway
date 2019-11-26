@@ -838,7 +838,8 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		
 		QueryBuilder dslQuery = QueryBuilders.termQuery("name.keyword", name);
 		SearchResponse searchResponse = searchResponseForObject("store", dslQuery);
-
+	StoreType t=	serviceUtility.getObjectResult(searchResponse, new StoreType());
+	System.out.println(t);
 		return serviceUtility.getObjectResult(searchResponse, new StoreType());
 		
 		
