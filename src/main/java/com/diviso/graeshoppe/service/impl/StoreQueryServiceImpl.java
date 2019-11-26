@@ -790,51 +790,9 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	}
 
-	@Override
-	public  void /*Page<Store>*/ facetSearchByStoreTypeName(List<String> storeTypeNames, Pageable pageable) {
-		List<StoreType> storeTypeList = null;
-		Set<Store> storeSet = new HashSet<>();
-
-		String[] includeFields = new String[] { "closingTime", "contactNo", "email", "id", "image", "imageContentType",
-				"info", "location", "locationName", "maxDeliveryTime", "minAmount", "name", "openingTime", "regNo" };
-		String[] excludeFields = new String[] { "storetype.*", "storesettings.*", "storeaddress.*" };
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-		//searchSourceBuilder.fetchSource(includeFields, excludeFields);
-		for (String term : storeTypeNames) {
-			
-			System.out.println("111111111111111111111111111111111"+term);
-			searchSourceBuilder.query(QueryBuilders.termQuery("name.keyword", term));
-			SearchRequest searchRequest = new SearchRequest("storetype");
-			searchRequest.source(searchSourceBuilder);
-			SearchResponse searchResponse = null;
-			try {
-				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			StoreType t=serviceUtility.getObjectResult(searchResponse, new StoreType());
-			storeTypeList.add(t);
-
-			System.out.println("StoreTypeList"+storeTypeList);
-			
-			
-			/*SearchHit[] searchHit = searchResponse.getHits().getHits();
-			System.out.println("000000000000000000"+searchHit.length);
-			for (SearchHit hit : searchHit) {
-				
-				storeTypeList.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class));
-				System.out.println("++++++++++++++++++++++++++++++++++" + storeTypeList);
-				storeSet.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class).getStore());
-				System.out.println("++++++++++++++++++++++++++++++++++" + storeSet);
-
-			}
-*/
-		}
-		//return new PageImpl(new ArrayList<Store>(storeSet));
-
-	}
-	public Page<Store> test(List<String> storeTypeNames) {
+	
+	
+	public Page<Store>  facetSearchByStoreTypeName(List<String> storeTypeNames, Pageable pageable) {
 		
 		List<StoreType> storeTypeList = new ArrayList<>();
 		
@@ -844,6 +802,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 				"info", "location", "locationName", "maxDeliveryTime", "minAmount", "name", "openingTime", "regNo" };
 		String[] excludeFields = new String[] { "storetype.*", "storesettings.*", "storeaddress.*" };
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 		
 		for (String term : storeTypeNames) {
 		QueryBuilder dslQuery = QueryBuilders.termQuery("name.keyword", term);
