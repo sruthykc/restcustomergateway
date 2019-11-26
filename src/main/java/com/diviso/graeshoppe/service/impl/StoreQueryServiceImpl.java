@@ -800,8 +800,10 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		String[] excludeFields = new String[] { "storetype.*", "storesettings.*", "storeaddress.*" };
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-		searchSourceBuilder.fetchSource(includeFields, excludeFields);
+		//searchSourceBuilder.fetchSource(includeFields, excludeFields);
 		for (String term : storeTypeNames) {
+			
+			System.out.println("111111111111111111111111111111111"+term);
 			searchSourceBuilder.query(QueryBuilders.termQuery("name.keyword", term));
 			SearchRequest searchRequest = new SearchRequest("storetype");
 			searchRequest.source(searchSourceBuilder);
@@ -812,7 +814,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 				e.printStackTrace();
 			}
 			SearchHit[] searchHit = searchResponse.getHits().getHits();
-
+			System.out.println("000000000000000000"+searchHit.length);
 			for (SearchHit hit : searchHit) {
 				storeTypeList.add(objectMapper.convertValue(hit.getSourceAsMap(), StoreType.class));
 				System.out.println("++++++++++++++++++++++++++++++++++" + storeTypeList);

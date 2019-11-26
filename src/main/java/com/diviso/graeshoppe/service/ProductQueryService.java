@@ -2,8 +2,7 @@ package com.diviso.graeshoppe.service;
 
 import java.util.List;
 
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms.Bucket;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

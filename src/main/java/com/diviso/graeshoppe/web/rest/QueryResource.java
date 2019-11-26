@@ -189,7 +189,7 @@ public class QueryResource {
 		return ResponseEntity.ok().body(productQueryService.findStockCurrentByStoreId(storeId, pageable));
 	}
 
-	// priority1
+
 	@GetMapping("/findCategoryAndCountBystoreId/{storeId}")
 	public List<ResultBucket> findCategoryAndCountBystoreId(@PathVariable String storeId, Pageable pageable) {
 
