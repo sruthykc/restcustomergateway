@@ -1,5 +1,7 @@
 package com.diviso.graeshoppe.config;
-
+public class ElasticsearchConfiguration {
+	
+}
 /*import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
