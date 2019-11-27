@@ -5,19 +5,29 @@
  */
 package com.diviso.graeshoppe.client.store.api;
 
+import java.util.List;
+import com.diviso.graeshoppe.client.store.model.StoreType;
+import com.diviso.graeshoppe.client.store.model.StoreTypeDTO;
 import io.swagger.annotations.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.diviso.graeshoppe.client.store.model.StoreTypeDTO;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-30T16:33:54.740+05:30[Asia/Calcutta]")
+import java.util.Map;
+import java.util.Optional;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-11-27T11:25:44.023+05:30[Asia/Kolkata]")
 
 @Api(value = "StoreTypeResource", description = "the StoreTypeResource API")
 public interface StoreTypeResourceApi {
@@ -69,6 +79,20 @@ public interface StoreTypeResourceApi {
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<StoreTypeDTO> getStoreTypeUsingGET(@ApiParam(value = "id",required=true) @PathVariable("id") Long id);
+
+
+    @ApiOperation(value = "listToDto", nickname = "listToDtoUsingPOST2", notes = "", response = StoreTypeDTO.class, responseContainer = "List", tags={ "store-type-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = StoreTypeDTO.class, responseContainer = "List"),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/storeType/toDto",
+        produces = "*/*", 
+        consumes = "application/json",
+        method = RequestMethod.POST)
+    ResponseEntity<List<StoreTypeDTO>> listToDtoUsingPOST2(@ApiParam(value = "storeTypes" ,required=true )  @Valid @RequestBody List<StoreType> storeType);
 
 
     @ApiOperation(value = "searchStoreTypes", nickname = "searchStoreTypesUsingGET", notes = "", response = StoreTypeDTO.class, responseContainer = "List", tags={ "store-type-resource", })

@@ -1,24 +1,32 @@
 package com.diviso.graeshoppe.client.store.model;
 
+import java.util.Objects;
+import com.diviso.graeshoppe.client.store.model.Banner;
+import com.diviso.graeshoppe.client.store.model.DeliveryInfo;
+import com.diviso.graeshoppe.client.store.model.PreOrderSettings;
+import com.diviso.graeshoppe.client.store.model.Propreitor;
+import com.diviso.graeshoppe.client.store.model.Review;
+import com.diviso.graeshoppe.client.store.model.StoreAddress;
+import com.diviso.graeshoppe.client.store.model.StoreSettings;
+import com.diviso.graeshoppe.client.store.model.StoreType;
+import com.diviso.graeshoppe.client.store.model.UserRating;
+import com.diviso.graeshoppe.client.store.model.UserRatingReview;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-
 import org.springframework.validation.annotation.Validated;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.annotations.ApiModelProperty;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * Store
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-02T11:19:44.906+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-11-27T11:25:44.023+05:30[Asia/Kolkata]")
 
 public class Store   {
   @JsonProperty("banners")
@@ -47,6 +55,9 @@ public class Store   {
   @JsonProperty("imageContentType")
   private String imageContentType = null;
 
+  @JsonProperty("imageLink")
+  private String imageLink = null;
+
   @JsonProperty("info")
   private String info = null;
 
@@ -68,6 +79,9 @@ public class Store   {
   @JsonProperty("openingTime")
   private OffsetDateTime openingTime = null;
 
+  @JsonProperty("preOrderSettings")
+  private PreOrderSettings preOrderSettings = null;
+
   @JsonProperty("propreitor")
   private Propreitor propreitor = null;
 
@@ -88,8 +102,15 @@ public class Store   {
   @Valid
   private List<StoreType> storeTypes = null;
 
+  @JsonProperty("storeUniqueId")
+  private String storeUniqueId = null;
+
   @JsonProperty("totalRating")
   private Double totalRating = null;
+
+  @JsonProperty("userRatingReviews")
+  @Valid
+  private List<UserRatingReview> userRatingReviews = null;
 
   @JsonProperty("userRatings")
   @Valid
@@ -274,6 +295,27 @@ public class Store   {
     this.imageContentType = imageContentType;
   }
 
+  public Store imageLink(String imageLink) {
+    this.imageLink = imageLink;
+    return this;
+  }
+
+  /**
+   * Get imageLink
+   * @return imageLink
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+
+  public String getImageLink() {
+    return imageLink;
+  }
+
+  public void setImageLink(String imageLink) {
+    this.imageLink = imageLink;
+  }
+
   public Store info(String info) {
     this.info = info;
     return this;
@@ -414,6 +456,27 @@ public class Store   {
 
   public void setOpeningTime(OffsetDateTime openingTime) {
     this.openingTime = openingTime;
+  }
+
+  public Store preOrderSettings(PreOrderSettings preOrderSettings) {
+    this.preOrderSettings = preOrderSettings;
+    return this;
+  }
+
+  /**
+   * Get preOrderSettings
+   * @return preOrderSettings
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public PreOrderSettings getPreOrderSettings() {
+    return preOrderSettings;
+  }
+
+  public void setPreOrderSettings(PreOrderSettings preOrderSettings) {
+    this.preOrderSettings = preOrderSettings;
   }
 
   public Store propreitor(Propreitor propreitor) {
@@ -557,6 +620,27 @@ public class Store   {
     this.storeTypes = storeTypes;
   }
 
+  public Store storeUniqueId(String storeUniqueId) {
+    this.storeUniqueId = storeUniqueId;
+    return this;
+  }
+
+  /**
+   * Get storeUniqueId
+   * @return storeUniqueId
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+
+  public String getStoreUniqueId() {
+    return storeUniqueId;
+  }
+
+  public void setStoreUniqueId(String storeUniqueId) {
+    this.storeUniqueId = storeUniqueId;
+  }
+
   public Store totalRating(Double totalRating) {
     this.totalRating = totalRating;
     return this;
@@ -575,6 +659,35 @@ public class Store   {
 
   public void setTotalRating(Double totalRating) {
     this.totalRating = totalRating;
+  }
+
+  public Store userRatingReviews(List<UserRatingReview> userRatingReviews) {
+    this.userRatingReviews = userRatingReviews;
+    return this;
+  }
+
+  public Store addUserRatingReviewsItem(UserRatingReview userRatingReviewsItem) {
+    if (this.userRatingReviews == null) {
+      this.userRatingReviews = new ArrayList<UserRatingReview>();
+    }
+    this.userRatingReviews.add(userRatingReviewsItem);
+    return this;
+  }
+
+  /**
+   * Get userRatingReviews
+   * @return userRatingReviews
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<UserRatingReview> getUserRatingReviews() {
+    return userRatingReviews;
+  }
+
+  public void setUserRatingReviews(List<UserRatingReview> userRatingReviews) {
+    this.userRatingReviews = userRatingReviews;
   }
 
   public Store userRatings(List<UserRating> userRatings) {
@@ -624,6 +737,7 @@ public class Store   {
         Objects.equals(this.id, store.id) &&
         Objects.equals(this.image, store.image) &&
         Objects.equals(this.imageContentType, store.imageContentType) &&
+        Objects.equals(this.imageLink, store.imageLink) &&
         Objects.equals(this.info, store.info) &&
         Objects.equals(this.location, store.location) &&
         Objects.equals(this.locationName, store.locationName) &&
@@ -631,19 +745,22 @@ public class Store   {
         Objects.equals(this.minAmount, store.minAmount) &&
         Objects.equals(this.name, store.name) &&
         Objects.equals(this.openingTime, store.openingTime) &&
+        Objects.equals(this.preOrderSettings, store.preOrderSettings) &&
         Objects.equals(this.propreitor, store.propreitor) &&
         Objects.equals(this.regNo, store.regNo) &&
         Objects.equals(this.reviews, store.reviews) &&
         Objects.equals(this.storeAddress, store.storeAddress) &&
         Objects.equals(this.storeSettings, store.storeSettings) &&
         Objects.equals(this.storeTypes, store.storeTypes) &&
+        Objects.equals(this.storeUniqueId, store.storeUniqueId) &&
         Objects.equals(this.totalRating, store.totalRating) &&
+        Objects.equals(this.userRatingReviews, store.userRatingReviews) &&
         Objects.equals(this.userRatings, store.userRatings);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(banners, closingTime, contactNo, deliveryInfos, email, id, image, imageContentType, info, location, locationName, maxDeliveryTime, minAmount, name, openingTime, propreitor, regNo, reviews, storeAddress, storeSettings, storeTypes, totalRating, userRatings);
+    return Objects.hash(banners, closingTime, contactNo, deliveryInfos, email, id, image, imageContentType, imageLink, info, location, locationName, maxDeliveryTime, minAmount, name, openingTime, preOrderSettings, propreitor, regNo, reviews, storeAddress, storeSettings, storeTypes, storeUniqueId, totalRating, userRatingReviews, userRatings);
   }
 
   @Override
@@ -659,6 +776,7 @@ public class Store   {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
     sb.append("    imageContentType: ").append(toIndentedString(imageContentType)).append("\n");
+    sb.append("    imageLink: ").append(toIndentedString(imageLink)).append("\n");
     sb.append("    info: ").append(toIndentedString(info)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
     sb.append("    locationName: ").append(toIndentedString(locationName)).append("\n");
@@ -666,13 +784,16 @@ public class Store   {
     sb.append("    minAmount: ").append(toIndentedString(minAmount)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    openingTime: ").append(toIndentedString(openingTime)).append("\n");
+    sb.append("    preOrderSettings: ").append(toIndentedString(preOrderSettings)).append("\n");
     sb.append("    propreitor: ").append(toIndentedString(propreitor)).append("\n");
     sb.append("    regNo: ").append(toIndentedString(regNo)).append("\n");
     sb.append("    reviews: ").append(toIndentedString(reviews)).append("\n");
     sb.append("    storeAddress: ").append(toIndentedString(storeAddress)).append("\n");
     sb.append("    storeSettings: ").append(toIndentedString(storeSettings)).append("\n");
     sb.append("    storeTypes: ").append(toIndentedString(storeTypes)).append("\n");
+    sb.append("    storeUniqueId: ").append(toIndentedString(storeUniqueId)).append("\n");
     sb.append("    totalRating: ").append(toIndentedString(totalRating)).append("\n");
+    sb.append("    userRatingReviews: ").append(toIndentedString(userRatingReviews)).append("\n");
     sb.append("    userRatings: ").append(toIndentedString(userRatings)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -5,18 +5,29 @@
  */
 package com.diviso.graeshoppe.client.store.api;
 
+import com.diviso.graeshoppe.client.store.model.Banner;
 import com.diviso.graeshoppe.client.store.model.BannerDTO;
+import java.util.List;
 import io.swagger.annotations.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-15T14:57:07.355+05:30[Asia/Calcutta]")
+import java.util.Map;
+import java.util.Optional;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-11-27T11:25:44.023+05:30[Asia/Kolkata]")
 
 @Api(value = "BannerResource", description = "the BannerResource API")
 public interface BannerResourceApi {
@@ -68,6 +79,20 @@ public interface BannerResourceApi {
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<BannerDTO> getBannerUsingGET(@ApiParam(value = "id",required=true) @PathVariable("id") Long id);
+
+
+    @ApiOperation(value = "listToDto", nickname = "listToDtoUsingPOST", notes = "", response = BannerDTO.class, responseContainer = "List", tags={ "banner-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = BannerDTO.class, responseContainer = "List"),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/banners/toDto",
+        produces = "*/*", 
+        consumes = "application/json",
+        method = RequestMethod.POST)
+    ResponseEntity<List<BannerDTO>> listToDtoUsingPOST(@ApiParam(value = "banners" ,required=true )  @Valid @RequestBody List<Banner> banner);
 
 
     @ApiOperation(value = "searchBanners", nickname = "searchBannersUsingGET", notes = "", response = BannerDTO.class, responseContainer = "List", tags={ "banner-resource", })

@@ -9,15 +9,25 @@ import com.diviso.graeshoppe.client.store.model.DeliveryInfo;
 import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
 import java.util.List;
 import io.swagger.annotations.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-15T14:57:07.355+05:30[Asia/Calcutta]")
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-11-27T11:25:44.023+05:30[Asia/Kolkata]")
 
 @Api(value = "DeliveryInfoResource", description = "the DeliveryInfoResource API")
 public interface DeliveryInfoResourceApi {
@@ -71,7 +81,7 @@ public interface DeliveryInfoResourceApi {
     ResponseEntity<DeliveryInfoDTO> getDeliveryInfoUsingGET(@ApiParam(value = "id",required=true) @PathVariable("id") Long id);
 
 
-    @ApiOperation(value = "listToDto", nickname = "listToDtoUsingPOST", notes = "", response = DeliveryInfoDTO.class, responseContainer = "List", tags={ "delivery-info-resource", })
+    @ApiOperation(value = "listToDto", nickname = "listToDtoUsingPOST1", notes = "", response = DeliveryInfoDTO.class, responseContainer = "List", tags={ "delivery-info-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = DeliveryInfoDTO.class, responseContainer = "List"),
         @ApiResponse(code = 201, message = "Created"),
@@ -82,7 +92,7 @@ public interface DeliveryInfoResourceApi {
         produces = "*/*", 
         consumes = "application/json",
         method = RequestMethod.POST)
-    ResponseEntity<List<DeliveryInfoDTO>> listToDtoUsingPOST(@ApiParam(value = "deliveryInfos" ,required=true )  @Valid @RequestBody List<DeliveryInfo> deliveryInfo);
+    ResponseEntity<List<DeliveryInfoDTO>> listToDtoUsingPOST1(@ApiParam(value = "deliveryInfos" ,required=true )  @Valid @RequestBody List<DeliveryInfo> deliveryInfo);
 
 
     @ApiOperation(value = "searchDeliveryInfos", nickname = "searchDeliveryInfosUsingGET", notes = "", response = DeliveryInfoDTO.class, responseContainer = "List", tags={ "delivery-info-resource", })
