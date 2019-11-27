@@ -9,7 +9,7 @@ import com.diviso.graeshoppe.client.order.model.DeliveryInfoDTO;
 /**
  * Mapper for the entity DeliveryInfo and its DTO DeliveryInfoDTO.
  */
-@Mapper(componentModel = "spring", uses = {AddressMapper.class})
+@Mapper(componentModel = "spring")
 public interface DeliveryInfoMapper extends EntityMapper<DeliveryInfoDTO, DeliveryInfo> {
 
     @Override

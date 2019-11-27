@@ -158,7 +158,20 @@ public class QueryResource {
 			@PathVariable String storeId, Pageable pageable) {
 		return productQueryService.findStockCurrentByProductName(name, storeId, pageable);
 	}
+	
+	@GetMapping("/stock-current-by-categoryname/{categoryName}/{storeId}")
+	public Page<StockCurrent> findStockCurrentByCategoryNameAndStoreId(@PathVariable String categoryName,
+			@PathVariable String storeId, Pageable pageable) {
+		return productQueryService.findStockCurrentByCategoryNameAndStoreId(categoryName, storeId, pageable);
 
+	}
+
+	@GetMapping("/sortStoreByMinAmount")
+	public Page<Store> findAndSortStoreBydeliveryTime(Pageable pageable) {
+
+		return storeQueryService.findAndSortStoreByMinAount(pageable);
+	}
+	
 	@GetMapping("/contacts/{id}")
 	public ResponseEntity<ContactDTO> findContactById(@PathVariable Long id) {
 		return this.contactResourceApi.getContactUsingGET(id);
@@ -218,9 +231,9 @@ public class QueryResource {
 
 		for (com.diviso.graeshoppe.client.customer.model.Customer c : customerList) {
 
-			UserRating rating = storeQueryService.findRatingByStoreIdAndCustomerName(storeId, c.getReference());
+			UserRating rating = storeQueryService.findRatingByStoreIdAndCustomerName(storeId, c.getIdpCode());
 
-			Review review = storeQueryService.findReviewByStoreIdAndCustomerName(storeId, c.getReference());
+			Review review = storeQueryService.findReviewByStoreIdAndCustomerName(storeId, c.getIdpCode());
 
 			if (rating != null) {
 

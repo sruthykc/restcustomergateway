@@ -130,8 +130,8 @@ public class CommandResource {
 		CustomerDTO customerDTO = new CustomerDTO();
 		ContactDTO contactDTO = new ContactDTO();
 		customerDTO.setName(customerAggregator.getName());
-		customerDTO.setReference(customerAggregator.getReference());
-		customerDTO.setSearchKey(customerAggregator.getSearchKey());
+		customerDTO.setIdpCode(customerAggregator.getIdpCode());
+		customerDTO.setIdpSub(customerAggregator.getIdpSub());
 		contactDTO.setMobileNumber(customerAggregator.getMobileNumber());
 		contactDTO.setEmail(customerAggregator.getEmail());
 		contactDTO.setPhoneCode(customerAggregator.getPhoneCode());

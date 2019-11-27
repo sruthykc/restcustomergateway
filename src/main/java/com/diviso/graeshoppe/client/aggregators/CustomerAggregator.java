@@ -4,17 +4,38 @@ public class CustomerAggregator {
 	
 	private String name;
 	private Long mobileNumber;
-	private String reference;
+	private String idpCode;
 	private String email;
+	public String getIdpCode() {
+		return idpCode;
+	}
+
+
+
+	public void setIdpCode(String idpCode) {
+		this.idpCode = idpCode;
+	}
+
+
+
+	public String getIdpSub() {
+		return idpSub;
+	}
+
+
+
+	public void setIdpSub(String idpSub) {
+		this.idpSub = idpSub;
+	}
 	private Long phoneCode;
-	private String searchKey;
+	private String idpSub;
 	
 	
 	
 	@Override
 	public String toString() {
-		return "CustomerAggregator [name=" + name + ", mobileNumber=" + mobileNumber + ", reference=" + reference
-				+ ", email=" + email + ", phoneCode=" + phoneCode + ", searchKey=" + searchKey + "]";
+		return "CustomerAggregator [name=" + name + ", mobileNumber=" + mobileNumber + ", idpCode=" + idpCode
+				+ ", email=" + email + ", phoneCode=" + phoneCode + ", idpSub=" + idpSub + "]";
 	}
 	
 	
@@ -27,8 +48,8 @@ public class CustomerAggregator {
 		result = prime * result + ((mobileNumber == null) ? 0 : mobileNumber.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((phoneCode == null) ? 0 : phoneCode.hashCode());
-		result = prime * result + ((reference == null) ? 0 : reference.hashCode());
-		result = prime * result + ((searchKey == null) ? 0 : searchKey.hashCode());
+		result = prime * result + ((idpCode == null) ? 0 : idpCode.hashCode());
+		result = prime * result + ((idpSub == null) ? 0 : idpSub.hashCode());
 		return result;
 	}
 
@@ -63,15 +84,15 @@ public class CustomerAggregator {
 				return false;
 		} else if (!phoneCode.equals(other.phoneCode))
 			return false;
-		if (reference == null) {
-			if (other.reference != null)
+		if (idpCode == null) {
+			if (other.idpCode != null)
 				return false;
-		} else if (!reference.equals(other.reference))
+		} else if (!idpCode.equals(other.idpCode))
 			return false;
-		if (searchKey == null) {
-			if (other.searchKey != null)
+		if (idpSub == null) {
+			if (other.idpSub != null)
 				return false;
-		} else if (!searchKey.equals(other.searchKey))
+		} else if (!idpSub.equals(other.idpSub))
 			return false;
 		return true;
 	}
@@ -90,12 +111,7 @@ public class CustomerAggregator {
 	public void setMobileNumber(Long mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
-	public String getReference() {
-		return reference;
-	}
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -108,13 +124,7 @@ public class CustomerAggregator {
 	public void setPhoneCode(Long phoneCode) {
 		this.phoneCode = phoneCode;
 	}
-	public String getSearchKey() {
-		return searchKey;
-	}
-	public void setSearchKey(String searchKey) {
-		this.searchKey = searchKey;
-	}
-	
+
 	
 
 	
