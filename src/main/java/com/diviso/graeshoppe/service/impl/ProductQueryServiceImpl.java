@@ -346,8 +346,37 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 		return serviceUtility.getPageResult(searchResponse, pageable, new Product());
 
 	}*/
-
 	@Override
+	public List<StockCurrent> findStockCurrentByStoreIdAndCategoryId(String userId, Long categoryId) {
+
+		QueryBuilder query = QueryBuilders.boolQuery().must(QueryBuilders.termQuery("iDPcode.keyword", userId))
+				.must(QueryBuilders.termQuery("product.category.id", categoryId))
+				.filter(QueryBuilders.termQuery("product.isAuxilaryItem", "false"));
+
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(query);
+		SearchRequest searchRequest = new SearchRequest("stockcurrent");
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+
+		SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+		List<StockCurrent> stockCurrentList = new ArrayList<>();
+
+		for (SearchHit hit : searchHit) {
+			stockCurrentList.add(objectMapper.convertValue(hit.getSourceAsMap(), StockCurrent.class));
+		}
+		
+		return stockCurrentList;
+
+		
+	}
+
+/*	@Override
 	public Page<StockCurrent> findStockCurrentByStoreIdAndCategoryId(String userId, Long categoryId,
 			Pageable pageable) {
 
@@ -355,7 +384,7 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 				.must(QueryBuilders.termQuery("product.category.id", categoryId))
 				.filter(QueryBuilders.termQuery("product.isAuxilaryItem", "false"));
 
-		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(query);
 		SearchRequest searchRequest = serviceUtility.generateSearchRequest("stockcurrent", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
@@ -365,8 +394,8 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
 		}
-*/
-		/*SearchHit[] searchHit = searchResponse.getHits().getHits();
+
+		SearchHit[] searchHit = searchResponse.getHits().getHits();
 
 		List<Product> productList = new ArrayList<>();
 
@@ -374,13 +403,13 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 			productList.add(objectMapper.convertValue(hit.getSourceAsMap(), Product.class));
 		}
 		return findStockCurrentByProductId(productList);
-*/
+
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(query);
 		SearchResponse searchResponse = serviceUtility.searchResponseForPage("stockcurrent", searchSourceBuilder, pageable);
 
 		return serviceUtility.getPageResult(searchResponse, pageable, new StockCurrent());
-	}
+	}*/
 
 	private List<StockCurrent> findStockCurrentByProductId(List<Product> productList) {
 		List<StockCurrent> resultList = new ArrayList<>();

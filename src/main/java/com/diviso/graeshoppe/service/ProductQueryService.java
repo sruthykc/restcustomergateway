@@ -40,7 +40,7 @@ public interface ProductQueryService {
 
 	//Page<Product> findProductByStoreIdAndCategoryName(String userId, String categoryName, Pageable pageable);
 
-	Page<StockCurrent> findStockCurrentByStoreIdAndCategoryId(String userId, Long categoryId, Pageable pageable);
+	List<StockCurrent> findStockCurrentByStoreIdAndCategoryId(String userId, Long categoryId);
 
 	Product findProductById(Long id);
 

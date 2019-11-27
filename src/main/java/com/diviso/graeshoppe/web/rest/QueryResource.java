@@ -274,10 +274,10 @@ public class QueryResource {
 	// List<StockCurrent> to Page<StockCurrent> 
 	
 	@GetMapping("/findStockCurrentByStoreIdAndCategoryId/{userId}/{categoryId}")
-	public Page<StockCurrent> findStockCurrentByStoreIdAndCategoryId(@PathVariable("userId") String userId,
+	public List<StockCurrent> findStockCurrentByStoreIdAndCategoryId(@PathVariable("userId") String userId,
 			@PathVariable("categoryId") Long categoryId, Pageable pageable) {
 		log.debug("REST request to findStockCurrentByStoreIdAndCategoryId : {}", userId, categoryId);
-		return productQueryService.findStockCurrentByStoreIdAndCategoryId(userId, categoryId, pageable);
+		return productQueryService.findStockCurrentByStoreIdAndCategoryId(userId, categoryId);
 	}
 
 	@GetMapping("/ordersByCustomerId/{customerId}")
