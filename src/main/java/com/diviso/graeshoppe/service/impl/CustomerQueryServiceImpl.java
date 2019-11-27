@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import com.diviso.graeshoppe.client.customer.model.Customer;
 import com.diviso.graeshoppe.client.customer.model.FavouriteProduct;
 import com.diviso.graeshoppe.client.customer.model.FavouriteStore;
-import com.diviso.graeshoppe.client.order.model.Address;
+import com.diviso.graeshoppe.client.order.model.aggregator.Address;
 import com.diviso.graeshoppe.service.CustomerQueryService;
 import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;

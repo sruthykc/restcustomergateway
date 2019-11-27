@@ -1,7 +1,7 @@
 package com.diviso.graeshoppe.client.order.model.aggregator;
 
 import java.util.Objects;
-import com.diviso.graeshoppe.client.order.model.Address;
+import com.diviso.graeshoppe.client.order.model.aggregator.Address;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 

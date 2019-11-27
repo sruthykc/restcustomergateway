@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import com.diviso.graeshoppe.client.customer.model.Customer;
 import com.diviso.graeshoppe.client.customer.model.FavouriteProduct;
 import com.diviso.graeshoppe.client.customer.model.FavouriteStore;
-import com.diviso.graeshoppe.client.order.model.Address;
+import com.diviso.graeshoppe.client.order.model.aggregator.Address;
 
 public interface CustomerQueryService {
 

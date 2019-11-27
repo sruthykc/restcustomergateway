@@ -6,14 +6,14 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
-import com.diviso.graeshoppe.client.store.domain.Review;
-import com.diviso.graeshoppe.client.store.domain.Store;
-import com.diviso.graeshoppe.client.store.domain.StoreAddress;
-import com.diviso.graeshoppe.client.store.domain.StoreSettings;
-import com.diviso.graeshoppe.client.store.domain.StoreType;
-import com.diviso.graeshoppe.client.store.domain.Type;
-import com.diviso.graeshoppe.client.store.domain.UserRating;
+import com.diviso.graeshoppe.client.store.model.DeliveryInfo;
+import com.diviso.graeshoppe.client.store.model.Review;
+import com.diviso.graeshoppe.client.store.model.Store;
+import com.diviso.graeshoppe.client.store.model.StoreAddress;
+import com.diviso.graeshoppe.client.store.model.StoreSettings;
+import com.diviso.graeshoppe.client.store.model.StoreType;
+import com.diviso.graeshoppe.client.store.model.Type;
+import com.diviso.graeshoppe.client.store.model.UserRating;
 import com.diviso.graeshoppe.domain.ResultBucket;
 import com.diviso.graeshoppe.domain.StoreTypeWrapper;
 

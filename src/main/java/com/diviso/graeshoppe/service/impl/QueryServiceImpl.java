@@ -36,9 +36,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.customer.model.Customer;
-import com.diviso.graeshoppe.client.order.model.Address;
-import com.diviso.graeshoppe.client.order.model.Order;
-import com.diviso.graeshoppe.client.order.model.OrderLine;
+import com.diviso.graeshoppe.client.order.model.aggregator.Address;
+import com.diviso.graeshoppe.client.order.model.aggregator.Order;
+import com.diviso.graeshoppe.client.order.model.aggregator.OrderLine;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.ComboLineItem;

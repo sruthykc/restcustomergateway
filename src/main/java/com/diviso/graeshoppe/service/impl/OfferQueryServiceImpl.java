@@ -14,7 +14,7 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
 
-import com.diviso.graeshoppe.client.order.model.Offer;
+import com.diviso.graeshoppe.client.order.model.aggregator.Offer;
 import com.diviso.graeshoppe.service.OfferQueryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -5,7 +5,7 @@
  */
 package com.diviso.graeshoppe.client.store.api;
 
-import com.diviso.graeshoppe.client.store.domain.UserRating;
+import com.diviso.graeshoppe.client.store.model.UserRating;
 import com.diviso.graeshoppe.client.store.model.UserRatingDTO;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;

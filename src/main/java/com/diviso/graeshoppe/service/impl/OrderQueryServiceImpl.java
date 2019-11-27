@@ -26,11 +26,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.diviso.graeshoppe.client.order.model.Address;
-import com.diviso.graeshoppe.client.order.model.AuxilaryOrderLine;
-import com.diviso.graeshoppe.client.order.model.Notification;
-import com.diviso.graeshoppe.client.order.model.Order;
-import com.diviso.graeshoppe.client.order.model.OrderLine;
+import com.diviso.graeshoppe.client.order.model.aggregator.Address;
+import com.diviso.graeshoppe.client.order.model.aggregator.AuxilaryOrderLine;
+import com.diviso.graeshoppe.client.order.model.aggregator.Order;
+import com.diviso.graeshoppe.client.order.model.aggregator.OrderLine;
+import com.diviso.graeshoppe.client.order.model.aggregator.Notification;
 import com.diviso.graeshoppe.service.OrderQueryService;
 import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
