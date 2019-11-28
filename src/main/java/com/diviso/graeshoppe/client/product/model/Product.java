@@ -48,11 +48,14 @@ public class Product   {
 
   @JsonProperty("image")
   private byte[] image = null;
+  
+  @JsonProperty("imagelink")
+  private String imageLink = null;
 
   @JsonProperty("imageContentType")
   private String imageContentType = null;
 
-  @JsonProperty("isActive")
+ @JsonProperty("isActive")
   private Boolean isActive = null;
 
   @JsonProperty("isAuxilaryItem")
@@ -179,6 +182,14 @@ public class Product   {
     return this;
   }
 
+  public String getImageLink() {
+	return imageLink;
+}
+
+public void setImageLink(String imageLink) {
+	this.imageLink = imageLink;
+}
+  
   /**
    * Get category
    * @return category
