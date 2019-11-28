@@ -41,7 +41,7 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 		// System.out.println("findAllProductBySearchTerm>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-		searchSourceBuilder.query(termQuery("reference", reference));
+		searchSourceBuilder.query(termQuery("idpCode", reference));
 
 		SearchRequest searchRequest = new SearchRequest("customer");
 		searchRequest.source(searchSourceBuilder);
