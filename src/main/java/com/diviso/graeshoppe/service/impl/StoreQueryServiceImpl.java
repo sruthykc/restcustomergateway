@@ -988,12 +988,14 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	}
 
 	@Override
-	public String facetSearchByStoreTypeName(StoreTypeWrapper storeTypeWrapper, Pageable pageable) {
+	public Page<StoreType> facetSearchByStoreTypeName(StoreTypeWrapper storeTypeWrapper, Pageable pageable) {
 		QueryBuilder query = QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery())
 				.filter(QueryBuilders.termsQuery("name",storeTypeWrapper.getTypeName()));
 		
-		//SearchRequest searchRequest = new SearchRequest("storetype");
+		SearchRequest searchRequest = new SearchRequest("storetype");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+	//	searchSourceBuilder.aggregation(AggregationBuilders.terms("totalstoretype").field("name.keyword"));
+
 		
 		
 		
@@ -1008,21 +1010,21 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		
 		
 		searchSourceBuilder.query(query);
-		searchSourceBuilder.aggregation(AggregationBuilders.terms("totalstoretype").field("name.keyword"));
+	//	searchSourceBuilder.aggregation(AggregationBuilders.terms("totalstoretype").field("name.keyword"));
 
-		SearchResponse searchResponse =searchResponseForPage("storetype", searchSourceBuilder, pageable) ;
-		
+	//	SearchResponse searchResponse =searchResponseForPage("storetype", searchSourceBuilder, pageable) ;
+		SearchResponse searchResponse =null;
 	
-	/*	try {
+		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 	//	System.out.println("elasticsearch response: {} totalhitssshits" + searchResponse.getHits().getTotalHits());
 	//	System.out.println("elasticsearch response: {} hits .toostring" + searchResponse.toString());
 		// searchResponse.getHits().
-		Aggregations aggregations = searchResponse.getAggregations();
+	/*	Aggregations aggregations = searchResponse.getAggregations();
 		Terms categoryAggregation = searchResponse.getAggregations().get("totalstoretype");
 		for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
 			ResultBucket result = new ResultBucket();
@@ -1036,8 +1038,12 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		}
 		
 		System.out.println("6666666666666666666666qwerty6666666666666666666666666"+categoryAggregation.toString());		
-
-		return categoryAggregation.toString();
+*/
+		
+		
+		
+		
+	return serviceUtility.getPageResult(searchResponse, pageable, new StoreType());
 
 		
 		
