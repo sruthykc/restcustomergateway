@@ -6,6 +6,21 @@ public class CustomerAggregator {
 	private Long mobileNumber;
 	private String idpCode;
 	private String email;
+	private String imageLink;
+	
+	
+	public String getImageLink() {
+		return imageLink;
+	}
+
+
+
+	public void setImageLink(String imageLink) {
+		this.imageLink = imageLink;
+	}
+
+
+
 	public String getIdpCode() {
 		return idpCode;
 	}

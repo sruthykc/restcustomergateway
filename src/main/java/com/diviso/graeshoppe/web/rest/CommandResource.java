@@ -132,8 +132,11 @@ public class CommandResource {
 		customerDTO.setName(customerAggregator.getName());
 		customerDTO.setIdpCode(customerAggregator.getIdpCode());
 		customerDTO.setIdpSub(customerAggregator.getIdpSub());
+		customerDTO.setImageLink(" ");
+		
 		contactDTO.setMobileNumber(customerAggregator.getMobileNumber());
 		contactDTO.setEmail(customerAggregator.getEmail());
+		
 		contactDTO.setPhoneCode(customerAggregator.getPhoneCode());
 		ContactDTO resultDTO = contactResourceApi.createContactUsingPOST(contactDTO).getBody();
 		customerDTO.setContactId(resultDTO.getId());
