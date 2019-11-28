@@ -217,7 +217,7 @@ public class QueryResource {
 	}
 
 	@GetMapping("/findStoreTypeAndCount")
-	public List<ResultBucket> findStoreAndCount(Pageable pageable) {
+	public List<ResultBucket> findStoreTypeAndCount(Pageable pageable) {
 		return storeQueryService.findStoreTypeAndCount(pageable);
 	}
 
