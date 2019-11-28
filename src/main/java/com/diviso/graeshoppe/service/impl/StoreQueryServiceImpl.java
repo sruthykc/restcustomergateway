@@ -988,7 +988,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	}
 
 	@Override
-	public String facetSearchByStoreTypeName(List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable) {
+	public String facetSearchByStoreTypeName(StoreTypeWrapper storeTypeWrapper, Pageable pageable) {
 		QueryBuilder query = QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery())
 				.filter(QueryBuilders.termsQuery("name",storeTypeWrapper.getTypeName()));
 		

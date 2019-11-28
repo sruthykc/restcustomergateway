@@ -1,17 +1,18 @@
 package com.diviso.graeshoppe.domain;
 
 import java.util.List;
+import java.util.Set;
 
 public class StoreTypeWrapper {
 	
 
-	private String typeName;
+	private Set<String> typeName;
 
-	public String getTypeName() {
+	public Set<String> getTypeName() {
 		return typeName;
 	}
 
-	public void setTypeName(String typeName) {
+	public void setTypeName(Set<String> typeName) {
 		this.typeName = typeName;
 	}
 
@@ -45,4 +46,5 @@ public class StoreTypeWrapper {
 		return "StoreTypeWrapper [typeName=" + typeName + "]";
 	}
 
+	
 }
