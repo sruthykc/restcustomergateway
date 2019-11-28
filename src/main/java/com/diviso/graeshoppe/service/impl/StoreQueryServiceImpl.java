@@ -988,9 +988,61 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	}
 
 	@Override
-	public Page<Store> facetSearchByStoreTypeName(List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+	public String facetSearchByStoreTypeName(List<StoreTypeWrapper> storeTypeWrapper, Pageable pageable) {
+		QueryBuilder query = QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery())
+				.filter(QueryBuilders.termsQuery("name",storeTypeWrapper.getTypeName()));
+		
+		//SearchRequest searchRequest = new SearchRequest("storetype");
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		List<ResultBucket> resultBucketList = new ArrayList<>();
+	
+		
+		
+		searchSourceBuilder.query(query);
+		searchSourceBuilder.aggregation(AggregationBuilders.terms("totalstoretype").field("name.keyword"));
+
+		SearchResponse searchResponse =searchResponseForPage("storetype", searchSourceBuilder, pageable) ;
+		
+	
+	/*	try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+	//	System.out.println("elasticsearch response: {} totalhitssshits" + searchResponse.getHits().getTotalHits());
+	//	System.out.println("elasticsearch response: {} hits .toostring" + searchResponse.toString());
+		// searchResponse.getHits().
+		Aggregations aggregations = searchResponse.getAggregations();
+		Terms categoryAggregation = searchResponse.getAggregations().get("totalstoretype");
+		for (Terms.Bucket bucket : categoryAggregation.getBuckets()) {
+			ResultBucket result = new ResultBucket();
+			result.setKey(bucket.getKey().toString());
+			result.setDocCount(bucket.getDocCount());
+			result.setKeyAsString(bucket.getKeyAsString());
+			resultBucketList.add(result);
+			System.out.println("KEY:" + bucket.getKey() + "!!keyAsString:" + bucket.getKeyAsString() + "!!count:"
+					+ bucket.getDocCount());
+
+		}
+		
+		System.out.println("6666666666666666666666qwerty6666666666666666666666666"+categoryAggregation.toString());		
+
+		return categoryAggregation.toString();
+
+		
+		
+		
+		
 	}
 
 	// **************************************************************************************************************************
