@@ -33,7 +33,7 @@ public class Order   {
   private String customerId = null;
 
   @JsonProperty("date")
-  @JsonFormat(pattern = "dd/mm/yyyy hh:mm")
+  //@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
   private OffsetDateTime date = null;
   
   @JsonProperty( "allergyNote")
