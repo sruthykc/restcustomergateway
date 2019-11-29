@@ -49,8 +49,8 @@ public class Product   {
   @JsonProperty("image")
   private byte[] image = null;
   
-  @JsonProperty("imagelink")
-  private String imageLink = null;
+  //@JsonProperty("imagelink")
+  private String imageLink ;
 
   @JsonProperty("imageContentType")
   private String imageContentType = null;
