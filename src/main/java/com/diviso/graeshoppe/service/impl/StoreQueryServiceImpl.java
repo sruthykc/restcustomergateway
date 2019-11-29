@@ -989,11 +989,12 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	@Override
 	public Page<StoreType> facetSearchByStoreTypeName(StoreTypeWrapper storeTypeWrapper, Pageable pageable) {
-		QueryBuilder query = QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery())
+		/*QueryBuilder query = QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery())
 				.filter(QueryBuilders.termsQuery("name",storeTypeWrapper.getTypeName()));
-		
+		*/
 		SearchRequest searchRequest = new SearchRequest("storetype");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		QueryBuilder query = QueryBuilders.termsQuery("name.keyword",storeTypeWrapper.getTypeName());
 	//	searchSourceBuilder.aggregation(AggregationBuilders.terms("totalstoretype").field("name.keyword"));
 
 		
