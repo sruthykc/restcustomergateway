@@ -34,7 +34,7 @@ public class OfferQueryServiceImpl implements OfferQueryService {
     @Override
 	public List<Offer> findOfferLinesByOrderId(Long orderId) {
         List<Offer> offerList = new ArrayList<>();
-        SearchRequest searchRequest = new SearchRequest("offer");
+        SearchRequest searchRequest = new SearchRequest("offerline");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(termQuery("order.id", orderId));
         searchRequest.source(searchSourceBuilder);
