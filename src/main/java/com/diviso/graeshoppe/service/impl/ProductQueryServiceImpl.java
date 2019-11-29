@@ -356,6 +356,7 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(query);
 		SearchRequest searchRequest = new SearchRequest("stockcurrent");
+		searchRequest.source(searchSourceBuilder);
 		SearchResponse searchResponse = null;
 		try {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
