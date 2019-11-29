@@ -29,7 +29,7 @@ public class Category   {
   
   
   @JsonProperty("imagelink")
-  private String imageLink = null;
+  private String imageLink;
 
   public String getImageLink() {
 	return imageLink;
