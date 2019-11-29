@@ -26,8 +26,20 @@ public class Category   {
 
   @JsonProperty("iDPcode")
   private String iDPcode = null;
+  
+  
+  @JsonProperty("imagelink")
+  private String imageLink = null;
 
-  @JsonProperty("id")
+  public String getImageLink() {
+	return imageLink;
+}
+
+public void setImageLink(String imageLink) {
+	this.imageLink = imageLink;
+}
+
+@JsonProperty("id")
   private Long id = null;
 
   @JsonProperty("image")
