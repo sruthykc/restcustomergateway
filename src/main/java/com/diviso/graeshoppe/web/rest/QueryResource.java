@@ -274,7 +274,7 @@ public class QueryResource {
 	
 	// List<StockCurrent> to Page<StockCurrent> 
 	
-	@PostMapping("/findStockCurrentByStoreIdAndCategoryId/{userId}/{categoryId}")
+	@GetMapping("/findStockCurrentByStoreIdAndCategoryId/{userId}/{categoryId}")
 	public List<StockCurrent> findStockCurrentByStoreIdAndCategoryId(@PathVariable("userId") String userId,
 			@PathVariable("categoryId") Long categoryId, Pageable pageable) {
 		log.debug("REST request to findStockCurrentByStoreIdAndCategoryId : {}", userId, categoryId);
@@ -393,7 +393,7 @@ public class QueryResource {
 		return productQueryService.findDiscountByProductId(productId);
 	}
 
-	@GetMapping("/facetSearchByStoreTypeName")
+	@PostMapping("/facetSearchByStoreTypeName")
 	public Page<StoreType> facetSearchByStoreTypeName(@RequestBody StoreTypeWrapper storeTypeWrapper, Pageable pageable) {
 
 	
