@@ -1,23 +1,32 @@
 package com.diviso.graeshoppe.client.product.model;
 
+import java.util.Objects;
+import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
+import com.diviso.graeshoppe.client.product.model.Brand;
+import com.diviso.graeshoppe.client.product.model.Category;
+import com.diviso.graeshoppe.client.product.model.ComboLineItem;
+import com.diviso.graeshoppe.client.product.model.Discount;
+import com.diviso.graeshoppe.client.product.model.Label;
+import com.diviso.graeshoppe.client.product.model.Location;
+import com.diviso.graeshoppe.client.product.model.Manufacturer;
+import com.diviso.graeshoppe.client.product.model.Supplier;
+import com.diviso.graeshoppe.client.product.model.TaxCategory;
+import com.diviso.graeshoppe.client.product.model.UOM;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-
 import org.springframework.validation.annotation.Validated;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.annotations.ApiModelProperty;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * Product
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-22T12:40:29.255+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-11-29T15:19:12.817+05:30[Asia/Kolkata]")
 
 public class Product   {
   @JsonProperty("auxilaryLineItems")
@@ -48,14 +57,14 @@ public class Product   {
 
   @JsonProperty("image")
   private byte[] image = null;
-  
-  //@JsonProperty("imagelink")
-  private String imageLink ;
 
   @JsonProperty("imageContentType")
   private String imageContentType = null;
 
- @JsonProperty("isActive")
+  @JsonProperty("imageLink")
+  private String imageLink = null;
+
+  @JsonProperty("isActive")
   private Boolean isActive = null;
 
   @JsonProperty("isAuxilaryItem")
@@ -182,14 +191,6 @@ public class Product   {
     return this;
   }
 
-  public String getImageLink() {
-	return imageLink;
-}
-
-public void setImageLink(String imageLink) {
-	this.imageLink = imageLink;
-}
-  
   /**
    * Get category
    * @return category
@@ -334,6 +335,26 @@ public void setImageLink(String imageLink) {
 
   public void setImageContentType(String imageContentType) {
     this.imageContentType = imageContentType;
+  }
+
+  public Product imageLink(String imageLink) {
+    this.imageLink = imageLink;
+    return this;
+  }
+
+  /**
+   * Get imageLink
+   * @return imageLink
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getImageLink() {
+    return imageLink;
+  }
+
+  public void setImageLink(String imageLink) {
+    this.imageLink = imageLink;
   }
 
   public Product isActive(Boolean isActive) {
@@ -710,6 +731,7 @@ public void setImageLink(String imageLink) {
         Objects.equals(this.id, product.id) &&
         Objects.equals(this.image, product.image) &&
         Objects.equals(this.imageContentType, product.imageContentType) &&
+        Objects.equals(this.imageLink, product.imageLink) &&
         Objects.equals(this.isActive, product.isActive) &&
         Objects.equals(this.isAuxilaryItem, product.isAuxilaryItem) &&
         Objects.equals(this.isServiceItem, product.isServiceItem) &&
@@ -731,7 +753,7 @@ public void setImageLink(String imageLink) {
 
   @Override
   public int hashCode() {
-    return Objects.hash(auxilaryLineItems, brand, buyPrice, category, comboLineItems, discount, iDPcode, id, image, imageContentType, isActive, isAuxilaryItem, isServiceItem, labels, location, manufacturer, maxQuantityLevel, minQuantityLevel, name, reference, sellingPrice, showInCatalogue, sku, storageCost, supplier, taxCategory, unit);
+    return Objects.hash(auxilaryLineItems, brand, buyPrice, category, comboLineItems, discount, iDPcode, id, image, imageContentType, imageLink, isActive, isAuxilaryItem, isServiceItem, labels, location, manufacturer, maxQuantityLevel, minQuantityLevel, name, reference, sellingPrice, showInCatalogue, sku, storageCost, supplier, taxCategory, unit);
   }
 
   @Override
@@ -749,6 +771,7 @@ public void setImageLink(String imageLink) {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
     sb.append("    imageContentType: ").append(toIndentedString(imageContentType)).append("\n");
+    sb.append("    imageLink: ").append(toIndentedString(imageLink)).append("\n");
     sb.append("    isActive: ").append(toIndentedString(isActive)).append("\n");
     sb.append("    isAuxilaryItem: ").append(toIndentedString(isAuxilaryItem)).append("\n");
     sb.append("    isServiceItem: ").append(toIndentedString(isServiceItem)).append("\n");
