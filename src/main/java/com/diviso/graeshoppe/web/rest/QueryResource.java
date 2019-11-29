@@ -273,7 +273,7 @@ public class QueryResource {
 	
 	// List<StockCurrent> to Page<StockCurrent> 
 	
-	@GetMapping("/findStockCurrentByStoreIdAndCategoryId/{userId}/{categoryId}")
+	@PostMapping("/findStockCurrentByStoreIdAndCategoryId/{userId}/{categoryId}")
 	public List<StockCurrent> findStockCurrentByStoreIdAndCategoryId(@PathVariable("userId") String userId,
 			@PathVariable("categoryId") Long categoryId, Pageable pageable) {
 		log.debug("REST request to findStockCurrentByStoreIdAndCategoryId : {}", userId, categoryId);
