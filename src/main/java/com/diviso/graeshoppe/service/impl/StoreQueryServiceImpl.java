@@ -1011,6 +1011,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		
 		
 		searchSourceBuilder.query(query);
+		searchRequest.source(searchSourceBuilder);
 	//	searchSourceBuilder.aggregation(AggregationBuilders.terms("totalstoretype").field("name.keyword"));
 
 	//	SearchResponse searchResponse =searchResponseForPage("storetype", searchSourceBuilder, pageable) ;
