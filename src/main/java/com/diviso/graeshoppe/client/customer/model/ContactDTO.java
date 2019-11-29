@@ -76,14 +76,6 @@ public class ContactDTO   {
     return this;
   }
 
-  /**
-   * Get mobileNumber
-   * @return mobileNumber
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public Long getMobileNumber() {
     return mobileNumber;
   }
@@ -97,12 +89,6 @@ public class ContactDTO   {
     return this;
   }
 
-  /**
-   * Get phoneCode
-   * @return phoneCode
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
 
 
   public Long getPhoneCode() {

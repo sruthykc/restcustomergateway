@@ -68,13 +68,6 @@ public class CustomerDTO   {
     return this;
   }
 
-  /**
-   * Get customerUniqueId
-   * @return customerUniqueId
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
 
   public String getCustomerUniqueId() {
     return customerUniqueId;
@@ -108,13 +101,6 @@ public class CustomerDTO   {
     this.idpCode = idpCode;
     return this;
   }
-
-  /**
-   * Get idpCode
-   * @return idpCode
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
 
 
   public String getIdpCode() {
@@ -190,12 +176,6 @@ public class CustomerDTO   {
     return this;
   }
 
-  /**
-   * Get imageLink
-   * @return imageLink
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
 
 
   public String getImageLink() {

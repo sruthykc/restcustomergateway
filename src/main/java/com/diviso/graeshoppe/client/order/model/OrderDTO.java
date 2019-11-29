@@ -20,7 +20,30 @@ public class OrderDTO   {
   @JsonProperty("approvalDetailsId")
   private Long approvalDetailsId = null;
 
-  @JsonProperty("customerId")
+  @JsonProperty("subTotal")
+private Double subTotal;
+  
+  @JsonProperty("paymentMode")
+private String paymentMode;
+
+  
+  public Double getSubTotal() {
+	return subTotal;
+}
+
+public void setSubTotal(Double subTotal) {
+	this.subTotal = subTotal;
+}
+
+public String getPaymentMode() {
+	return paymentMode;
+}
+
+public void setPaymentMode(String paymentMode) {
+	this.paymentMode = paymentMode;
+}
+
+@JsonProperty("customerId")
   private String customerId = null;
 
   @JsonProperty("date")
@@ -345,29 +368,18 @@ public class OrderDTO   {
     return Objects.hash(allergyNote, approvalDetailsId, customerId, date, deliveryInfoId, email, grandTotal, id, orderId, paymentRef, preOrderDate, statusId, storeId);
   }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class OrderDTO {\n");
-    
-    sb.append("    allergyNote: ").append(toIndentedString(allergyNote)).append("\n");
-    sb.append("    approvalDetailsId: ").append(toIndentedString(approvalDetailsId)).append("\n");
-    sb.append("    customerId: ").append(toIndentedString(customerId)).append("\n");
-    sb.append("    date: ").append(toIndentedString(date)).append("\n");
-    sb.append("    deliveryInfoId: ").append(toIndentedString(deliveryInfoId)).append("\n");
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    grandTotal: ").append(toIndentedString(grandTotal)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    orderId: ").append(toIndentedString(orderId)).append("\n");
-    sb.append("    paymentRef: ").append(toIndentedString(paymentRef)).append("\n");
-    sb.append("    preOrderDate: ").append(toIndentedString(preOrderDate)).append("\n");
-    sb.append("    statusId: ").append(toIndentedString(statusId)).append("\n");
-    sb.append("    storeId: ").append(toIndentedString(storeId)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+ 
 
-  /**
+  @Override
+public String toString() {
+	return "OrderDTO [allergyNote=" + allergyNote + ", approvalDetailsId=" + approvalDetailsId + ", subTotal="
+			+ subTotal + ", paymentMode=" + paymentMode + ", customerId=" + customerId + ", date=" + date
+			+ ", deliveryInfoId=" + deliveryInfoId + ", email=" + email + ", grandTotal=" + grandTotal + ", id=" + id
+			+ ", orderId=" + orderId + ", paymentRef=" + paymentRef + ", preOrderDate=" + preOrderDate + ", statusId="
+			+ statusId + ", storeId=" + storeId + "]";
+}
+
+/**
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */

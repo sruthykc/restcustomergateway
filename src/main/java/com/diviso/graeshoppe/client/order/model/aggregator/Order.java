@@ -28,8 +28,19 @@ public class Order   {
 
   @JsonProperty("approvalDetails")
   private ApprovalDetails approvalDetails = null;
+  
+  @JsonProperty("paymentMode")
+private String paymentMode;
 
-  @JsonProperty("customerId")
+  public String getPaymentMode() {
+	return paymentMode;
+}
+
+public void setPaymentMode(String paymentMode) {
+	this.paymentMode = paymentMode;
+}
+
+@JsonProperty("customerId")
   private String customerId = null;
 
   @JsonProperty("date")
@@ -415,12 +426,16 @@ public void setSubTotal(Double subTotal) {
 	this.subTotal = subTotal;
 }
 
+
+
 @Override
 public String toString() {
-	return String.format(
-			"Order [appliedOffers=%s,\n approvalDetails=%s,\n customerId=%s,\n date=%s,\n allergyNote=%s,\n preOrderDate=%s,\n deliveryInfo=%s,\n email=%s,\n grandTotal=%s,\n subTotal=%s,\n id=%s,\n orderId=%s,\n orderLines=%s,\n paymentRef=%s,\n status=%s,\n storeId=%s]",
-			appliedOffers, approvalDetails, customerId, date, allergyNote, preOrderDate, deliveryInfo, email,
-			grandTotal, subTotal, id, orderId, orderLines, paymentRef, status, storeId);
+	return "Order [appliedOffers=" + appliedOffers + ", approvalDetails=" + approvalDetails + ", paymentMode="
+			+ paymentMode + ", customerId=" + customerId + ", date=" + date + ", allergyNote=" + allergyNote
+			+ ", preOrderDate=" + preOrderDate + ", state=" + state + ", deliveryInfo=" + deliveryInfo + ", email="
+			+ email + ", grandTotal=" + grandTotal + ", subTotal=" + subTotal + ", id=" + id + ", orderId=" + orderId
+			+ ", orderLines=" + orderLines + ", paymentRef=" + paymentRef + ", status=" + status + ", storeId="
+			+ storeId + "]";
 }
 
 @Override
