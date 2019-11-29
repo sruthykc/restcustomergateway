@@ -70,14 +70,6 @@ public class FavouriteProductDTO   {
     return this;
   }
 
-  /**
-   * Get productId
-   * @return productId
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public Long getProductId() {
     return productId;
   }
