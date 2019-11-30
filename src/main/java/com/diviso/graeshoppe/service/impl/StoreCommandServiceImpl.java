@@ -35,7 +35,7 @@ import com.diviso.graeshoppe.service.StoreCommandService;
 import com.diviso.graeshoppe.service.StoreQueryService;
 import com.diviso.graeshoppe.web.rest.CommandResource;
 import com.diviso.graeshoppe.web.rest.QueryResource;
-
+@Service
 public class StoreCommandServiceImpl  implements StoreCommandService {
 
 	
