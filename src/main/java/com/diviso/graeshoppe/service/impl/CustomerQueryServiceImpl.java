@@ -38,7 +38,7 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 
 	@Override
 	public Customer findCustomerByReference(String reference) {
-		// System.out.println("findAllProductBySearchTerm>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 		searchSourceBuilder.query(termQuery("idpCode.keyword", reference));
