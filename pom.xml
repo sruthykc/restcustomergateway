@@ -1342,6 +1342,25 @@
 										</pluginExecution>
 										<pluginExecution>
 											<pluginExecutionFilter>
+												<groupId>
+													org.apache.avro
+												</groupId>
+												<artifactId>
+													avro-maven-plugin
+												</artifactId>
+												<versionRange>
+													[1.8.2,)
+												</versionRange>
+												<goals>
+													<goal>schema</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore></ignore>
+											</action>
+										</pluginExecution>
+										<pluginExecution>
+											<pluginExecutionFilter>
 												<groupId>com.github.eirslett</groupId>
 												<artifactId>frontend-maven-plugin</artifactId>
 												<versionRange>${frontend-maven-plugin.version}</versionRange>
