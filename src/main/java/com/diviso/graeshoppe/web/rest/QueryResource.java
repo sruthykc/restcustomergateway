@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -392,7 +393,7 @@ public class QueryResource {
 		return productQueryService.findDiscountByProductId(productId);
 	}
 
-	@GetMapping("/facetSearchByStoreTypeName")
+	@PostMapping("/facetSearchByStoreTypeName")
 	public Page<StoreType> facetSearchByStoreTypeName(@RequestBody StoreTypeWrapper storeTypeWrapper, Pageable pageable) {
 
 	

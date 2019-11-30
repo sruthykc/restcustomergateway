@@ -1,45 +1,31 @@
 package com.diviso.graeshoppe.client.product.model;
 
+import java.util.Objects;
+import com.diviso.graeshoppe.client.product.model.Product;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-
 import org.springframework.validation.annotation.Validated;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.annotations.ApiModelProperty;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * Category
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-22T12:40:29.255+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-11-29T15:19:12.817+05:30[Asia/Kolkata]")
 
 public class Category   {
   @JsonProperty("description")
-  
   private String description = null;
 
   @JsonProperty("iDPcode")
   private String iDPcode = null;
-  
-  
-  @JsonProperty("imagelink")
-  private String imageLink = null;
 
-  public String getImageLink() {
-	return imageLink;
-}
-
-public void setImageLink(String imageLink) {
-	this.imageLink = imageLink;
-}
-
-@JsonProperty("id")
+  @JsonProperty("id")
   private Long id = null;
 
   @JsonProperty("image")
@@ -47,6 +33,9 @@ public void setImageLink(String imageLink) {
 
   @JsonProperty("imageContentType")
   private String imageContentType = null;
+
+  @JsonProperty("imageLink")
+  private String imageLink = null;
 
   @JsonProperty("name")
   private String name = null;
@@ -155,6 +144,26 @@ public void setImageLink(String imageLink) {
     this.imageContentType = imageContentType;
   }
 
+  public Category imageLink(String imageLink) {
+    this.imageLink = imageLink;
+    return this;
+  }
+
+  /**
+   * Get imageLink
+   * @return imageLink
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getImageLink() {
+    return imageLink;
+  }
+
+  public void setImageLink(String imageLink) {
+    this.imageLink = imageLink;
+  }
+
   public Category name(String name) {
     this.name = name;
     return this;
@@ -219,13 +228,14 @@ public void setImageLink(String imageLink) {
         Objects.equals(this.id, category.id) &&
         Objects.equals(this.image, category.image) &&
         Objects.equals(this.imageContentType, category.imageContentType) &&
+        Objects.equals(this.imageLink, category.imageLink) &&
         Objects.equals(this.name, category.name) &&
         Objects.equals(this.products, category.products);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(description, iDPcode, id, image, imageContentType, name, products);
+    return Objects.hash(description, iDPcode, id, image, imageContentType, imageLink, name, products);
   }
 
   @Override
@@ -238,6 +248,7 @@ public void setImageLink(String imageLink) {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
     sb.append("    imageContentType: ").append(toIndentedString(imageContentType)).append("\n");
+    sb.append("    imageLink: ").append(toIndentedString(imageLink)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    products: ").append(toIndentedString(products)).append("\n");
     sb.append("}");
