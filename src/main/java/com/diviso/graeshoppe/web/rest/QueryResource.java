@@ -298,8 +298,8 @@ public class QueryResource {
 	}
 
 	@GetMapping("/review-count/{storeId}")
-	public Long findReviewCountByStoreId(@PathVariable String storeId) {
-		Long l = storeQueryService.findReviewCountByStoreId(storeId);
+	public Long findUserRatingReviewCountByRegNo(@PathVariable String regNo) {
+		Long l = storeQueryService.findUserRatingReviewCountByRegNo(regNo);
 		return l;
 	}
 

@@ -9,6 +9,7 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,7 +40,7 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 	@Override
 	public Customer findCustomerByReference(String reference) {
 		
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 		searchSourceBuilder.query(termQuery("idpCode.keyword", reference));
 
@@ -50,8 +51,13 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 		} catch (IOException e) { // TODO Auto-generated
 			e.printStackTrace();
-		}
+		}*/
+		
+		
 
+		
+		QueryBuilder dslQuery = termQuery("idpCode.keyword", reference);
+		SearchResponse searchResponse = serviceUtility.searchResponseForObject("customer", dslQuery);
 		return serviceUtility.getObjectResult(searchResponse, new Customer());
 
 	}

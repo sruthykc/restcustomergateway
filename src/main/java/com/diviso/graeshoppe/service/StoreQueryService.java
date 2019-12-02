@@ -26,7 +26,7 @@ public interface StoreQueryService {
 
 	Store findStoreByRegNo(String regNo);
 
-	Long findReviewCountByStoreId(String storeId);
+	/*Long findReviewCountByStoreId(String storeId);*/
 
 	Page<Review> findReviewByStoreId(String storeId, Pageable pageable);
 
@@ -81,5 +81,6 @@ public interface StoreQueryService {
 	Store findStoreById(Long id);
 
 	Page<UserRatingReview> findUserRatingReviewByRegNo(String regNo, Pageable pageable);
+	 Long findUserRatingReviewCountByRegNo(String regNo);
 
 }

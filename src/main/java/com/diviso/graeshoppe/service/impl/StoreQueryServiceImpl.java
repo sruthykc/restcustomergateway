@@ -126,7 +126,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		return serviceUtility.getObjectResult(searchResponse, new Store());
 	}
 
-	@Override
+	/*@Override
 	public Long findReviewCountByStoreId(String storeId) {
 		CountRequest countRequest = new CountRequest("review");
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -142,8 +142,30 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		}
 
 		return countResponse.getCount();
+	}*/
+
+	@Override
+	public Long findUserRatingReviewCountByRegNo(String regNo) {
+		CountRequest countRequest = new CountRequest("userratingreview");
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+		searchSourceBuilder.query(termQuery("store.regNo", regNo));
+
+		countRequest.source(searchSourceBuilder);
+		CountResponse countResponse = null;
+		try {
+			countResponse = restHighLevelClient.count(countRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+
+		return countResponse.getCount();
 	}
 
+	
+	
+	
+	
 	@Override
 	public Page<Review> findReviewByStoreId(String storeId, Pageable pageable) {
 
