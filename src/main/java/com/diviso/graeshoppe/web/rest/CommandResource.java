@@ -367,7 +367,7 @@ public class CommandResource {
 	/*	return storeCommandService.createRatingAndReview(ratingReview, pageable);
 	}
 	*/
-	
+	@PostMapping("/user-rating-review")
 	public	ResponseEntity<UserRatingReviewDTO> createUserRatingReview(@RequestBody UserRatingReviewDTO userRatingReviewDTO){
 	return  storeCommandService.createUserRatingReview(userRatingReviewDTO);
 	}
