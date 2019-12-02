@@ -14,6 +14,7 @@ import com.diviso.graeshoppe.client.store.model.StoreSettings;
 import com.diviso.graeshoppe.client.store.model.StoreType;
 import com.diviso.graeshoppe.client.store.model.Type;
 import com.diviso.graeshoppe.client.store.model.UserRating;
+import com.diviso.graeshoppe.client.store.model.UserRatingReview;
 import com.diviso.graeshoppe.domain.ResultBucket;
 import com.diviso.graeshoppe.domain.StoreTypeWrapper;
 
@@ -63,13 +64,13 @@ public interface StoreQueryService {
 
 	Page<StoreType> findStoreTypeByStoreId(String storeId, Pageable pageable);
 
-	Page<StoreType>  facetSearchByStoreTypeName(StoreTypeWrapper storeTypeWrapper, Pageable pageable);
+	Page<StoreType> facetSearchByStoreTypeName(StoreTypeWrapper storeTypeWrapper, Pageable pageable);
 
 	Page<Store> findAllStores(Pageable pageable);
 
 	List<ResultBucket> findStoreTypeAndCount(Pageable pageable);
 
-	Page<Store> findByLocationNear(Double lat,Double lon, Double distance ,String distanceUnit,Pageable pageable);
+	Page<Store> findByLocationNear(Double lat, Double lon, Double distance, String distanceUnit, Pageable pageable);
 
 	Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException;
 
@@ -78,8 +79,7 @@ public interface StoreQueryService {
 	StoreAddress getStoreAddress(String iDPCode);
 
 	Store findStoreById(Long id);
-	
-	
 
+	Page<UserRatingReview> findUserRatingReviewByRegNo(String regNo, Pageable pageable);
 
 }

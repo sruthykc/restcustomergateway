@@ -1,4 +1,6 @@
 package com.diviso.graeshoppe.service.impl;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import com.diviso.graeshoppe.client.store.api.ReplyResourceApi;
 import com.diviso.graeshoppe.client.store.api.ReviewResourceApi;
 import com.diviso.graeshoppe.client.store.api.StoreResourceApi;
 import com.diviso.graeshoppe.client.store.api.UserRatingResourceApi;
+import com.diviso.graeshoppe.client.store.api.UserRatingReviewResourceApi;
 import com.diviso.graeshoppe.client.store.domain.RatingReview;
 import com.diviso.graeshoppe.client.store.model.ReplyDTO;
 import com.diviso.graeshoppe.client.store.model.Review;
@@ -31,10 +34,13 @@ import com.diviso.graeshoppe.client.store.model.ReviewDTO;
 import com.diviso.graeshoppe.client.store.model.StoreDTO;
 import com.diviso.graeshoppe.client.store.model.UserRating;
 import com.diviso.graeshoppe.client.store.model.UserRatingDTO;
+import com.diviso.graeshoppe.client.store.model.UserRatingReviewDTO;
 import com.diviso.graeshoppe.service.StoreCommandService;
 import com.diviso.graeshoppe.service.StoreQueryService;
 import com.diviso.graeshoppe.web.rest.CommandResource;
 import com.diviso.graeshoppe.web.rest.QueryResource;
+
+import io.swagger.annotations.ApiParam;
 @Service
 public class StoreCommandServiceImpl  implements StoreCommandService {
 
@@ -57,7 +63,8 @@ public class StoreCommandServiceImpl  implements StoreCommandService {
 	
 	@Autowired
 	StoreQueryService storeQueryService;
-	
+	@Autowired
+	UserRatingReviewResourceApi userRatingReviewResourceApi;
 	
 	private final Logger log = LoggerFactory.getLogger(StoreCommandServiceImpl.class);
 	
@@ -92,7 +99,7 @@ public class StoreCommandServiceImpl  implements StoreCommandService {
 	}
 	
 	
-	public ResponseEntity<Page<RatingReview>> createRatingAndReview( RatingReview ratingReview,
+	/*public ResponseEntity<Page<RatingReview>> createRatingAndReview( RatingReview ratingReview,
 			Pageable pageable) {
 
 		UserRatingDTO userRatingDTO = ratingReview.getRating();
@@ -162,7 +169,7 @@ public class StoreCommandServiceImpl  implements StoreCommandService {
 		
 	}
 	
-	
+	*/
 	public ResponseEntity<ReviewDTO> createUserReview(ReviewDTO reviewDTO) {
 		return this.reviewResourceApi.createReviewUsingPOST(reviewDTO);
 	}
@@ -177,16 +184,22 @@ public class StoreCommandServiceImpl  implements StoreCommandService {
 		return this.reviewResourceApi.deleteReviewUsingDELETE(id);
 	}
 
+//working	
+public	ResponseEntity<UserRatingReviewDTO> createUserRatingReview(UserRatingReviewDTO userRatingReviewDTO){
+
+	return	userRatingReviewResourceApi.createUserRatingReviewUsingPOST(userRatingReviewDTO);
+}
+	
+	public ResponseEntity<Void> deleteUserRatingReview( Long id){
+	return	userRatingReviewResourceApi.deleteUserRatingReviewUsingDELETE(id);
+}
 	
 	
 	
 	
-	
-	
-	
-	
-	
-	
+	public ResponseEntity<UserRatingReviewDTO> updateUserRatingReview(UserRatingReviewDTO userRatingReviewDTO){
+		return	userRatingReviewResourceApi.updateUserRatingReviewUsingPUT(userRatingReviewDTO);
+	}
 	
 	
 	

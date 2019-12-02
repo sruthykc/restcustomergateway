@@ -32,10 +32,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.diviso.graeshoppe.client.store.model.DeliveryInfo;
 import com.diviso.graeshoppe.client.store.domain.HeaderSearch;
+import com.diviso.graeshoppe.client.store.domain.RatingReview;
 import com.diviso.graeshoppe.client.store.model.Review;
 import com.diviso.graeshoppe.client.store.model.Store;
 import com.diviso.graeshoppe.client.store.model.StoreAddress;
@@ -43,6 +46,7 @@ import com.diviso.graeshoppe.client.store.model.StoreSettings;
 import com.diviso.graeshoppe.client.store.model.StoreType;
 import com.diviso.graeshoppe.client.store.model.Type;
 import com.diviso.graeshoppe.client.store.model.UserRating;
+import com.diviso.graeshoppe.client.store.model.UserRatingReview;
 import com.diviso.graeshoppe.domain.ResultBucket;
 import com.diviso.graeshoppe.domain.StoreTypeWrapper;
 import com.diviso.graeshoppe.service.StoreQueryService;
@@ -525,7 +529,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.fetchSource(includeFields, excludeFields);
 
-		searchSourceBuilder.query(termQuery("store.regNo", storeId));
+		searchSourceBuilder.query(termQuery("store.regNo.keyword", storeId));
 
 		SearchResponse searchResponse = serviceUtility.searchResponseForPage("storetype", searchSourceBuilder, pageable);
 
@@ -698,6 +702,20 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		return serviceUtility.getPageResult(searchResponse, pageable, new StoreType());
 
+	}
+	
+	public Page<UserRatingReview> findUserRatingReviewByRegNo(String regNo,
+			Pageable pageable) {
+		
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		
+
+		searchSourceBuilder.query(termQuery("store.regNo.keyword", regNo));
+
+		SearchResponse searchResponse = serviceUtility.searchResponseForPage("userratingreview", searchSourceBuilder, pageable);
+
+		return serviceUtility.getPageResult(searchResponse, pageable, new UserRatingReview());
+		
 	}
 
 	// **************************************************************************************************************************

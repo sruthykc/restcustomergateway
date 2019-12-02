@@ -61,6 +61,7 @@ import com.diviso.graeshoppe.client.store.model.ReplyDTO;
 import com.diviso.graeshoppe.client.store.model.ReviewDTO;
 import com.diviso.graeshoppe.client.store.model.StoreDTO;
 import com.diviso.graeshoppe.client.store.model.UserRatingDTO;
+import com.diviso.graeshoppe.client.store.model.UserRatingReviewDTO;
 import com.diviso.graeshoppe.service.OfferCommandService;
 import com.diviso.graeshoppe.service.OrderCommandService;
 import com.diviso.graeshoppe.service.PaymentCommandService;
@@ -365,6 +366,16 @@ public class CommandResource {
 		 */
 		return storeCommandService.createRatingAndReview(ratingReview, pageable);
 	}
+	
+	
+	public	ResponseEntity<UserRatingReviewDTO> createUserRatingReview(@RequestBody UserRatingReviewDTO userRatingReviewDTO){
+	return  storeCommandService.createUserRatingReview(userRatingReviewDTO);
+	}
+	
+
+	
+	
+	
 
 	/*********************** Order related operations ****************************/
 
