@@ -210,8 +210,7 @@ public class StoreDTO   {
    * Get imageLink
    * @return imageLink
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  
 
 
   public String getImageLink() {

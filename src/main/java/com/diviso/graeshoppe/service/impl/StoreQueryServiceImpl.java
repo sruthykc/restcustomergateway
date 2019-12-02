@@ -37,8 +37,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.diviso.graeshoppe.client.store.model.DeliveryInfo;
-import com.diviso.graeshoppe.client.store.domain.HeaderSearch;
-import com.diviso.graeshoppe.client.store.domain.RatingReview;
+import com.diviso.graeshoppe.client.store.model.HeaderSearch;
+/*import com.diviso.graeshoppe.client.store.domain.RatingReview;*/
 import com.diviso.graeshoppe.client.store.model.Review;
 import com.diviso.graeshoppe.client.store.model.Store;
 import com.diviso.graeshoppe.client.store.model.StoreAddress;
@@ -71,7 +71,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		this.restHighLevelClient = restHighLevelClient;
 	}
 
-	@Override
+	/*@Override
 	public Page<Review> findAllReviews(Pageable pageable) {
 		log.debug("Request to get all Reviews ");
 
@@ -92,7 +92,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		return serviceUtility.getPageResult(searchResponse, pageable, new UserRating());
 
-	}
+	}*/
 
 	@Override
 	public Page<Store> findAllStores(Pageable pageable) {
@@ -109,10 +109,10 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		Page<Store> storePage = serviceUtility.getPageResult(searchResponse, pageable, new Store());
 
-		storePage.forEach(store -> {
+		/*storePage.forEach(store -> {
 			List<UserRating> userRating = findUserRatingByRegNo(store.getRegNo(), pageable).getContent();
 			store.setUserRatings(userRating);
-		});
+		});*/
 
 		return storePage;
 
@@ -166,7 +166,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	
 	
 	
-	@Override
+	/*@Override
 	public Page<Review> findReviewByStoreId(String storeId, Pageable pageable) {
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -179,11 +179,11 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	@Override
 	public Page<UserRating> findUserRatingByRegNo(String regNo, Pageable pageable) {
 
-		/*
+		
 		 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
 		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
 		 * excludeFields);
-		 */
+		 
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(termQuery("store.regNo.keyword", regNo));
@@ -192,7 +192,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		return serviceUtility.getPageResult(searchResponse, pageable, new UserRating());
 
 	}
-
+*/
 	@Override
 	public List<ResultBucket> findStoreTypeAndCount(Pageable pageable) {
 		List<ResultBucket> resultBucketList = new ArrayList<>();
@@ -229,7 +229,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	}
 
-	@Override
+	/*@Override
 	public UserRating findRatingByStoreIdAndCustomerName(String storeId, String name) {
 
 		QueryBuilder dslQuery = QueryBuilders.boolQuery().must(QueryBuilders.termQuery("store.regNo.keyword", storeId))
@@ -256,15 +256,15 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 		SearchResponse searchResponse = serviceUtility.searchResponseForObject("userrating", dslQuery);
 		return serviceUtility.getObjectResult(searchResponse, new UserRating());
 	}
-
-	@Override
+*/
+	/*@Override
 	public Review findReviewByStoreIdAndCustomerName(String storeId, String name) {
 
 		QueryBuilder dslQuery = QueryBuilders.boolQuery().must(QueryBuilders.termQuery("store.regNo.keyword", storeId))
 				.must(QueryBuilders.termQuery("userName.keyword", name));
 		SearchResponse searchResponse = serviceUtility.searchResponseForObject("review", dslQuery);
 		return serviceUtility.getObjectResult(searchResponse, new Review());
-	}
+	}*/
 
 	@Override
 	public List<ResultBucket> findRatingCount(Pageable pageable) {

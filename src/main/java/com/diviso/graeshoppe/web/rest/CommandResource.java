@@ -54,7 +54,7 @@ import com.diviso.graeshoppe.client.store.api.ReplyResourceApi;
 import com.diviso.graeshoppe.client.store.api.ReviewResourceApi;
 import com.diviso.graeshoppe.client.store.api.StoreResourceApi;
 import com.diviso.graeshoppe.client.store.api.UserRatingResourceApi;
-import com.diviso.graeshoppe.client.store.domain.RatingReview;
+//import com.diviso.graeshoppe.client.store.domain.RatingReview;
 import com.diviso.graeshoppe.client.store.model.Review;
 import com.diviso.graeshoppe.client.store.model.UserRating;
 import com.diviso.graeshoppe.client.store.model.ReplyDTO;
@@ -252,121 +252,8 @@ public class CommandResource {
 		return storeCommandService.deleteReply(id);
 	}
 
-	@PostMapping("/user-ratings")
-	public ResponseEntity<UserRatingDTO> createUserRating(@RequestBody UserRatingDTO userRatingDTO) {
-		// return this.userRatingResourceApi.createUserRatingUsingPOST(userRatingDTO);
-		return storeCommandService.createUserRating(userRatingDTO);
-	}
 
-	@PutMapping("/user-ratings")
-	public ResponseEntity<UserRatingDTO> updateUserRating(@RequestBody UserRatingDTO userRatingDTO) {
-		// return this.userRatingResourceApi.updateUserRatingUsingPUT(userRatingDTO);
-		return storeCommandService.updateUserRating(userRatingDTO);
-	}
 
-	@DeleteMapping("/user-ratings/{id}")
-	public ResponseEntity<Void> deleteUserRating(@PathVariable Long id) {
-		// return this.userRatingResourceApi.deleteUserRatingUsingDELETE(id);
-		return storeCommandService.deleteUserRating(id);
-	}
-
-	@PostMapping("/reviews")
-	public ResponseEntity<ReviewDTO> createUserReview(@RequestBody ReviewDTO reviewDTO) {
-		// return this.reviewResourceApi.createReviewUsingPOST(reviewDTO);
-		return storeCommandService.createUserReview(reviewDTO);
-	}
-
-	@PutMapping("/reviews")
-	public ResponseEntity<ReviewDTO> updateReview(@RequestBody ReviewDTO reviewDTO) {
-		// return this.reviewResourceApi.updateReviewUsingPUT(reviewDTO);
-		return storeCommandService.updateReview(reviewDTO);
-	}
-
-	@DeleteMapping("/reviews/{id}")
-	public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
-		// return this.reviewResourceApi.deleteReviewUsingDELETE(id);
-		return storeCommandService.deleteReview(id);
-	}
-
-	/*@PostMapping("/rating-review")
-	public ResponseEntity<Page<RatingReview>> createRatingAndReview(@RequestBody RatingReview ratingReview,
-			Pageable pageable) {
-*/
-		/*
-		 * UserRatingDTO userRatingDTO = ratingReview.getRating();
-		 * log.info(">>>>>>>>>>>>>>>>>>>>>>>>ratingdto>>>>>>>>>>>>>>>>>>>>>>  " +
-		 * userRatingDTO); ReviewDTO reviewDTO = ratingReview.getReview();
-		 * log.info(">>>>>>>>>>>>>>>>>>>>>>>>reviewdto>>>>>>>>>>>>>>>>>>>>>>  " +
-		 * reviewDTO); StoreDTO store = null; log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-		 * + userRatingDTO + ">>>>>>>>>>>>>>>>>>>>>" + reviewDTO +
-		 * "     condition...     " + (userRatingDTO.getRating() != null)); if
-		 * (userRatingDTO.getRating() != null) {
-		 * 
-		 * store =
-		 * storeResourceApi.getStoreUsingGET(userRatingDTO.getStoreId()).getBody();
-		 * log.info(">>>>>>>>>>>>>>>>>>>>>>>>IF>>>>>>>>>>>>>>>>>>>>>>" +
-		 * store.getRegNo() + "     " + userRatingDTO.getUserName()); UserRating
-		 * alreadyRatedUser =
-		 * storeQueryService.findRatingByStoreIdAndCustomerName(store.getRegNo(),
-		 * userRatingDTO.getUserName());
-		 * 
-		 * log.info(">>>>>>>>>>>>>>>>>>>>>>alreadyRatedUser: >>>>>>>>>>>>>>>>>>>>>>>>" +
-		 * alreadyRatedUser);
-		 * 
-		 * if (alreadyRatedUser == null) {
-		 * log.info("............create................");
-		 * 
-		 * ResponseEntity<ReviewDTO> review =
-		 * reviewResourceApi.createReviewUsingPOST(reviewDTO);
-		 * 
-		 * log.info("...........saved review............." + review.getBody());
-		 * 
-		 * log.info("............check userrating................  " + userRatingDTO);
-		 * 
-		 * ResponseEntity<UserRatingDTO> ratingDTO = userRatingResourceApi
-		 * .createUserRatingUsingPOST(userRatingDTO);
-		 * 
-		 * log.info("............saved rating.........." + ratingDTO.getBody());
-		 * 
-		 * ratingReview.setRating(ratingDTO.getBody());
-		 * ratingReview.setReview(review.getBody()); } else {
-		 * 
-		 * log.info("..............................ELSE>>>>>>>>>>>>>>>>>>>>>>>>>"); if
-		 * (alreadyRatedUser.getId() != null) {
-		 * log.info("....................UPDATE..............");
-		 * 
-		 * userRatingDTO.setId(alreadyRatedUser.getId());
-		 * 
-		 * log.info("................username:............" +
-		 * userRatingDTO.getUserName() + "..........storeId..........." +
-		 * store.getRegNo() + "...........");
-		 * 
-		 * Review alreadyreviewed =
-		 * storeQueryService.findReviewByStoreIdAndCustomerName(store.getRegNo(),
-		 * userRatingDTO.getUserName());
-		 * 
-		 * log.info("...................   " + alreadyreviewed +
-		 * "     ...............");
-		 * 
-		 * reviewDTO.setId(alreadyreviewed.getId());
-		 * 
-		 * ResponseEntity<ReviewDTO> review =
-		 * reviewResourceApi.updateReviewUsingPUT(reviewDTO);
-		 * 
-		 * ResponseEntity<UserRatingDTO> ratingDTO = userRatingResourceApi
-		 * .updateUserRatingUsingPUT(userRatingDTO);
-		 * 
-		 * ratingReview.setRating(ratingDTO.getBody());
-		 * 
-		 * ratingReview.setReview(review.getBody()); } }
-		 * 
-		 * } return
-		 * queryResource.findRatingReviewByStoreidAndCustomerName(store.getRegNo(),
-		 * pageable);
-		 */
-	/*	return storeCommandService.createRatingAndReview(ratingReview, pageable);
-	}
-	*/
 	@PostMapping("/user-rating-review")
 	public	ResponseEntity<UserRatingReviewDTO> createUserRatingReview(@RequestBody UserRatingReviewDTO userRatingReviewDTO){
 	return  storeCommandService.createUserRatingReview(userRatingReviewDTO);

@@ -45,15 +45,15 @@ import com.diviso.graeshoppe.client.product.model.ComboLineItem;
 import com.diviso.graeshoppe.client.product.model.Discount;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
-import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
-import com.diviso.graeshoppe.client.store.domain.HeaderSearch;
-import com.diviso.graeshoppe.client.store.domain.Review;
-import com.diviso.graeshoppe.client.store.domain.Store;
-import com.diviso.graeshoppe.client.store.domain.StoreAddress;
-import com.diviso.graeshoppe.client.store.domain.StoreSettings;
-import com.diviso.graeshoppe.client.store.domain.StoreType;
-import com.diviso.graeshoppe.client.store.domain.Type;
-import com.diviso.graeshoppe.client.store.domain.UserRating;
+import com.diviso.graeshoppe.client.store.model.DeliveryInfo;
+//import com.diviso.graeshoppe.client.store.model.HeaderSearch;
+import com.diviso.graeshoppe.client.store.model.Review;
+import com.diviso.graeshoppe.client.store.model.Store;
+import com.diviso.graeshoppe.client.store.model.StoreAddress;
+import com.diviso.graeshoppe.client.store.model.StoreSettings;
+import com.diviso.graeshoppe.client.store.model.StoreType;
+import com.diviso.graeshoppe.client.store.model.Type;
+import com.diviso.graeshoppe.client.store.model.UserRating;
 //import com.diviso.graeshoppe.repository.search.StoreSearchRepository;
 /*import com.diviso.graeshoppe.client.product.domain.Product;
 import com.diviso.graeshoppe.domain.Result;*/
@@ -562,10 +562,10 @@ public class QueryServiceImpl implements QueryService {
 		}
 		Page<Store> storePage = getStoreSearchResult(searchResponse, pageable);
 
-		storePage.forEach(store -> {
+	/*	storePage.forEach(store -> {
 			List<UserRating> userRating = findUserRatingByRegNo(store.getRegNo(), pageable).getContent();
 			store.setUserRatings(new HashSet<UserRating>(userRating));
-		});
+		});*/
 
 		return storePage;
 
@@ -2186,7 +2186,7 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 * }
 	 */
-	@Override
+	/*@Override
 	public Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException {
 
 		Set<Store> storeSet = new HashSet<Store>();
@@ -2223,7 +2223,7 @@ public class QueryServiceImpl implements QueryService {
 
 		return findStoresByRegNoList(values, pageable);
 
-	}
+	}*/
 
 	private SearchRequest generateSearchRequest1(Integer totalElement, Integer pageNumber,
 			SearchSourceBuilder sourceBuilder) {
@@ -2250,7 +2250,7 @@ public class QueryServiceImpl implements QueryService {
 		return searchRequest;
 	}
 
-	public Page<Store> findStoresByRegNoList(Set<HeaderSearch> values, Pageable pageable) throws IOException {
+	/*public Page<Store> findStoresByRegNoList(Set<HeaderSearch> values, Pageable pageable) throws IOException {
 		Set<Store> storeSet = new HashSet<Store>();
 		SearchResponse searchResponse = null;
 
@@ -2274,7 +2274,7 @@ public class QueryServiceImpl implements QueryService {
 		return new PageImpl(storeList, pageable, searchResponse.getHits().getTotalHits());
 
 	}
-
+*/
 	@Override
 	public Page<Cart> findByLocationNear(/*
 											 * Double lat,Double lon, Double distance ,
@@ -2803,6 +2803,12 @@ public class QueryServiceImpl implements QueryService {
 		}
 		return new PageImpl(new ArrayList<Store>(storeSet));
 
+	}
+
+	@Override
+	public Page<Store> headerSearch(String searchTerm, Pageable pageable) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

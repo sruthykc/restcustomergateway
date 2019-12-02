@@ -20,15 +20,15 @@ import com.diviso.graeshoppe.domain.StoreTypeWrapper;
 
 public interface StoreQueryService {
 
-	Page<Review> findAllReviews(Pageable pageable);
+	/*Page<Review> findAllReviews(Pageable pageable);
 
-	Page<UserRating> findAllUserRatings(Pageable pageable);
+	Page<UserRating> findAllUserRatings(Pageable pageable);*/
 
 	Store findStoreByRegNo(String regNo);
 
 	/*Long findReviewCountByStoreId(String storeId);*/
 
-	Page<Review> findReviewByStoreId(String storeId, Pageable pageable);
+/*	Page<Review> findReviewByStoreId(String storeId, Pageable pageable);
 
 	Page<UserRating> findUserRatingByRegNo(String regNo, Pageable pageable);
 
@@ -39,7 +39,7 @@ public interface StoreQueryService {
 	UserRating findRatingByName(String name);
 
 	Review findReviewByStoreIdAndCustomerName(String storeId, String name);
-
+*/
 	List<ResultBucket> findRatingCount(Pageable pageable);
 
 	Page<Store> findStoreByDeliveryType(String deliveryType, Pageable pageable);

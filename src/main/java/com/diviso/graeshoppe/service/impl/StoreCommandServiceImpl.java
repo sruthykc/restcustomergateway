@@ -27,7 +27,7 @@ import com.diviso.graeshoppe.client.store.api.ReviewResourceApi;
 import com.diviso.graeshoppe.client.store.api.StoreResourceApi;
 import com.diviso.graeshoppe.client.store.api.UserRatingResourceApi;
 import com.diviso.graeshoppe.client.store.api.UserRatingReviewResourceApi;
-import com.diviso.graeshoppe.client.store.domain.RatingReview;
+//import com.diviso.graeshoppe.client.store.domain.RatingReview;
 import com.diviso.graeshoppe.client.store.model.ReplyDTO;
 import com.diviso.graeshoppe.client.store.model.Review;
 import com.diviso.graeshoppe.client.store.model.ReviewDTO;
@@ -84,7 +84,7 @@ public class StoreCommandServiceImpl  implements StoreCommandService {
 	
 	
 
-	public ResponseEntity<UserRatingDTO> createUserRating( UserRatingDTO userRatingDTO) {
+	/*public ResponseEntity<UserRatingDTO> createUserRating( UserRatingDTO userRatingDTO) {
 		return this.userRatingResourceApi.createUserRatingUsingPOST(userRatingDTO);
 	}
 
@@ -96,7 +96,7 @@ public class StoreCommandServiceImpl  implements StoreCommandService {
 	
 	public ResponseEntity<Void> deleteUserRating( Long id) {
 		return this.userRatingResourceApi.deleteUserRatingUsingDELETE(id);
-	}
+	}*/
 	
 	
 	/*public ResponseEntity<Page<RatingReview>> createRatingAndReview( RatingReview ratingReview,
@@ -170,7 +170,7 @@ public class StoreCommandServiceImpl  implements StoreCommandService {
 	}
 	
 	*/
-	public ResponseEntity<ReviewDTO> createUserReview(ReviewDTO reviewDTO) {
+	/*public ResponseEntity<ReviewDTO> createUserReview(ReviewDTO reviewDTO) {
 		return this.reviewResourceApi.createReviewUsingPOST(reviewDTO);
 	}
 
@@ -182,7 +182,7 @@ public class StoreCommandServiceImpl  implements StoreCommandService {
 	
 	public ResponseEntity<Void> deleteReview(Long id) {
 		return this.reviewResourceApi.deleteReviewUsingDELETE(id);
-	}
+	}*/
 
 //working	
 public	ResponseEntity<UserRatingReviewDTO> createUserRatingReview(UserRatingReviewDTO userRatingReviewDTO){
