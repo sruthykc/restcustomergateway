@@ -2,6 +2,7 @@ package com.diviso.graeshoppe.client.store.model;
 
 import java.util.Objects;
 import com.diviso.graeshoppe.client.store.model.Review;
+import com.diviso.graeshoppe.client.store.model.UserRatingReview;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
@@ -15,7 +16,7 @@ import javax.validation.constraints.*;
  * Reply
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-11-27T11:25:44.023+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-12-02T13:57:13.442+05:30[Asia/Kolkata]")
 
 public class Reply   {
   @JsonProperty("id")
@@ -32,6 +33,9 @@ public class Reply   {
 
   @JsonProperty("userName")
   private String userName = null;
+
+  @JsonProperty("userRatingReview")
+  private UserRatingReview userRatingReview = null;
 
   public Reply id(Long id) {
     this.id = id;
@@ -135,6 +139,27 @@ public class Reply   {
     this.userName = userName;
   }
 
+  public Reply userRatingReview(UserRatingReview userRatingReview) {
+    this.userRatingReview = userRatingReview;
+    return this;
+  }
+
+  /**
+   * Get userRatingReview
+   * @return userRatingReview
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public UserRatingReview getUserRatingReview() {
+    return userRatingReview;
+  }
+
+  public void setUserRatingReview(UserRatingReview userRatingReview) {
+    this.userRatingReview = userRatingReview;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -149,12 +174,13 @@ public class Reply   {
         Objects.equals(this.repliedDate, reply.repliedDate) &&
         Objects.equals(this.reply, reply.reply) &&
         Objects.equals(this.review, reply.review) &&
-        Objects.equals(this.userName, reply.userName);
+        Objects.equals(this.userName, reply.userName) &&
+        Objects.equals(this.userRatingReview, reply.userRatingReview);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, repliedDate, reply, review, userName);
+    return Objects.hash(id, repliedDate, reply, review, userName, userRatingReview);
   }
 
   @Override
@@ -167,6 +193,7 @@ public class Reply   {
     sb.append("    reply: ").append(toIndentedString(reply)).append("\n");
     sb.append("    review: ").append(toIndentedString(review)).append("\n");
     sb.append("    userName: ").append(toIndentedString(userName)).append("\n");
+    sb.append("    userRatingReview: ").append(toIndentedString(userRatingReview)).append("\n");
     sb.append("}");
     return sb.toString();
   }
