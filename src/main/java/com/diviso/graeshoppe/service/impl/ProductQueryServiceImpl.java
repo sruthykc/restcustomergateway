@@ -372,7 +372,7 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 			
 			StockCurrent s =objectMapper.convertValue(hit.getSourceAsMap(), StockCurrent.class);
 			s.getProduct().getImageLink();
-			System.out.println("image Link issssssssssssssssssss"+s.getProduct().getImageLink());
+			//System.out.println("image Link issssssssssssssssssss"+s.getProduct().getImageLink());
 			stockCurrentList.add(objectMapper.convertValue(hit.getSourceAsMap(), StockCurrent.class));
 		}
 		

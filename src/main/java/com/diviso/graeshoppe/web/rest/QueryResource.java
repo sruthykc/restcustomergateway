@@ -58,6 +58,7 @@ import com.diviso.graeshoppe.client.store.model.StoreSettings;
 import com.diviso.graeshoppe.client.store.model.StoreType;
 import com.diviso.graeshoppe.client.store.model.Type;
 import com.diviso.graeshoppe.client.store.model.UserRating;
+import com.diviso.graeshoppe.client.store.model.UserRatingReview;
 import com.diviso.graeshoppe.client.store.model.BannerDTO;
 import com.diviso.graeshoppe.domain.ResultBucket;
 import com.diviso.graeshoppe.domain.StoreTypeWrapper;
@@ -222,7 +223,7 @@ public class QueryResource {
 		return storeQueryService.findStoreTypeAndCount(pageable);
 	}
 
-	@GetMapping("/findRatingReview/{storeId}")
+/*	@GetMapping("/findRatingReview/{storeId}")
 	public ResponseEntity<Page<RatingReview>> findRatingReviewByStoreidAndCustomerName(@PathVariable String storeId,
 			Pageable pageable) {
 		List<RatingReview> listOfRatingreview = new ArrayList<RatingReview>();
@@ -256,22 +257,55 @@ public class QueryResource {
 
 		return ResponseEntity.ok().body(page);
 
+	}*/
+
+	//refactored method
+	//change StoreId by regNo
+	@GetMapping("/findUserRatingReview/{regNo}")
+	public ResponseEntity<Page<UserRatingReview>> findUserRatingReviewByRegNo(@PathVariable String regNo,
+			Pageable pageable) {
+		Page<UserRatingReview> page	=storeQueryService.findUserRatingReviewByRegNo(regNo,pageable);
+		return ResponseEntity.ok().body(page);
+		
 	}
-
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@GetMapping("/findByLocationNear/{lat}/{lon}/{distance}/{distanceUnit}")
 	public Page<Store> findStoreBySear(@PathVariable Double lat, @PathVariable Double lon,
 			@PathVariable Double distance, @PathVariable String distanceUnit, Pageable pageable) {
 		return storeQueryService.findByLocationNear(lat, lon, distance, distanceUnit, pageable);
 	}
 
-	@GetMapping("/review-count/{storeId}")
-	public Long findReviewCountByStoreId(@PathVariable String storeId) {
-		Long l = storeQueryService.findReviewCountByStoreId(storeId);
+	@GetMapping("/review-count/{regNo}")
+	public Long findUserRatingReviewCountByRegNo(@PathVariable String regNo) {
+		Long l = storeQueryService.findUserRatingReviewCountByRegNo(regNo);
 		return l;
 	}
 
 	
+	
+
 	// List<StockCurrent> to Page<StockCurrent> 
 	
 	@GetMapping("/findStockCurrentByStoreIdAndCategoryId/{userId}/{categoryId}")
