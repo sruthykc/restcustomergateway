@@ -21,6 +21,7 @@ import com.diviso.graeshoppe.client.customer.model.Customer;
 import com.diviso.graeshoppe.client.customer.model.FavouriteProduct;
 import com.diviso.graeshoppe.client.customer.model.FavouriteStore;
 import com.diviso.graeshoppe.client.order.model.aggregator.Address;
+import com.diviso.graeshoppe.client.store.model.Store;
 import com.diviso.graeshoppe.service.CustomerQueryService;
 import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,11 +65,27 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 
 	}
 
-	@Override
+	/*@Override
 	public Page<Address> findByCustomerId(String customerId, Pageable pageable) {
+		
+		QueryBuilder dslQuery = QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery())
+				.filter(QueryBuilders.termQuery("customerId.keyword", customerId));
+		
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		// log.info("Customer Id is " + customerId);
-		searchSourceBuilder.query(termQuery("customerId.keyword", customerId));
+		searchSourceBuilder.query(dslQuery);
+		SearchResponse searchResponse = serviceUtility.searchResponseForPage("address", searchSourceBuilder, pageable);
+		return serviceUtility.getPageResult(searchResponse, pageable, new Address());
+		
+		
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+	
+		
+		//QueryBuilder dslQuery = termQuery("customerId.keyword", customerId);
+		
+		QueryBuilder dslQuery = QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery())
+				.filter(QueryBuilders.termQuery("customerId.keyword", customerId));
+		
+		searchSourceBuilder.query(dslQuery);
 
 		SearchRequest searchRequest = serviceUtility.generateSearchRequest("address", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
@@ -83,32 +100,23 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 
 	}
 
-	@Override
-	public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable) {
-
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		/*
-		 * String[] includeFields = new String[] { "iDPcode", "image" }; String[]
-		 * excludeFields = new String[] { "category.*" };
-		 * searchSourceBuilder.fetchSource(includeFields, excludeFields);
-		 */
-		searchSourceBuilder.query(matchAllQuery());
-
-		SearchRequest searchRequest = serviceUtility.generateSearchRequest("customer", pageable.getPageSize(),
-				pageable.getPageNumber(), searchSourceBuilder);
-		SearchResponse searchResponse = null;
-		try {
-			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-		} catch (IOException e) { // TODO Auto-generated
-			e.printStackTrace();
-		}
-		return serviceUtility.getPageResult(searchResponse, pageable, new Customer());
-
-	}
+	*/
 
 	@Override
 	public Page<FavouriteProduct> findFavouriteProductsByCustomerReference(String reference, Pageable pageable) {
 
+
+  QueryBuilder dslQuery = QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery())
+				.filter(QueryBuilders.termQuery("customer.reference", reference));
+				
+		
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(dslQuery);
+		SearchResponse searchResponse = serviceUtility.searchResponseForPage("favouriteproduct", searchSourceBuilder, pageable);
+		return serviceUtility.getPageResult(searchResponse, pageable,  new FavouriteProduct());
+		
+	
+	/*	
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 		searchSourceBuilder.query(matchQuery("customer.reference", reference));
@@ -122,12 +130,21 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 			e.printStackTrace();
 		}
 
-		return serviceUtility.getPageResult(searchResponse, pageable, new FavouriteProduct());
+		return serviceUtility.getPageResult(searchResponse, pageable, new FavouriteProduct());*/
 	}
 
 	@Override
 	public Page<FavouriteStore> findFavouriteStoresByCustomerReference(String reference, Pageable pageable) {
 
+		 QueryBuilder dslQuery = QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery())
+					.filter(QueryBuilders.termQuery("customer.reference", reference));
+					
+			
+			SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+			searchSourceBuilder.query(dslQuery);
+			SearchResponse searchResponse = serviceUtility.searchResponseForPage("favouritestore", searchSourceBuilder, pageable);
+			return serviceUtility.getPageResult(searchResponse, pageable,  new FavouriteStore());
+			/*
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 		searchSourceBuilder.query(matchQuery("customer.reference", reference));
@@ -141,7 +158,7 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 			e.printStackTrace();
 		}
 
-		return serviceUtility.getPageResult(searchResponse, pageable, new FavouriteStore());
+		return serviceUtility.getPageResult(searchResponse, pageable, new FavouriteStore());*/
 	}
 
 }

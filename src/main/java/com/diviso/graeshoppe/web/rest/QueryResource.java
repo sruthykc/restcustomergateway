@@ -160,7 +160,7 @@ public class QueryResource {
 			@PathVariable String storeId, Pageable pageable) {
 		return productQueryService.findStockCurrentByProductName(name, storeId, pageable);
 	}
-	
+
 	@GetMapping("/stock-current-by-categoryname/{categoryName}/{storeId}")
 	public Page<StockCurrent> findStockCurrentByCategoryNameAndStoreId(@PathVariable String categoryName,
 			@PathVariable String storeId, Pageable pageable) {
@@ -173,7 +173,7 @@ public class QueryResource {
 
 		return storeQueryService.findAndSortStoreByMinAount(pageable);
 	}
-	
+
 	@GetMapping("/contacts/{id}")
 	public ResponseEntity<ContactDTO> findContactById(@PathVariable Long id) {
 		return this.contactResourceApi.getContactUsingGET(id);
@@ -206,7 +206,6 @@ public class QueryResource {
 		return ResponseEntity.ok().body(productQueryService.findStockCurrentByStoreId(storeId, pageable));
 	}
 
-
 	@GetMapping("/findCategoryAndCountBystoreId/{storeId}")
 	public List<ResultBucket> findCategoryAndCountBystoreId(@PathVariable String storeId, Pageable pageable) {
 
@@ -223,74 +222,16 @@ public class QueryResource {
 		return storeQueryService.findStoreTypeAndCount(pageable);
 	}
 
-/*	@GetMapping("/findRatingReview/{storeId}")
-	public ResponseEntity<Page<RatingReview>> findRatingReviewByStoreidAndCustomerName(@PathVariable String storeId,
-			Pageable pageable) {
-		List<RatingReview> listOfRatingreview = new ArrayList<RatingReview>();
-
-		List<com.diviso.graeshoppe.client.customer.model.Customer> customerList = customerQueryService
-				.findAllCustomersWithoutSearch(pageable).getContent();
-
-		for (com.diviso.graeshoppe.client.customer.model.Customer c : customerList) {
-
-			UserRating rating = storeQueryService.findRatingByStoreIdAndCustomerName(storeId, c.getIdpCode());
-
-			Review review = storeQueryService.findReviewByStoreIdAndCustomerName(storeId, c.getIdpCode());
-
-			if (rating != null) {
-
-				RatingReview ratingReview = new RatingReview();
-
-				ratingReview.setRating(userRatingResourceApi.modelToDtoUsingPOST1(rating).getBody());
-
-				if (review != null) {
-
-					ratingReview.setReview(reviewResourceApi.modelToDtoUsingPOST(review).getBody());
-
-				}
-
-				listOfRatingreview.add(ratingReview);
-			}
-		}
-
-		Page<RatingReview> page = new PageImpl(listOfRatingreview);
-
-		return ResponseEntity.ok().body(page);
-
-	}*/
-
-	//refactored method
-	//change StoreId by regNo
+	// refactored method
+	// change StoreId by regNo
 	@GetMapping("/findUserRatingReview/{regNo}")
 	public ResponseEntity<Page<UserRatingReview>> findUserRatingReviewByRegNo(@PathVariable String regNo,
 			Pageable pageable) {
-		Page<UserRatingReview> page	=storeQueryService.findUserRatingReviewByRegNo(regNo,pageable);
+		Page<UserRatingReview> page = storeQueryService.findUserRatingReviewByRegNo(regNo, pageable);
 		return ResponseEntity.ok().body(page);
-		
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	@GetMapping("/findByLocationNear/{lat}/{lon}/{distance}/{distanceUnit}")
 	public Page<Store> findStoreBySear(@PathVariable Double lat, @PathVariable Double lon,
 			@PathVariable Double distance, @PathVariable String distanceUnit, Pageable pageable) {
@@ -303,11 +244,8 @@ public class QueryResource {
 		return l;
 	}
 
-	
-	
+	// List<StockCurrent> to Page<StockCurrent>
 
-	// List<StockCurrent> to Page<StockCurrent> 
-	
 	@GetMapping("/findStockCurrentByStoreIdAndCategoryId/{userId}/{categoryId}")
 	public List<StockCurrent> findStockCurrentByStoreIdAndCategoryId(@PathVariable("userId") String userId,
 			@PathVariable("categoryId") Long categoryId, Pageable pageable) {
@@ -401,11 +339,11 @@ public class QueryResource {
 
 	}
 
-	
 	@GetMapping("/orders/addresses/{customerId}")
 	public Page<Address> getAllSavedAddress(@PathVariable String customerId, Pageable pageable) {
-		return orderQueryService.findAllSavedAddresses(customerId,pageable);
+		return orderQueryService.findAllSavedAddresses(customerId, pageable);
 	}
+
 	@GetMapping("/orderStatus/{statusName}")
 	public Page<Order> findOrderByStatusName(@PathVariable String statusName, Pageable pageable) {
 		return orderQueryService.findOrderByStatusName(statusName, pageable);
@@ -428,12 +366,13 @@ public class QueryResource {
 	}
 
 	@PostMapping("/facetSearchByStoreTypeName")
-	public Page<StoreType> facetSearchByStoreTypeName(@RequestBody StoreTypeWrapper storeTypeWrapper, Pageable pageable) {
+	public Page<StoreType> facetSearchByStoreTypeName(@RequestBody StoreTypeWrapper storeTypeWrapper,
+			Pageable pageable) {
 
-	
 		return storeQueryService.facetSearchByStoreTypeName(storeTypeWrapper, pageable);
-	
+
 	}
+
 	@GetMapping("/favouriteproductsbycustomerreference/{reference}")
 	public Page<FavouriteProduct> findFavouriteProductsByCustomerReference(@PathVariable String reference,
 			Pageable pageable) {

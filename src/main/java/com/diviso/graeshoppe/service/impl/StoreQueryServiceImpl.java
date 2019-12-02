@@ -166,33 +166,6 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	
 	
 	
-	/*@Override
-	public Page<Review> findReviewByStoreId(String storeId, Pageable pageable) {
-
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(termQuery("store.regNo.keyword", storeId));
-		SearchResponse searchResponse = serviceUtility.searchResponseForPage("review", searchSourceBuilder, pageable);
-
-		return serviceUtility.getPageResult(searchResponse, pageable, new Review());
-	}
-
-	@Override
-	public Page<UserRating> findUserRatingByRegNo(String regNo, Pageable pageable) {
-
-		
-		 * String[] includeFields = new String[] { "iDPcode"}; String[] excludeFields =
-		 * new String[] { "category.*" }; searchSourceBuilder.fetchSource(includeFields,
-		 * excludeFields);
-		 
-
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(termQuery("store.regNo.keyword", regNo));
-		SearchResponse searchResponse = serviceUtility.searchResponseForPage("userrating", searchSourceBuilder, pageable);
-
-		return serviceUtility.getPageResult(searchResponse, pageable, new UserRating());
-
-	}
-*/
 	@Override
 	public List<ResultBucket> findStoreTypeAndCount(Pageable pageable) {
 		List<ResultBucket> resultBucketList = new ArrayList<>();
@@ -229,42 +202,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 	}
 
-	/*@Override
-	public UserRating findRatingByStoreIdAndCustomerName(String storeId, String name) {
-
-		QueryBuilder dslQuery = QueryBuilders.boolQuery().must(QueryBuilders.termQuery("store.regNo.keyword", storeId))
-				.must(QueryBuilders.termQuery("userName.keyword", name));
-		SearchResponse searchResponse = serviceUtility.searchResponseForObject("userrating", dslQuery);
-
-		return serviceUtility.getObjectResult(searchResponse, new UserRating());
-
-	}
-
-	@Override
-	public UserRating findRatingByStoreId(String storeId) {
-
-		QueryBuilder dslQuery = QueryBuilders.boolQuery().must(QueryBuilders.termQuery("store.regNo.keyword", storeId));
-		SearchResponse searchResponse = serviceUtility.searchResponseForObject("userrating", dslQuery);
-		return serviceUtility.getObjectResult(searchResponse, new UserRating());
-
-	}
-
-	@Override
-	public UserRating findRatingByName(String name) {
-
-		QueryBuilder dslQuery = QueryBuilders.termQuery("userName.keyword", name);
-		SearchResponse searchResponse = serviceUtility.searchResponseForObject("userrating", dslQuery);
-		return serviceUtility.getObjectResult(searchResponse, new UserRating());
-	}
-*/
-	/*@Override
-	public Review findReviewByStoreIdAndCustomerName(String storeId, String name) {
-
-		QueryBuilder dslQuery = QueryBuilders.boolQuery().must(QueryBuilders.termQuery("store.regNo.keyword", storeId))
-				.must(QueryBuilders.termQuery("userName.keyword", name));
-		SearchResponse searchResponse = serviceUtility.searchResponseForObject("review", dslQuery);
-		return serviceUtility.getObjectResult(searchResponse, new Review());
-	}*/
+	
 
 	@Override
 	public List<ResultBucket> findRatingCount(Pageable pageable) {

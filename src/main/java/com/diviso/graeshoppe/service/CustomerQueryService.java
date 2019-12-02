@@ -12,9 +12,7 @@ public interface CustomerQueryService {
 
 	Customer findCustomerByReference(String reference);
 
-	Page<Address> findByCustomerId(String customerId, Pageable pageable);
-
-	Page<Customer> findAllCustomersWithoutSearch(Pageable pageable);
+	/*Page<Address> findByCustomerId(String customerId, Pageable pageable);*/
 
 	Page<FavouriteProduct> findFavouriteProductsByCustomerReference(String reference, Pageable pageable);
 
