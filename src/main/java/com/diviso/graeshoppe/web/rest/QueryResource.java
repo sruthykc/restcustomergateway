@@ -297,7 +297,7 @@ public class QueryResource {
 		return storeQueryService.findByLocationNear(lat, lon, distance, distanceUnit, pageable);
 	}
 
-	@GetMapping("/review-count/{storeId}")
+	@GetMapping("/review-count/{regNo}")
 	public Long findUserRatingReviewCountByRegNo(@PathVariable String regNo) {
 		Long l = storeQueryService.findUserRatingReviewCountByRegNo(regNo);
 		return l;
