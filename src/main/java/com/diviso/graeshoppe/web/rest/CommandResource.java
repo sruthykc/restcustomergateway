@@ -288,10 +288,10 @@ public class CommandResource {
 		return storeCommandService.deleteReview(id);
 	}
 
-	@PostMapping("/rating-review")
+	/*@PostMapping("/rating-review")
 	public ResponseEntity<Page<RatingReview>> createRatingAndReview(@RequestBody RatingReview ratingReview,
 			Pageable pageable) {
-
+*/
 		/*
 		 * UserRatingDTO userRatingDTO = ratingReview.getRating();
 		 * log.info(">>>>>>>>>>>>>>>>>>>>>>>>ratingdto>>>>>>>>>>>>>>>>>>>>>>  " +
@@ -364,9 +364,9 @@ public class CommandResource {
 		 * queryResource.findRatingReviewByStoreidAndCustomerName(store.getRegNo(),
 		 * pageable);
 		 */
-		return storeCommandService.createRatingAndReview(ratingReview, pageable);
+	/*	return storeCommandService.createRatingAndReview(ratingReview, pageable);
 	}
-	
+	*/
 	
 	public	ResponseEntity<UserRatingReviewDTO> createUserRatingReview(@RequestBody UserRatingReviewDTO userRatingReviewDTO){
 	return  storeCommandService.createUserRatingReview(userRatingReviewDTO);
