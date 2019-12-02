@@ -129,7 +129,7 @@ spring:
                 enabled: true
 
 server:
-    port: 8099
+    port: 8070
 
 # ===================================================================
 # JHipster specific properties
