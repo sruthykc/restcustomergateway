@@ -104,20 +104,14 @@ public class QueryResource {
 	@Autowired
 	private StockCurrentResourceApi stockCurrentResourceApi;
 
-	@Autowired
-	private UserRatingResourceApi userRatingResourceApi;
+	
+
+
+	
+
 
 	@Autowired
-	private ReviewResourceApi reviewResourceApi;
-
-	@Autowired
-	private BannerResourceApi BannerResourceApi;
-
-	@Autowired
-	private StoreTypeResourceApi storeTypeResourceApi;
-
-	@Autowired
-	com.diviso.graeshoppe.client.report.api.QueryResourceApi queryResource;
+	com.diviso.graeshoppe.client.report.api.QueryResourceApi reportQueryResourceApi;
 
 	@Autowired
 	private OrderQueryResourceApi orderQueryResourceApi;
@@ -295,7 +289,8 @@ public class QueryResource {
 	public Page<StoreType> findStoreTypeByStoreId(@PathVariable String storeId, Pageable pageable) {
 		return storeQueryService.findStoreTypeByStoreId(storeId, pageable);
 	}
-
+	
+	@GetMapping("/stores/banners")
 	public Page<Banner> findStoreBanner(Pageable pageable){
 		
 		return storeQueryService.findStoreBanner(pageable);
@@ -303,14 +298,7 @@ public class QueryResource {
 	
 	
 	
-	
-	/*@GetMapping("/stores/banners")
-	public ResponseEntity<List<BannerDTO>> findStoreBanners(@RequestParam(required = false) Integer page,
-			@RequestParam(required = false) Integer size,
-			@RequestParam(value = "sort", required = false) ArrayList<String> sort) {
-		return BannerResourceApi.getAllBannersUsingGET(page, size, sort);
 
-	}*/
 
 	@GetMapping("/tasks")
 	public ResponseEntity<List<OpenTask>> getTasks(@RequestParam(required = false) String assignee,
@@ -424,7 +412,7 @@ public class QueryResource {
 
 	@GetMapping("/orderaggregator/{orderNumber}")
 	public ResponseEntity<OrderAggregator> getOrderAggregator(@PathVariable String orderNumber) {
-		return queryResource.getOrderAggregatorUsingGET(orderNumber);
+		return reportQueryResourceApi.getOrderAggregatorUsingGET(orderNumber);
 	}
 
 }
