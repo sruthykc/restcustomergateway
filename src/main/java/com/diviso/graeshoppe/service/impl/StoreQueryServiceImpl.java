@@ -612,9 +612,10 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		List<StoreType> storeTypeList = serviceUtility.getPageResult(searchResponse, pageable, new StoreType())
 				.getContent();
-		List<Store> storeList = new ArrayList<>();
-		storeTypeList.forEach((storeType) -> storeList.add(storeType.getStore()));
-
+		Set<Store> storeSet = new HashSet();
+		storeTypeList.forEach((storeType) -> storeSet.add(storeType.getStore()));
+		List<Store>  storeList = new ArrayList<>();
+		storeList.addAll(storeList);
 		return new PageImpl(storeList);
 
 	}
