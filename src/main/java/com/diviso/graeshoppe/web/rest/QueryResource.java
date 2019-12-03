@@ -363,7 +363,7 @@ public class QueryResource {
 	}
 
 	@PostMapping("/facetSearchByStoreTypeName")
-	public Page<StoreType> facetSearchByStoreTypeName(@RequestBody StoreTypeWrapper storeTypeWrapper,
+	public Page<Store> facetSearchByStoreTypeName(@RequestBody StoreTypeWrapper storeTypeWrapper,
 			Pageable pageable) {
 
 		return storeQueryService.facetSearchByStoreTypeName(storeTypeWrapper, pageable);
