@@ -612,10 +612,20 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
 		List<StoreType> storeTypeList = serviceUtility.getPageResult(searchResponse, pageable, new StoreType())
 				.getContent();
+		System.out.println("storeTypeListsizeeeeeeee"+storeTypeList.size());
 		Set<Store> storeSet = new HashSet();
-		storeTypeList.forEach((storeType) -> storeSet.add(storeType.getStore()));
+		/*storeTypeList.forEach((storeType) ->
+		storeSet.add(storeType.getStore())
+		
+		);*/
+		for(StoreType storeType : storeTypeList) {
+			storeSet.add(storeType.getStore());
+			System.out.println("storeSet.sidddddddddd"+storeSet.size());
+		}
 		List<Store>  storeList = new ArrayList<>();
 		storeList.addAll(storeList);
+		System.out.println("storeListiiiiiiiiiiiiiii"+storeList.size());
+		 
 		return new PageImpl(storeList);
 
 	}

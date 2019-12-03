@@ -91,7 +91,7 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 		searchSourceBuilder.query(dslQuery);
-		searchSourceBuilder.sort(new FieldSortBuilder("orderId").order(SortOrder.ASC));
+		//searchSourceBuilder.sort(new FieldSortBuilder("orderId").order(SortOrder.ASC));
 		SearchRequest searchRequest = serviceUtility.generateSearchRequest("order", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;
