@@ -166,7 +166,7 @@ public class QueryResource {
 	@GetMapping("/sortStoreByMinAmount")
 	public Page<Store> findAndSortStoreByMinAmount(Pageable pageable) {
 
-		return storeQueryService.findAndSortStoreByMinAount(pageable);
+		return storeQueryService.findAndSortStoreByMinAmount(pageable);
 	}
 
 	@GetMapping("/contacts/{id}")

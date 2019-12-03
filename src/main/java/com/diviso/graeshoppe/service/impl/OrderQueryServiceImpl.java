@@ -1,5 +1,6 @@
 package com.diviso.graeshoppe.service.impl;
 
+import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
@@ -30,10 +31,12 @@ import com.diviso.graeshoppe.client.order.model.aggregator.Address;
 import com.diviso.graeshoppe.client.order.model.aggregator.AuxilaryOrderLine;
 import com.diviso.graeshoppe.client.order.model.aggregator.Order;
 import com.diviso.graeshoppe.client.order.model.aggregator.OrderLine;
+import com.diviso.graeshoppe.client.store.model.Store;
 import com.diviso.graeshoppe.client.order.model.aggregator.Notification;
 import com.diviso.graeshoppe.service.OrderQueryService;
 import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.elasticsearch.index.query.QueryBuilder;
 
 @Service
 public class OrderQueryServiceImpl implements OrderQueryService {
@@ -51,7 +54,19 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 
 	@Override
 	public Order findById(Long id) {
+		
+
+		QueryBuilder dslQuery = QueryBuilders.boolQuery().must(matchAllQuery())
+				.filter(termQuery("id", id));
+
+		
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(dslQuery);
+		SearchResponse searchResponse = serviceUtility.searchResponseForObject("order", dslQuery);
+
+		return serviceUtility.getObjectResult(searchResponse, new Order());
+		
+		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
 		searchSourceBuilder.query(termQuery("id", id));
 
@@ -64,16 +79,19 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 			e.printStackTrace();
 		}
 
-		return serviceUtility.getObjectResult(searchResponse, new Order());
+		return serviceUtility.getObjectResult(searchResponse, new Order());*/
 
 	}
 
 	@Override
 	public Page<Order> findOrderByCustomerId(String customerId, Pageable pageable) {
+		
+		QueryBuilder dslQuery = termQuery("customerId.keyword", customerId) ;
+		
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-		searchSourceBuilder.query(termQuery("customerId.keyword", customerId));
-
+		searchSourceBuilder.query(dslQuery);
+		searchSourceBuilder.sort(new FieldSortBuilder("orderId").order(SortOrder.ASC));
 		SearchRequest searchRequest = serviceUtility.generateSearchRequest("order", pageable.getPageSize(),
 				pageable.getPageNumber(), searchSourceBuilder);
 		SearchResponse searchResponse = null;

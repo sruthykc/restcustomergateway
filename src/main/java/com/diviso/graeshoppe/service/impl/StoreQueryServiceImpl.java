@@ -424,11 +424,11 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	}
 
 	@Override
-	public Page<Store> findAndSortStoreByMinAount(Pageable pageable) {
+	public Page<Store> findAndSortStoreByMinAmount(Pageable pageable) {
 		QueryBuilder dslQuery = matchAllQuery();
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 		searchSourceBuilder.query(dslQuery);
-		searchSourceBuilder.sort(new FieldSortBuilder("minAmount").order(SortOrder.DESC));
+		searchSourceBuilder.sort(new FieldSortBuilder("minAmount").order(SortOrder.ASC));
 		SearchResponse searchResponse = serviceUtility.searchResponseForPage("store", searchSourceBuilder, pageable);
 
 		return serviceUtility.getPageResult(searchResponse, pageable, new Store());

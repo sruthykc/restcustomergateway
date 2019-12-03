@@ -47,7 +47,7 @@ public interface StoreQueryService {
 
 	Page<Store> findStoreByLocationName(String locationName, Pageable pageable);
 
-	Page<Store> findAndSortStoreByMinAount(Pageable pageable);
+	Page<Store> findAndSortStoreByMinAmount(Pageable pageable);
 
 	Page<StoreType> findStoreTypeByStoreId(String storeId, Pageable pageable);
 
