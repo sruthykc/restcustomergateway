@@ -101,9 +101,9 @@ public class QueryResource {
 		return customerQueryService.findByMobileNumber(mobileNumber);
 	}
 
-	@GetMapping("/customers/findByReference/{reference}")
-	public CustomerDTO findCustomerByReference(@PathVariable String reference) {
-		return customerQueryService.findCustomerDTOByReference(reference);
+	@GetMapping("/customers/findByReference/{idpCode}")
+	public ResponseEntity<ContactDTO> findCustomerByReference(@PathVariable String idpCode) {
+		return customerQueryService.findCustomerDTOByIdpCode(idpCode);
 	}
 
 	@GetMapping("/contacts/{id}")

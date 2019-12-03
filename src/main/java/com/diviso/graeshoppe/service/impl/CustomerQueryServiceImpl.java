@@ -29,7 +29,7 @@ import com.diviso.graeshoppe.client.customer.model.FavouriteStore;
 import com.diviso.graeshoppe.client.order.model.aggregator.Address;
 import com.diviso.graeshoppe.client.store.model.Store;
 import com.diviso.graeshoppe.service.CustomerQueryService;
-import com.diviso.graeshoppe.service.mapper.CustomerMapper;
+
 import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -41,8 +41,7 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 	CustomerResourceApi customerResourceApi;
 	@Autowired
 	ContactResourceApi contactResourceApi;
-	@Autowired
-	CustomerMapper customerMapper;
+	
 	private RestHighLevelClient restHighLevelClient;
 	
 	
@@ -179,10 +178,9 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 	public ResponseEntity<CustomerDTO> findByMobileNumber(Long mobileNumber){
 		return customerResourceApi.findByMobileNumberUsingGET(mobileNumber);
 	}
-	public CustomerDTO findCustomerDTOByReference( String reference) {
-		//return customerResourceApi.modelToDtoUsingPOST(findCustomerByReference(reference));
-	Customer customer =	findCustomerByIdpCode(reference);
-	return customerMapper.toDto(customer);
+	public  ResponseEntity<CustomerDTO> findCustomerDTOByIdpCode( String idpCode) {
+		return customerResourceApi.modelToDtoUsingPOST(findCustomerByIdpCode(idpCode));
+
 	
 	}
 	public ResponseEntity<ContactDTO> findContactById(Long id){
