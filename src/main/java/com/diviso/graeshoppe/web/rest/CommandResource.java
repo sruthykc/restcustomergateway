@@ -83,46 +83,7 @@ public class CommandResource {
 	@Autowired
 	private StoreCommandService storeCommandService;
 
-	/*
-	 * @Autowired private ContactResourceApi contactResourceApi;
-	 */
-	/*
-	 * @Autowired private CustomerResourceApi customerResourceApi;
-	 */
-	/*
-	 * @Autowired private StoreResourceApi storeResourceApi;
-	 */
-
-	/*
-	 * @Autowired private ReplyResourceApi replyResourceApi;
-	 */
-
-	/*
-	 * @Autowired private UserRatingResourceApi userRatingResourceApi;
-	 */
-
-	/*
-	 * @Autowired private ReviewResourceApi reviewResourceApi;
-	 */
-
-	/*
-	 * @Autowired FavouriteProductResourceApi favouriteProductResourceApi;
-	 */
-
-	/*
-	 * @Autowired FavouriteStoreResourceApi favouriteStoreResourceApi;
-	 */
-	/*
-	 * @Autowired QueryService queryService;
-	 */
-
-	/*
-	 * @Autowired StoreQueryService storeQueryService;
-	 */
-
-	/*
-	 * @Autowired QueryResource queryResource;
-	 */
+	
 
 	@Autowired
 	private PaymentCommandService paymentCommandService;

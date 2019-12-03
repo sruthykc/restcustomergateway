@@ -15,14 +15,21 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
+import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
+import com.diviso.graeshoppe.client.customer.model.ContactDTO;
 import com.diviso.graeshoppe.client.customer.model.Customer;
+import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
 import com.diviso.graeshoppe.client.customer.model.FavouriteProduct;
 import com.diviso.graeshoppe.client.customer.model.FavouriteStore;
 import com.diviso.graeshoppe.client.order.model.aggregator.Address;
 import com.diviso.graeshoppe.client.store.model.Store;
 import com.diviso.graeshoppe.service.CustomerQueryService;
+import com.diviso.graeshoppe.service.mapper.CustomerMapper;
 import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,7 +37,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class CustomerQueryServiceImpl implements CustomerQueryService {
 	@Autowired
 	ServiceUtility serviceUtility;
+	@Autowired
+	CustomerResourceApi customerResourceApi;
+	@Autowired
+	ContactResourceApi contactResourceApi;
+	@Autowired
+	CustomerMapper customerMapper;
 	private RestHighLevelClient restHighLevelClient;
+	
+	
 
 	private ObjectMapper objectMapper;
 
@@ -38,7 +53,7 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 		this.objectMapper = objectMapper;
 		this.restHighLevelClient = restHighLevelClient;
 	}
-
+	
 	@Override
 	public Customer findCustomerByReference(String reference) {
 		
@@ -160,6 +175,21 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 
 		return serviceUtility.getPageResult(searchResponse, pageable, new FavouriteStore());*/
 	}
-
+	
+	public ResponseEntity<CustomerDTO> findByMobileNumber(Long mobileNumber){
+		return customerResourceApi.findByMobileNumberUsingGET(mobileNumber);
+	}
+	public CustomerDTO findCustomerDTOByReference( String reference) {
+		//return customerResourceApi.modelToDtoUsingPOST(findCustomerByReference(reference));
+	Customer customer =	findCustomerByReference(reference);
+	return customerMapper.toDto(customer);
+	
+	}
+	public ResponseEntity<ContactDTO> findContactById(Long id){
+		return contactResourceApi.getContactUsingGET(id);
+	}
+	public ResponseEntity<Boolean> checkUserExists(String reference){
+		return customerResourceApi.checkUserExistsUsingGET(reference);
+	}
 }
 

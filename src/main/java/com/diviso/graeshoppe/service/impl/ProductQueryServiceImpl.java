@@ -28,13 +28,16 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.ComboLineItem;
 import com.diviso.graeshoppe.client.product.model.Discount;
 import com.diviso.graeshoppe.client.product.model.Product;
+import com.diviso.graeshoppe.client.product.model.ProductDTO;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.domain.ResultBucket;
 import com.diviso.graeshoppe.service.ProductQueryService;
@@ -46,6 +49,8 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 
 	@Autowired
 	ServiceUtility serviceUtility;
+	@Autowired
+	ProductResourceApi productResourceApi;
 
 	private RestHighLevelClient restHighLevelClient;
 
@@ -584,6 +589,9 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 
 		return serviceUtility.getObjectResult(searchResponse, new Product()).getDiscount();
 
+	}
+	public ResponseEntity<ProductDTO> findProductDTO( Long id){
+		return productResourceApi.getProductUsingGET(id);
 	}
 
 }

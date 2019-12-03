@@ -5,12 +5,15 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.ComboLineItem;
 import com.diviso.graeshoppe.client.product.model.Discount;
 import com.diviso.graeshoppe.client.product.model.Product;
+import com.diviso.graeshoppe.client.product.model.ProductDTO;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.domain.ResultBucket;
 
@@ -55,7 +58,8 @@ public interface ProductQueryService {
 	Page<ComboLineItem> findAllCombosByProductId(Long productId, Pageable pageable);
 
 	Discount findDiscountByProductId(Long productId);
-
+	
+	public ResponseEntity<ProductDTO> findProductDTO( Long id);
 
 	
 	
