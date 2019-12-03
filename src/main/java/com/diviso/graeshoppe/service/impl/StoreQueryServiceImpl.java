@@ -623,7 +623,7 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 			System.out.println("storeSet.sidddddddddd"+storeSet.size());
 		}
 		List<Store>  storeList = new ArrayList<>();
-		storeList.addAll(storeList);
+		storeList.addAll(storeSet);
 		System.out.println("storeListiiiiiiiiiiiiiii"+storeList.size());
 		 
 		return new PageImpl(storeList);
