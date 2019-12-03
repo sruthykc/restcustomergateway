@@ -102,7 +102,7 @@ public class QueryResource {
 	}
 
 	@GetMapping("/customers/findByReference/{idpCode}")
-	public ResponseEntity<ContactDTO> findCustomerByReference(@PathVariable String idpCode) {
+	public ResponseEntity<CustomerDTO> findCustomerByReference(@PathVariable String idpCode) {
 		return customerQueryService.findCustomerDTOByIdpCode(idpCode);
 	}
 
