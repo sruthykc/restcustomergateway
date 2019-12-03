@@ -59,6 +59,7 @@ import com.diviso.graeshoppe.client.store.model.StoreType;
 import com.diviso.graeshoppe.client.store.model.Type;
 import com.diviso.graeshoppe.client.store.model.UserRating;
 import com.diviso.graeshoppe.client.store.model.UserRatingReview;
+import com.diviso.graeshoppe.client.store.model.Banner;
 import com.diviso.graeshoppe.client.store.model.BannerDTO;
 import com.diviso.graeshoppe.domain.ResultBucket;
 import com.diviso.graeshoppe.domain.StoreTypeWrapper;
@@ -169,7 +170,7 @@ public class QueryResource {
 	}
 
 	@GetMapping("/sortStoreByMinAmount")
-	public Page<Store> findAndSortStoreBydeliveryTime(Pageable pageable) {
+	public Page<Store> findAndSortStoreByMinAmount(Pageable pageable) {
 
 		return storeQueryService.findAndSortStoreByMinAount(pageable);
 	}
@@ -232,8 +233,8 @@ public class QueryResource {
 
 	}
 
-	@GetMapping("/findByLocationNear/{lat}/{lon}/{distance}/{distanceUnit}")
-	public Page<Store> findStoreBySear(@PathVariable Double lat, @PathVariable Double lon,
+	@GetMapping("/findStoreByNearLocation/{lat}/{lon}/{distance}/{distanceUnit}")
+	public Page<Store> findStoreByNearLocation(@PathVariable Double lat, @PathVariable Double lon,
 			@PathVariable Double distance, @PathVariable String distanceUnit, Pageable pageable) {
 		return storeQueryService.findByLocationNear(lat, lon, distance, distanceUnit, pageable);
 	}
@@ -295,13 +296,21 @@ public class QueryResource {
 		return storeQueryService.findStoreTypeByStoreId(storeId, pageable);
 	}
 
-	@GetMapping("/stores/banners")
+	public Page<Banner> findStoreBanner(Pageable pageable){
+		
+		return storeQueryService.findStoreBanner(pageable);
+	}
+	
+	
+	
+	
+	/*@GetMapping("/stores/banners")
 	public ResponseEntity<List<BannerDTO>> findStoreBanners(@RequestParam(required = false) Integer page,
 			@RequestParam(required = false) Integer size,
 			@RequestParam(value = "sort", required = false) ArrayList<String> sort) {
 		return BannerResourceApi.getAllBannersUsingGET(page, size, sort);
 
-	}
+	}*/
 
 	@GetMapping("/tasks")
 	public ResponseEntity<List<OpenTask>> getTasks(@RequestParam(required = false) String assignee,

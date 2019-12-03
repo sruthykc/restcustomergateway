@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.diviso.graeshoppe.client.store.model.Banner;
 import com.diviso.graeshoppe.client.store.model.DeliveryInfo;
 import com.diviso.graeshoppe.client.store.model.Review;
 import com.diviso.graeshoppe.client.store.model.Store;
@@ -26,25 +27,11 @@ public interface StoreQueryService {
 
 	Store findStoreByRegNo(String regNo);
 
-	/*Long findReviewCountByStoreId(String storeId);*/
-
-/*	Page<Review> findReviewByStoreId(String storeId, Pageable pageable);
-
-	Page<UserRating> findUserRatingByRegNo(String regNo, Pageable pageable);
-
-	UserRating findRatingByStoreIdAndCustomerName(String storeId, String name);
-
-	UserRating findRatingByStoreId(String storeId);
-
-	UserRating findRatingByName(String name);
-
-	Review findReviewByStoreIdAndCustomerName(String storeId, String name);
-*/
 	List<ResultBucket> findRatingCount(Pageable pageable);
 
 	Page<Store> findStoreByDeliveryType(String deliveryType, Pageable pageable);
 
-	Page<Store> findStoreByType(String name, Pageable pageable);
+	//Page<Store> findStoreByType(String name, Pageable pageable);
 
 	Page<Store> findStoreByTypeName(String name, Pageable pageable);
 
@@ -82,5 +69,7 @@ public interface StoreQueryService {
 
 	Page<UserRatingReview> findUserRatingReviewByRegNo(String regNo, Pageable pageable);
 	 Long findUserRatingReviewCountByRegNo(String regNo);
+
+	Page<Banner> findStoreBanner(Pageable pageable);
 
 }
