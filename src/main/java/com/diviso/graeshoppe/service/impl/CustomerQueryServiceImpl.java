@@ -55,7 +55,7 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 	}
 	
 	@Override
-	public Customer findCustomerByReference(String reference) {
+	public Customer findCustomerByIdpCode(String idpCode) {
 		
 		/*SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
@@ -71,7 +71,7 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 		}*/
 		
 		QueryBuilder dslQuery = QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery())
-			.filter(QueryBuilders.termQuery("idpCode.keyword", reference));
+			.filter(QueryBuilders.termQuery("idpCode.keyword", idpCode));
 
 		
 	//	QueryBuilder dslQuery = termQuery("idpCode.keyword", reference);
@@ -181,7 +181,7 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 	}
 	public CustomerDTO findCustomerDTOByReference( String reference) {
 		//return customerResourceApi.modelToDtoUsingPOST(findCustomerByReference(reference));
-	Customer customer =	findCustomerByReference(reference);
+	Customer customer =	findCustomerByIdpCode(reference);
 	return customerMapper.toDto(customer);
 	
 	}

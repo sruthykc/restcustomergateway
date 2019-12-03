@@ -17,43 +17,43 @@ import javax.validation.constraints.*;
 /**
  * Customer
  */
-@Validated
+/*@Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-11-27T10:26:27.966+05:30[Asia/Kolkata]")
-
+*/
 public class Customer   {
-  @JsonProperty("contact")
+  //@JsonProperty("contact")
   private Contact contact = null;
 
-  @JsonProperty("customerUniqueId")
+  //@JsonProperty("customerUniqueId")
   private String customerUniqueId = null;
 
-  @JsonProperty("favouriteproducts")
-  @Valid
+  //  @JsonProperty("favouriteproducts")
+  // @Valid
   private List<FavouriteProduct> favouriteproducts = null;
 
-  @JsonProperty("favouritestores")
-  @Valid
+  //  @JsonProperty("favouritestores")
+  // @Valid
   private List<FavouriteStore> favouritestores = null;
 
-  @JsonProperty("id")
+  // @JsonProperty("id")
   private Long id = null;
 
-  @JsonProperty("idpCode")
+  // @JsonProperty("idpCode")
   private String idpCode = null;
 
-  @JsonProperty("idpSub")
+  // @JsonProperty("idpSub")
   private String idpSub = null;
 
-  @JsonProperty("image")
+  // @JsonProperty("image")
   private byte[] image = null;
 
-  @JsonProperty("imageContentType")
+  //@JsonProperty("imageContentType")
   private String imageContentType = null;
 
-  @JsonProperty("imageLink")
+  // @JsonProperty("imageLink")
   private String imageLink = null;
 
-  @JsonProperty("name")
+  // @JsonProperty("name")
   private String name = null;
 
   public Customer contact(Contact contact) {
@@ -65,9 +65,9 @@ public class Customer   {
    * Get contact
    * @return contact
   **/
-  @ApiModelProperty(value = "")
+  // @ApiModelProperty(value = "")
 
-  @Valid
+  // @Valid
 
   public Contact getContact() {
     return contact;
@@ -86,8 +86,8 @@ public class Customer   {
    * Get customerUniqueId
    * @return customerUniqueId
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  // @ApiModelProperty(required = true, value = "")
+  // @NotNull
 
 
   public String getCustomerUniqueId() {
@@ -115,9 +115,9 @@ public class Customer   {
    * Get favouriteproducts
    * @return favouriteproducts
   **/
-  @ApiModelProperty(value = "")
+  // @ApiModelProperty(value = "")
 
-  @Valid
+  //  @Valid
 
   public List<FavouriteProduct> getFavouriteproducts() {
     return favouriteproducts;
@@ -144,9 +144,9 @@ public class Customer   {
    * Get favouritestores
    * @return favouritestores
   **/
-  @ApiModelProperty(value = "")
+  //  @ApiModelProperty(value = "")
 
-  @Valid
+  // @Valid
 
   public List<FavouriteStore> getFavouritestores() {
     return favouritestores;
@@ -165,7 +165,7 @@ public class Customer   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(value = "")
+  //@ApiModelProperty(value = "")
 
 
   public Long getId() {
@@ -185,8 +185,8 @@ public class Customer   {
    * Get idpCode
    * @return idpCode
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  // @ApiModelProperty(required = true, value = "")
+  // @NotNull
 
 
   public String getIdpCode() {
@@ -206,7 +206,7 @@ public class Customer   {
    * Get idpSub
    * @return idpSub
   **/
-  @ApiModelProperty(value = "")
+  //@ApiModelProperty(value = "")
 
 
   public String getIdpSub() {
@@ -226,7 +226,7 @@ public class Customer   {
    * Get image
    * @return image
   **/
-  @ApiModelProperty(value = "")
+  //  @ApiModelProperty(value = "")
 
 @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$") 
   public byte[] getImage() {
@@ -246,7 +246,7 @@ public class Customer   {
    * Get imageContentType
    * @return imageContentType
   **/
-  @ApiModelProperty(value = "")
+  // @ApiModelProperty(value = "")
 
 
   public String getImageContentType() {
@@ -266,8 +266,8 @@ public class Customer   {
    * Get imageLink
    * @return imageLink
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  // @ApiModelProperty(required = true, value = "")
+  // @NotNull
 
 
   public String getImageLink() {
@@ -287,7 +287,7 @@ public class Customer   {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(value = "")
+  // @ApiModelProperty(value = "")
 
 
   public String getName() {

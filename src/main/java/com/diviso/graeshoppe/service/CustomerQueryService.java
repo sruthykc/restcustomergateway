@@ -14,7 +14,7 @@ import com.diviso.graeshoppe.client.order.model.aggregator.Address;
 
 public interface CustomerQueryService {
 
-	Customer findCustomerByReference(String reference);
+	Customer findCustomerByIdpCode(String idpCode);
 
 	/*Page<Address> findByCustomerId(String customerId, Pageable pageable);*/
 

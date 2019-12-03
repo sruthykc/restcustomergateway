@@ -12,23 +12,23 @@ import javax.validation.constraints.*;
 /**
  * ContactDTO
  */
-@Validated
+/*@Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-11-27T10:26:27.966+05:30[Asia/Kolkata]")
-
+*/
 public class ContactDTO   {
-  @JsonProperty("email")
+	 // @JsonProperty("email")
   private String email = null;
 
-  @JsonProperty("id")
+  // @JsonProperty("id")
   private Long id = null;
 
-  @JsonProperty("mobileNumber")
+  // @JsonProperty("mobileNumber")
   private Long mobileNumber = null;
 
-  @JsonProperty("phoneCode")
+  //@JsonProperty("phoneCode")
   private Long phoneCode = null;
 
-  @JsonProperty("telephone")
+  // @JsonProperty("telephone")
   private Long telephone = null;
 
   public ContactDTO email(String email) {
@@ -40,7 +40,7 @@ public class ContactDTO   {
    * Get email
    * @return email
   **/
-  @ApiModelProperty(value = "")
+  //@ApiModelProperty(value = "")
 
 
   public String getEmail() {
@@ -60,7 +60,7 @@ public class ContactDTO   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(value = "")
+  // @ApiModelProperty(value = "")
 
 
   public Long getId() {
@@ -108,7 +108,7 @@ public class ContactDTO   {
    * Get telephone
    * @return telephone
   **/
-  @ApiModelProperty(value = "")
+  // @ApiModelProperty(value = "")
 
 
   public Long getTelephone() {
