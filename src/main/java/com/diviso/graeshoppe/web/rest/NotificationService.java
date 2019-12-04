@@ -3,6 +3,7 @@ package com.diviso.graeshoppe.web.rest;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.UUID;
 
 import org.apache.kafka.streams.kstream.KStream;
 import org.slf4j.Logger;
@@ -46,6 +47,11 @@ public class NotificationService {
 			notificationDTO.setStatus(message.getStatus());
 			notificationDTO.setImage(message.getImage().array());
 			notificationDTO.setImageContentType(message.getImageContentType());
+//			socketIOServer.getAllClients().forEach(client ->{
+//				UUID sessionId =client.getSessionId();
+//				client.se
+//			});
+//			socketIOServer.
 			socketIOServer.getBroadcastOperations().sendEvent(message.getReceiverId(), notificationDTO);
 		}
 	}
