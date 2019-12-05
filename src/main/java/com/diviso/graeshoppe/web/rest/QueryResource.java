@@ -98,23 +98,26 @@ public class QueryResource {
 	// ****************Customer related end points********
 	@GetMapping("/findCustomerByMobileNumber/{mobileNumber}")
 	public ResponseEntity<CustomerDTO> findByMobileNumber(@PathVariable Long mobileNumber) {
-		return customerQueryService.findByMobileNumber(mobileNumber);
+		CustomerDTO result= customerQueryService.findByMobileNumber(mobileNumber);
+		return  ResponseEntity.ok().body(result);
+		
 	}
 
-	@GetMapping("/customers/findByReference/{idpCode}")
-	public /*ResponseEntity<CustomerDTO>*/CustomerDTO findCustomerByReference(@PathVariable String idpCode) {
-		return customerQueryService.findCustomerDTOByIdpCode(idpCode);
+	@GetMapping("/customers/findCustomerByIdpCode/{idpCode}")
+	public ResponseEntity<CustomerDTO> findCustomerByIdpCode(@PathVariable String idpCode) {
+		CustomerDTO result = customerQueryService.findCustomerByIdpCode(idpCode);
+		return  ResponseEntity.ok().body(result);
 	}
 
 	@GetMapping("/contacts/{id}")
 	public ResponseEntity<ContactDTO> findContactById(@PathVariable Long id) {
-		return customerQueryService.findContactById(id);
-
+		ContactDTO result =customerQueryService.findContactById(id);
+		return  ResponseEntity.ok().body(result);
 	}
 
-	@GetMapping("/checkUserExists/{reference}")
-	public ResponseEntity<Boolean> checkUserExists(@PathVariable String reference) {
-		return customerQueryService.checkUserExists(reference);
+	@GetMapping("/checkUserExistsByIdpcode/{idpCode}")
+	public Boolean checkUserExistsByIdpcode(@PathVariable String idpCode) {
+		return customerQueryService.checkUserExistsByIdpCode(idpCode);
 	}
 
 	@GetMapping("/favouriteproductsbycustomerreference/{reference}")

@@ -14,15 +14,16 @@ import com.diviso.graeshoppe.client.order.model.aggregator.Address;
 
 public interface CustomerQueryService {
 
-	Customer findCustomerByIdpCode(String idpCode);
+	CustomerDTO findCustomerByIdpCode(String idpCode);
 
 	/*Page<Address> findByCustomerId(String customerId, Pageable pageable);*/
-
+	public ContactDTO findContactById(Long id);
 	Page<FavouriteProduct> findFavouriteProductsByCustomerReference(String reference, Pageable pageable);
-
+	public Boolean checkUserExistsByIdpCode(String idpCode);
+	public CustomerDTO findByMobileNumber(Long mobileNumber);
 	Page<FavouriteStore> findFavouriteStoresByCustomerReference(String reference, Pageable pageable);
-	public ResponseEntity<CustomerDTO> findByMobileNumber(Long mobileNumber);
-	public /*ResponseEntity<CustomerDTO>*/ CustomerDTO findCustomerDTOByIdpCode( String idpCode) ;
-	public ResponseEntity<ContactDTO> findContactById(Long id);
-	public ResponseEntity<Boolean> checkUserExists(String reference);
+	//public ResponseEntity<CustomerDTO> findByMobileNumber(Long mobileNumber);
+	//public ResponseEntity<CustomerDTO> findCustomerDTOByIdpCode( String idpCode) ;
+	//public ResponseEntity<ContactDTO> findContactById(Long id);
+	//public ResponseEntity<Boolean> checkUserExists(String reference);
 }
