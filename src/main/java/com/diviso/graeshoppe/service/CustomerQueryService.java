@@ -22,7 +22,7 @@ public interface CustomerQueryService {
 
 	Page<FavouriteStore> findFavouriteStoresByCustomerReference(String reference, Pageable pageable);
 	public ResponseEntity<CustomerDTO> findByMobileNumber(Long mobileNumber);
-	public ResponseEntity<CustomerDTO>  findCustomerDTOByIdpCode( String idpCode) ;
+	public /*ResponseEntity<CustomerDTO>*/ CustomerDTO findCustomerDTOByIdpCode( String idpCode) ;
 	public ResponseEntity<ContactDTO> findContactById(Long id);
 	public ResponseEntity<Boolean> checkUserExists(String reference);
 }
