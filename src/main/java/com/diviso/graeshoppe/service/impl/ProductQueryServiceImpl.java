@@ -605,6 +605,7 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 		}
 
 		Product product= serviceUtility.getObjectResult(searchResponse, new Product());
+		return null;
 		
 
 	}
