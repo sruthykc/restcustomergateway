@@ -59,7 +59,7 @@ public interface ProductQueryService {
 
 	Discount findDiscountByProductId(Long productId);
 	
-	public ResponseEntity<ProductDTO> findProductDTO( Long id);
+	public ProductDTO findProductDTO( Long id);
 
 	
 	

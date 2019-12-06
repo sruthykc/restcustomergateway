@@ -185,7 +185,8 @@ public class QueryResource {
      */
 	@GetMapping("/products/{id}")
 	public ResponseEntity<ProductDTO> findProduct(@PathVariable Long id) {
-		return productQueryService.findProductDTO(id);
+	ProductDTO result= productQueryService.findProductDTO(id);
+	return ResponseEntity.ok().body(result);
 	}
 
 	/**

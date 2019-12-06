@@ -590,8 +590,23 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 		return serviceUtility.getObjectResult(searchResponse, new Product()).getDiscount();
 
 	}
-	public ResponseEntity<ProductDTO> findProductDTO( Long id){
-		return productResourceApi.getProductUsingGET(id);
+	public ProductDTO findProductDTO( Long id){
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+		searchSourceBuilder.query(termQuery("id", id));
+
+		SearchRequest searchRequest = new SearchRequest("product");
+		searchRequest.source(searchSourceBuilder);
+		SearchResponse searchResponse = null;
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+
+		Product product= serviceUtility.getObjectResult(searchResponse, new Product());
+		
+
 	}
 
 }
